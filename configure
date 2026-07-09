@@ -150,6 +150,7 @@ hpux()      { issystem "HP-UX"; }
 irix()      { issystem "IRIX"; }
 linux()     { issystem "Linux"; }
 mingw32()   { issystem "MINGW32"; }
+djgpp()     { issystem "DJGPP"; }
 morphos()   { issystem "MorphOS"; }
 netbsd()    { issystem "NetBSD"; }
 openbsd()   { issystem "OpenBSD"; }
@@ -442,6 +443,7 @@ Video output:
 
 Audio output:
   --disable-alsa         disable ALSA audio output [autodetect]
+  --disable-allegro      disable Allegro audio output [autodetect]
   --disable-ossaudio     disable OSS audio output [autodetect]
   --disable-arts         disable aRts audio output [autodetect]
   --disable-esd          disable esd audio output [autodetect]
@@ -697,6 +699,7 @@ _mlib=no #broken, thus disabled
 _sgiaudio=auto
 _sunaudio=auto
 _alsa=auto
+_allegro=auto
 _fastmemcpy=yes
 hardcoded_tables=no
 _unrar_exec=auto
@@ -829,6 +832,9 @@ for ac_option do
     _xvmclib=$(echo $ac_option | cut -d '=' -f 2)
     ;;
 
+  --with-allegro-config=*)
+    _allegroconfig=$(echo $ac_option | cut -d '=' -f 2)
+    ;;
   --with-sdl-config=*)
     _sdlconfig=$(echo $ac_option | cut -d '=' -f 2)
     ;;
@@ -1128,6 +1134,8 @@ for ac_option do
   --disable-sgiaudio)   _sgiaudio=no    ;;
   --enable-alsa)        _alsa=yes       ;;
   --disable-alsa)       _alsa=no        ;;
+  --enable-allegro)     _allegro=yes    ;;
+  --disable-allegro)    _allegro=no     ;;
   --enable-tv)          _tv=yes         ;;
   --disable-tv)         _tv=no          ;;
   --enable-tv-bsdbt848)  _tv_bsdbt848=yes ;;
@@ -1423,6 +1431,9 @@ if test -z "$_target" ; then
   MINGW32*)
     system_name=MINGW32
     ;;
+  *-DOS|FreeDOS|OpenDOS)
+    system_name=DJGPP
+    ;;
   OS/2*)
     system_name=OS/2
     ;;
@@ -1482,6 +1493,12 @@ else # if test -z "$_target"
     morphos) system_name=MorphOS ;;
     amigaos) system_name=AmigaOS ;;
     mingw32*) system_name=MINGW32 ;;
+    msdosdjgpp) system_name=DJGPP ;;
+    pc)
+      case "$(echo $_target | cut -d '-' -f 3 | tr A-Z a-z)" in
+        msdosdjgpp) system_name=DJGPP ;;
+      esac
+      ;;
   esac
   # We need to convert underscores so that values like k6-2 and pentium-mmx can be passed
   host_arch=$(echo $_target | cut -d '-' -f 1)
@@ -1554,6 +1571,11 @@ if os2 ; then
   _priority=yes
   def_dos_paths="#define HAVE_DOS_PATHS 1"
   def_priority="#define CONFIG_PRIORITY 1"
+fi
+
+if djgpp ; then
+  _exesuf=".exe"
+  def_dos_paths="#define HAVE_DOS_PATHS 1"
 fi
 
 for tmpdir in "$TMPDIR" "$TEMPDIR" "/tmp" ; do
@@ -2694,6 +2716,8 @@ if test -z "$YASMFLAGS" ; then
     x86_64 && objformat="macho64" || objformat="macho"
   elif win32 ; then
     objformat="win32"
+  elif djgpp ; then
+    objformat="coff"
   else
     objformat="elf"
   fi
@@ -3467,7 +3491,8 @@ cat > $TMPC << EOF
 int main(void) { (void) memalign(64, sizeof(char)); return 0; }
 EOF
 _memalign=no
-cc_check && _memalign=yes
+# DJGPP's memalign() is unreliable, use the libavutil memalign hack instead
+djgpp || { cc_check && _memalign=yes ; }
 if test "$_memalign" = yes ; then
   def_memalign='#define HAVE_MEMALIGN 1'
 else
@@ -5192,11 +5217,16 @@ if test "$_vesa" = auto ; then
 int main(void) { vbeVersion(); return 0; }
 EOF
   _vesa=no
-  cc_check -lvbe -llrmi && _vesa=yes
+  if djgpp ; then
+    # DJGPP uses the DPMI based header-only implementation in libvo/vbe.h
+    _vesa=yes
+  else
+    cc_check -lvbe -llrmi && _vesa=yes
+  fi
 fi
 if test "$_vesa" = yes ; then
   def_vesa='#define CONFIG_VESA 1'
-  libs_mplayer="$libs_mplayer -lvbe -llrmi"
+  djgpp || libs_mplayer="$libs_mplayer -lvbe -llrmi"
   vomodules="vesa $vomodules"
 else
   def_vesa='#undef CONFIG_VESA'
@@ -5870,6 +5900,51 @@ fi
 echores "$_alsa"
 
 
+echocheck "Allegro audio"
+if test "$_allegro" = auto ; then
+  cat > $TMPC << EOF
+#define ALLEGRO_HAVE_STDINT_H
+#include <allegro.h>
+int main(void) { allegro_init(); install_sound(DIGI_AUTODETECT, MIDI_NONE, NULL); return 0; }
+EOF
+  _allegro=no
+  if test -z "$_allegroconfig" ; then
+    cc_check $(allegro-config --cflags --libs 2>/dev/null) && _allegro=yes && _allegroconfig=allegro-config
+    if test "$_allegro" = no ; then
+      cc_check -lalleg && _allegro=yes
+    fi
+  else
+    cc_check $($_allegroconfig --cflags --libs) && _allegro=yes
+  fi
+fi
+if test "$_allegro" = yes ; then
+  def_allegro='#define CONFIG_ALLEGRO 1'
+  aomodules="allegro $aomodules"
+  if test -z "$_allegroconfig" ; then
+    libs_mplayer="$libs_mplayer -lalleg"
+  else
+    libs_mplayer="$libs_mplayer $($_allegroconfig --libs)"
+  fi
+else
+  def_allegro='#undef CONFIG_ALLEGRO'
+  noaomodules="allegro $noaomodules"
+fi
+echores "$_allegro"
+
+
+echocheck "Sound Blaster 16 (DOS)"
+if djgpp ; then
+  _sb16=yes
+  def_sb16='#define CONFIG_SB16 1'
+  aomodules="sb16 $aomodules"
+else
+  _sb16=no
+  def_sb16='#undef CONFIG_SB16'
+  noaomodules="sb16 $noaomodules"
+fi
+echores "$_sb16"
+
+
 echocheck "Sun audio"
 if test "$_sunaudio" = auto ; then
   cat > $TMPC << EOF
@@ -5993,6 +6068,8 @@ fi #if os2
 # set default CD/DVD devices
 if win32 || os2 ; then
   default_cdrom_device="D:"
+elif djgpp ; then
+  default_cdrom_device="Z:"
 elif darwin ; then
   default_cdrom_device="/dev/disk1"
 elif dragonfly ; then
@@ -8637,6 +8714,8 @@ NAS = $_nas
 NATIVE_RTSP = $_native_rtsp
 NETWORK = $_network
 OPENAL = $_openal
+ALLEGRO = $_allegro
+SB16 = $_sb16
 OSS = $_ossaudio
 PE_EXECUTABLE = $_pe_executable
 PNG = $_png
@@ -9037,6 +9116,8 @@ $def_jack
 $def_kai
 $def_nas
 $def_openal
+$def_allegro
+$def_sb16
 $def_openal_h
 $def_ossaudio
 $def_ossaudio_devdsp

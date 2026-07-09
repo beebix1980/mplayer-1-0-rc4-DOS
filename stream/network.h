@@ -28,7 +28,7 @@
 #include <sys/types.h>
 
 #include "config.h"
-#if !HAVE_WINSOCK2_H
+#if !HAVE_WINSOCK2_H && defined(CONFIG_NETWORK)
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
