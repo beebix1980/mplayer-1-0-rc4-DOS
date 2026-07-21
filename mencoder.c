@@ -54,6 +54,10 @@
 #if defined(__MINGW32__) || defined(__CYGWIN__)
 #include <windows.h>
 #endif
+#ifdef __DJGPP__
+/* 2MB stack size for decoder (e.g. FAAD2) stability under DOS */
+unsigned int _stklen = 2097152;
+#endif
 
 #include "input/input.h"
 #include "libaf/af_format.h"
