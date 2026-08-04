@@ -19,7 +19,11 @@
 #ifndef MPLAYER_GTF_H
 #define MPLAYER_GTF_H
 
+#ifdef __DJGPP__
+#include "vbe.h"
+#else
 #include <vbe.h>
+#endif
 
 #define GTF_VF 0
 #define GTF_HF 1

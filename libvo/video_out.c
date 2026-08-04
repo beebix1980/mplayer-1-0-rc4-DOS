@@ -217,6 +217,9 @@ const vo_functions_t* const video_out_drivers[] =
 #ifdef CONFIG_SVGALIB
         &video_out_svga,
 #endif
+#ifdef CONFIG_VESA
+        &video_out_vesa,
+#endif
 #ifdef CONFIG_MATRIXVIEW
         &video_out_matrixview,
 #endif
@@ -244,9 +247,6 @@ const vo_functions_t* const video_out_drivers[] =
 #endif
 #ifdef CONFIG_BL
         &video_out_bl,
-#endif
-#ifdef CONFIG_VESA
-        &video_out_vesa,
 #endif
 #ifdef CONFIG_DIRECTFB
         &video_out_directfb,
@@ -354,11 +354,15 @@ int config_video_out(const vo_functions_t *vo, uint32_t width, uint32_t height,
   aspect_save_prescale(d_width,d_height);
 
   if (vo->control(VOCTRL_UPDATE_SCREENINFO, NULL) == VO_TRUE) {
-    aspect(&d_width,&d_height,A_NOZOOM);
-    vo_dx = (int)(vo_screenwidth - d_width) / 2;
-    vo_dy = (int)(vo_screenheight - d_height) / 2;
-    geometry(&vo_dx, &vo_dy, &d_width, &d_height,
+    int tmp_d_width  = d_width;
+    int tmp_d_height = d_height;
+    aspect(&tmp_d_width,&tmp_d_height,A_NOZOOM);
+    vo_dx = (int)(vo_screenwidth - tmp_d_width) / 2;
+    vo_dy = (int)(vo_screenheight - tmp_d_height) / 2;
+    geometry(&vo_dx, &vo_dy, &tmp_d_width, &tmp_d_height,
              vo_screenwidth, vo_screenheight);
+    d_width  = tmp_d_width;
+    d_height = tmp_d_height;
     geometry_xy_changed |= xinerama_screen >= 0;
     vo_dx += xinerama_x;
     vo_dy += xinerama_y;
