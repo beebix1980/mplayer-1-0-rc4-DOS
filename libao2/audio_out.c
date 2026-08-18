@@ -55,10 +55,16 @@ extern const ao_functions_t audio_out_v4l2;
 extern const ao_functions_t audio_out_mpegpes;
 extern const ao_functions_t audio_out_pcm;
 extern const ao_functions_t audio_out_pss;
+extern const ao_functions_t audio_out_allegro;
+extern const ao_functions_t audio_out_sb16;
 
 const ao_functions_t* const audio_out_drivers[] =
 {
 // native:
+#ifdef CONFIG_SB16
+// SB16 is the primary driver under DOS
+        &audio_out_sb16,
+#endif
 #ifdef CONFIG_DIRECTX
         &audio_out_dsound,
 #endif
@@ -90,6 +96,9 @@ const ao_functions_t* const audio_out_drivers[] =
         &audio_out_sun,
 #endif
 // wrappers:
+#ifdef CONFIG_ALLEGRO
+        &audio_out_allegro,
+#endif
 #ifdef CONFIG_ARTS
         &audio_out_arts,
 #endif
