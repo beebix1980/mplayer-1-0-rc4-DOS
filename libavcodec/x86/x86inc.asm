@@ -42,6 +42,9 @@
     %elifidn __OUTPUT_FORMAT__,macho
         SECTION .text align=%1
         fakegot:
+    %elifidn __OUTPUT_FORMAT__,coff
+        SECTION .text
+        ALIGN %1
     %else
         SECTION .rodata align=%1
     %endif

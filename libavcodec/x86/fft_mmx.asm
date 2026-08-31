@@ -51,7 +51,8 @@ cextern ff_cos_ %+ i
     %1
 %endmacro
 
-section .text align=16
+SECTION .text
+ALIGN 16
 
 %macro T2_3DN 4 ; z0, z1, mem0, mem1
     mova     %1, %3

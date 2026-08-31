@@ -28,7 +28,8 @@ pb_7: times 8 db 7
 pb_zzzz3333zzzzbbbb: db -1,-1,-1,-1,3,3,3,3,-1,-1,-1,-1,11,11,11,11
 pb_zz11zz55zz99zzdd: db -1,-1,1,1,-1,-1,5,5,-1,-1,9,9,-1,-1,13,13
 
-section .text align=16
+SECTION .text
+ALIGN 16
 
 %macro PSWAPD_SSE 2
     pshufw %1, %2, 0x4e

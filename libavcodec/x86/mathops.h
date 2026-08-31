@@ -79,6 +79,8 @@ __asm__ volatile(\
 #endif
 
 // avoid +32 for shift optimization (gcc should do that ...)
+#ifndef __DJGPP__
+/* GCC 15 (DJGPP) emits negative immediates (e.g. "shrl $-5") for these, use the C versions */
 #define NEG_SSR32 NEG_SSR32
 static inline  int32_t NEG_SSR32( int32_t a, int8_t s){
     __asm__ ("sarl %1, %0\n\t"
@@ -96,5 +98,7 @@ static inline uint32_t NEG_USR32(uint32_t a, int8_t s){
     );
     return a;
 }
+
+#endif /* __DJGPP__ */
 
 #endif /* AVCODEC_X86_MATHOPS_H */
