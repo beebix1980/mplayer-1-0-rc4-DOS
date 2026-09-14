@@ -4517,7 +4517,17 @@ av_cold void dsputil_init(DSPContext* c, AVCodecContext *avctx)
     memset(c->put_2tap_qpel_pixels_tab, 0, sizeof(c->put_2tap_qpel_pixels_tab));
     memset(c->avg_2tap_qpel_pixels_tab, 0, sizeof(c->avg_2tap_qpel_pixels_tab));
 
+#ifdef __DJGPP__
+    /* reset FPU and mask all exceptions around the MMX init (DOS/DPMI) */
+#define DJGPP_FPU_RESET() do { unsigned short cw = 0x037F; \
+        __asm__ __volatile__("fninit\n\tfldcw %0\n\t" : : "m" (cw)); } while (0)
+    DJGPP_FPU_RESET();
+#endif
     if (HAVE_MMX)        dsputil_init_mmx   (c, avctx);
+#ifdef __DJGPP__
+    DJGPP_FPU_RESET();
+#undef DJGPP_FPU_RESET
+#endif
     if (ARCH_ARM)        dsputil_init_arm   (c, avctx);
     if (CONFIG_MLIB)     dsputil_init_mlib  (c, avctx);
     if (HAVE_VIS)        dsputil_init_vis   (c, avctx);

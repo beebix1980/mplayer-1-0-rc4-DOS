@@ -21,6 +21,7 @@
 #include <unistd.h>
 
 #include "config.h"
+#include "osdep/djgpp_fpu.h"
 #include "mp_msg.h"
 #include "help_mp.h"
 
@@ -101,13 +102,16 @@ static int init(sh_audio_t *sh_audio)
     // for QDM2
     if (sh_audio->codecdata_len && sh_audio->codecdata && !lavc_context->extradata)
     {
-        lavc_context->extradata = av_malloc(sh_audio->codecdata_len);
+        lavc_context->extradata = av_mallocz(sh_audio->codecdata_len + FF_INPUT_BUFFER_PADDING_SIZE);
         lavc_context->extradata_size = sh_audio->codecdata_len;
         memcpy(lavc_context->extradata, (char *)sh_audio->codecdata,
                lavc_context->extradata_size);
     }
 
     /* open it */
+    // reset FPU and mask all exceptions before avcodec_open() to prevent
+    // DPMI hardware exception (IRQ 13) crashes during codec init under DOS
+    djgpp_fpu_reset();
     if (avcodec_open(lavc_context, lavc_codec) < 0) {
         mp_msg(MSGT_DECAUDIO,MSGL_ERR, MSGTR_CantOpenCodec);
         return 0;
@@ -127,6 +131,7 @@ static int init(sh_audio_t *sh_audio)
    }
 
    // Decode at least 1 byte:  (to get header filled)
+   djgpp_fpu_reset();
    do {
        x=decode_audio(sh_audio,sh_audio->a_buffer,1,sh_audio->a_buffer_size);
    } while (x <= 0 && tries++ < 5);

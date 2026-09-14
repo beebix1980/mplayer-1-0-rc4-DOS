@@ -36,6 +36,7 @@
 #include "libaf/af_format.h"
 
 #include "libaf/af.h"
+#include "osdep/djgpp_fpu.h"
 
 #ifdef CONFIG_DYNAMIC_PLUGINS
 #include <dlfcn.h>
@@ -70,6 +71,7 @@ void afm_help(void)
 
 static int init_audio_codec(sh_audio_t *sh_audio)
 {
+    djgpp_fpu_reset();
     if ((af_cfg.force & AF_INIT_FORMAT_MASK) == AF_INIT_FLOAT) {
 	int fmt = AF_FORMAT_FLOAT_NE;
 	if (sh_audio->ad_driver->control(sh_audio, ADCTRL_QUERY_FORMAT,
@@ -110,6 +112,8 @@ static int init_audio_codec(sh_audio_t *sh_audio)
 	return 0;
     }
 
+    djgpp_fpu_reset();
+
     sh_audio->initialized = 1;
 
     if (!sh_audio->channels || !sh_audio->samplerate) {
@@ -137,6 +141,7 @@ static int init_audio_codec(sh_audio_t *sh_audio)
     sh_audio->a_out_buffer = NULL;
     sh_audio->a_out_buffer_len = 0;
 
+    djgpp_fpu_reset();
     return 1;
 }
 
@@ -435,7 +440,11 @@ int decode_audio(sh_audio_t *sh_audio, int minlen)
     /* Filter output size will be about filter_multiplier times input size.
      * If some filter buffers audio in big blocks this might only hold
      * as average over time. */
-    double filter_multiplier = af_calc_filter_multiplier(sh_audio->afilter);
+    double filter_multiplier;
+
+    /* clear MMX state and pending FPU exceptions at the start of every audio decode cycle */
+    djgpp_fpu_clear();
+    filter_multiplier = af_calc_filter_multiplier(sh_audio->afilter);
 
     /* If the decoder set audio_out_minsize then it can do the equivalent of
      * "while (output_len < target_len) output_len += audio_out_minsize;",

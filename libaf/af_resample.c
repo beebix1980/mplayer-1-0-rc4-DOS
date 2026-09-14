@@ -28,6 +28,7 @@
 #include "libavutil/mathematics.h"
 #include "af.h"
 #include "dsp.h"
+#include "osdep/djgpp_fpu.h"
 
 /* Below definition selects the length of each poly phase component.
    Valid definitions are L8 and L16, where the number denotes the
@@ -325,6 +326,9 @@ static af_data_t* play(struct af_instance_s* af, af_data_t* data)
   af_data_t*     l   = af->data; // Local data
   af_resample_t* s   = af->setup;
 
+  // clear MMX state and pending FPU exceptions before resampling (DOS)
+  djgpp_fpu_clear();
+
   if(AF_OK != RESIZE_LOCAL_BUFFER(af,data))
     return NULL;
 
@@ -380,7 +384,11 @@ static int af_open(af_instance_t* af){
   af->setup=calloc(1,sizeof(af_resample_t));
   if(af->data == NULL || af->setup == NULL)
     return AF_ERROR;
+#ifdef __DJGPP__
+  ((af_resample_t*)af->setup)->setup = RSMP_LIN | FREQ_SLOPPY;
+#else
   ((af_resample_t*)af->setup)->setup = RSMP_INT | FREQ_SLOPPY;
+#endif
   return AF_OK;
 }
 
