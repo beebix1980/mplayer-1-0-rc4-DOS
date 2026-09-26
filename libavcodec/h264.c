@@ -2109,7 +2109,11 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
     if(   s->avctx->skip_loop_filter >= AVDISCARD_ALL
        ||(s->avctx->skip_loop_filter >= AVDISCARD_NONKEY && h->slice_type_nos != FF_I_TYPE)
        ||(s->avctx->skip_loop_filter >= AVDISCARD_BIDIR  && h->slice_type_nos == FF_B_TYPE)
-       ||(s->avctx->skip_loop_filter >= AVDISCARD_NONREF && h->nal_ref_idc == 0))
+       ||(s->avctx->skip_loop_filter >= AVDISCARD_NONREF && h->nal_ref_idc == 0)
+#ifdef __DJGPP__
+       || s->hurry_up
+#endif
+      )
         h->deblocking_filter= 0;
 
     if(h->deblocking_filter == 1 && h0->max_contexts > 1) {

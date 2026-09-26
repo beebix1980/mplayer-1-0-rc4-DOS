@@ -578,7 +578,11 @@ static int vf_open(vf_instance_t *vf, char *args){
 }
 
 //global sws_flags from the command line
+#ifdef __DJGPP__
+int sws_flags=0;
+#else
 int sws_flags=2;
+#endif
 
 //global srcFilter
 static SwsFilter *src_filter= NULL;

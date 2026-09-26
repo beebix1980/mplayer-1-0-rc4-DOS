@@ -213,7 +213,9 @@ static const char * const preferred_list[] = {
     "gxf",
     "nut",
     "nuv",
+#ifndef __DJGPP__
     "mov,mp4,m4a,3gp,3g2,mj2",
+#endif
     "mpc",
     "mpc8",
     "mxf",
@@ -626,6 +628,11 @@ static int demux_lavf_fill_buffer(demuxer_t *demux, demux_stream_t *dsds){
         pkt.destruct= NULL;
     }else{
         dp=new_demux_packet(pkt.size);
+        if (!dp->buffer && pkt.size > 0) {
+            free_demux_packet(dp);
+            av_free_packet(&pkt);
+            return 0;
+        }
         memcpy(dp->buffer, pkt.data, pkt.size);
         av_free_packet(&pkt);
     }

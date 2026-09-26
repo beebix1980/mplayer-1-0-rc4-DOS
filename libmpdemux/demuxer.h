@@ -39,7 +39,11 @@
 #endif
 
 #define MAX_PACKS 4096
+#ifdef __DJGPP__
+#define MAX_PACK_BYTES 0x800000
+#else
 #define MAX_PACK_BYTES 0x2000000
+#endif
 
 #define DEMUXER_TYPE_UNKNOWN 0
 #define DEMUXER_TYPE_MPEG_ES 1

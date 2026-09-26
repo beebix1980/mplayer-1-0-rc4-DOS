@@ -22,6 +22,7 @@
 #include <time.h>
 
 #include "config.h"
+#include "osdep/djgpp_fpu.h"
 #include "mp_msg.h"
 #include "help_mp.h"
 #include "av_opts.h"
@@ -93,10 +94,17 @@ static int lavc_param_debug=0;
 static int lavc_param_vismv=0;
 static int lavc_param_skip_top=0;
 static int lavc_param_skip_bottom=0;
+#ifdef __DJGPP__
+static int lavc_param_fast=CODEC_FLAG2_FAST;
+static int lavc_param_lowres=0;
+static char *lavc_param_lowres_str=NULL;
+static char *lavc_param_skip_loop_filter_str = "nonref";
+#else
 static int lavc_param_fast=0;
 static int lavc_param_lowres=0;
 static char *lavc_param_lowres_str=NULL;
 static char *lavc_param_skip_loop_filter_str = NULL;
+#endif
 static char *lavc_param_skip_idct_str = NULL;
 static char *lavc_param_skip_frame_str = NULL;
 static int lavc_param_threads=1;
@@ -432,11 +440,14 @@ static int init(sh_video_t *sh){
     if(lavc_param_threads > 1)
         avcodec_thread_init(avctx, lavc_param_threads);
     /* open it */
+    djgpp_fpu_reset();
     if (avcodec_open(avctx, lavc_codec) < 0) {
+        djgpp_fpu_reset();
         mp_msg(MSGT_DECVIDEO, MSGL_ERR, MSGTR_CantOpenCodec);
         uninit(sh);
         return 0;
     }
+    djgpp_fpu_reset();
     // this is necessary in case get_format was never called and init_vo is
     // too late e.g. for H.264 VDPAU
     set_format_params(avctx, avctx->pix_fmt);
