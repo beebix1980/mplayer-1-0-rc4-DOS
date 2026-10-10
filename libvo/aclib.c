@@ -56,7 +56,7 @@
 #define COMPILE_3DNOW
 #endif
 
-#if HAVE_SSE2 || CONFIG_RUNTIME_CPUDETECT
+#if HAVE_SSE || HAVE_SSE2 || CONFIG_RUNTIME_CPUDETECT
 #define COMPILE_SSE
 #endif
 
@@ -175,7 +175,12 @@ void * fast_memcpy(void * to, const void * from, size_t len)
 #endif
 		memcpy(to, from, len); // prior to mmx we use the standart memcpy
 #else
-#if HAVE_SSE2
+#if defined(COMPILE_SSE) && defined(COMPILE_MMX2)
+		if(gCpuCaps.hasSSE)
+			fast_memcpy_SSE(to, from, len);
+		else
+			fast_memcpy_MMX2(to, from, len);
+#elif HAVE_SSE2
 		fast_memcpy_SSE(to, from, len);
 #elif HAVE_MMX2
 		fast_memcpy_MMX2(to, from, len);
@@ -209,7 +214,12 @@ void * mem2agpcpy(void * to, const void * from, size_t len)
 #endif
 		memcpy(to, from, len); // prior to mmx we use the standart memcpy
 #else
-#if HAVE_SSE2
+#if defined(COMPILE_SSE) && defined(COMPILE_MMX2)
+		if(gCpuCaps.hasSSE)
+			mem2agpcpy_SSE(to, from, len);
+		else
+			mem2agpcpy_MMX2(to, from, len);
+#elif HAVE_SSE2
 		mem2agpcpy_SSE(to, from, len);
 #elif HAVE_MMX2
 		mem2agpcpy_MMX2(to, from, len);

@@ -45,6 +45,16 @@ CpuCaps gCpuCaps;
 #include <os2.h>
 #elif defined(__AMIGAOS4__)
 #include <proto/exec.h>
+#elif defined(__DJGPP__)
+#include <signal.h>
+#include <setjmp.h>
+static jmp_buf djgpp_sse_jmpbuf;
+static void djgpp_sigill_handler_sse(int sig)
+{
+    (void)sig;
+    gCpuCaps.hasSSE = 0;
+    longjmp(djgpp_sse_jmpbuf, 1);
+}
 #endif
 
 /* Thanks to the FreeBSD project for some of this cpuid code, and
@@ -416,6 +426,16 @@ static void check_os_katmai_support( void )
     mp_msg(MSGT_CPUDETECT,MSGL_WARN, "Cannot test OS support for SSE, disabling to be safe.\n" );
     gCpuCaps.hasSSE=0;
 #endif /* _POSIX_SOURCE */
+#elif defined(__DJGPP__)
+    if (gCpuCaps.hasSSE) {
+        void (*old_sigill)(int) = signal(SIGILL, djgpp_sigill_handler_sse);
+        mp_msg(MSGT_CPUDETECT, MSGL_V, "Testing OS support for SSE... ");
+        if (setjmp(djgpp_sse_jmpbuf) == 0) {
+            __asm__ volatile ("xorps %%xmm0, %%xmm0" : : : "memory");
+        }
+        signal(SIGILL, old_sigill);
+        mp_msg(MSGT_CPUDETECT, MSGL_V, gCpuCaps.hasSSE ? "yes.\n" : "no!\n");
+    }
 #else
     /* Do nothing on other platforms for now.
      */
