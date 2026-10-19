@@ -22,6 +22,14 @@
 #include "config.h"
 
 #include <errno.h>
+
+#ifdef __DJGPP__
+#include <sys/nearptr.h>
+#include <crt0.h>
+/* 2MB stack size for decoder (e.g. FAAD2) stability under DOS */
+unsigned int _stklen = 2097152;
+#include "osdep/djgpp_fpu.h"
+#endif
 #include <fcntl.h>
 #include <limits.h>
 #include <signal.h>
@@ -1252,6 +1260,9 @@ static void sadd_hhmmssf(char *buf, unsigned *pos, int len, float time) {
  */
 static void print_status(float a_pos, float a_v, float corr)
 {
+#ifdef __DJGPP__
+  return;
+#endif
   sh_video_t * const sh_video = mpctx->sh_video;
   int width;
   char *line;
@@ -1331,9 +1342,14 @@ static void print_status(float a_pos, float a_v, float corr)
     line[pos] = 0;
     mp_msg(MSGT_STATUSLINE, MSGL_STATUS, "%s%s\r", line, erase_to_end_of_line);
   } else {
+#ifdef __DJGPP__
+    line[pos] = 0;
+    mp_msg(MSGT_STATUSLINE, MSGL_STATUS, "%-*s\r", width-2, line);
+#else
     memset(&line[pos], ' ', width - pos);
     line[width] = 0;
     mp_msg(MSGT_STATUSLINE, MSGL_STATUS, "%s\r", line);
+#endif
   }
   free(line);
 }
@@ -2089,6 +2105,10 @@ static void adjust_sync_and_print_status(int between_frames, float timing_error)
 		max_pts_correction = default_max_pts_correction;
 	    else
 		max_pts_correction = mpctx->sh_video->frametime*0.10; // +-10% of time
+#ifdef __DJGPP__
+	    if (AV_delay > 0.10 && x > max_pts_correction)
+		x = (AV_delay * 0.25f < mpctx->sh_video->frametime) ? AV_delay * 0.25f : mpctx->sh_video->frametime;
+#endif
 	    if (!between_frames) {
 		mpctx->delay+=x;
 		c_total+=x;
@@ -2212,6 +2232,10 @@ static int sleep_until_update(float *time_frame, float *aq_sleep_time)
 	}
 
 	*time_frame = delay - mpctx->delay / playback_speed;
+#ifdef __DJGPP__
+	if (mpctx->sh_video && (playing_audio_pts(mpctx->sh_audio, mpctx->d_audio, mpctx->audio_out) - audio_delay - mpctx->sh_video->pts) > 0.05)
+	    *time_frame = 0;
+#endif
 
 	// delay = amount of audio buffered in soundcard/driver
 	if (delay > 0.25) delay=0.25; else
@@ -2665,6 +2689,15 @@ int i;
 
 int gui_no_filename=0;
 
+#ifdef __DJGPP__
+  /* direct access to video memory (vo_vesa) needs near pointers */
+  _crt0_startup_flags |= _CRT0_FLAG_NEARPTR;
+  if (!__djgpp_nearptr_enable())
+    return -1;
+  /* mask all FPU exceptions to prevent DPMI hardware exception crashes */
+  djgpp_fpu_reset();
+#endif
+
   InitTimer();
   srand(GetTimerMS());
 
@@ -3013,7 +3046,7 @@ initialized_flags|=INITIALIZED_INPUT;
 current_module = NULL;
 
   /// Catch signals
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && !defined(__DJGPP__)
   signal(SIGCHLD,child_sighandler);
 #endif
 
@@ -3031,7 +3064,9 @@ current_module = NULL;
   signal(SIGPIPE,exit_sighandler); // Some window managers cause this
 #ifdef CONFIG_SIGHANDLER
   // fatal errors:
+#ifdef SIGBUS
   signal(SIGBUS,exit_sighandler);  // bus error
+#endif
   signal(SIGSEGV,exit_sighandler); // segfault
   signal(SIGILL,exit_sighandler);  // illegal instruction
   signal(SIGFPE,exit_sighandler);  // floating point exc.
