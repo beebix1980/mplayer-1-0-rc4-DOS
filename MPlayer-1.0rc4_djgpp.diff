@@ -1,0 +1,2709 @@
+diff --git a/Makefile b/Makefile
+index b3381da..e93d2a5 100644
+--- a/Makefile
++++ b/Makefile
+@@ -609,6 +609,8 @@ SRCS_MPLAYER-$(MD5SUM)        += libvo/vo_md5sum.c
+ SRCS_MPLAYER-$(MGA)           += libvo/vo_mga.c
+ SRCS_MPLAYER-$(NAS)           += libao2/ao_nas.c
+ SRCS_MPLAYER-$(OPENAL)        += libao2/ao_openal.c
++SRCS_MPLAYER-$(ALLEGRO)       += libao2/ao_allegro.c
++SRCS_MPLAYER-$(SB16)          += libao2/ao_sb16.c
+ SRCS_MPLAYER-$(OSS)           += libao2/ao_oss.c
+ SRCS_MPLAYER-$(PNM)           += libvo/vo_pnm.c
+ SRCS_MPLAYER-$(PULSE)         += libao2/ao_pulse.c
+diff --git a/TOOLS/sb16vol.c b/TOOLS/sb16vol.c
+new file mode 100644
+index 0000000..a651b26
+--- /dev/null
++++ b/TOOLS/sb16vol.c
+@@ -0,0 +1,72 @@
++#include <stdio.h>
++#include <stdlib.h>
++#include <stdint.h>
++#include <conio.h>
++#include <pc.h>
++
++int main(int argc, char *argv[]) {
++    uint16_t sb_port = 0x220;
++    int vol_percent = 100;
++
++    printf("\nSound Blaster 16 Hardware Mixer Utility v1.0\n");
++    printf("===========================================\n");
++
++    // 1. Parse BLASTER environment variable
++    char *blaster = getenv("BLASTER");
++    if (blaster) {
++        char *p = blaster;
++        while (*p) {
++            if (*p == 'A' || *p == 'a') {
++                sb_port = strtol(p + 1, NULL, 16);
++                break;
++            }
++            p++;
++        }
++    }
++
++    // 2. Parse volume command line argument
++    if (argc > 1) {
++        int val = atoi(argv[1]);
++        if (val >= 0 && val <= 100) {
++            vol_percent = val;
++        } else {
++            printf("Usage: sb16vol [volume_percent]\n");
++            printf("Volume percentage must be between 0 and 100. Default is 100.\n");
++            return 1;
++        }
++    }
++
++    // 3. Map 0-100% to 5-bit register range (0 to 31)
++    int sb_vol = (vol_percent * 31) / 100;
++    // Shift left by 3 bits to align with high 5 bits of SB16 mixer register layout (bits 7-3)
++    uint8_t reg_val = (sb_vol << 3) & 0xF8;
++
++    printf("Detected Sound Blaster Port: 0x%03X\n", sb_port);
++    printf("Setting Mixer Master and DAC Volumes to: %d%% (Mixer raw value: 0x%02X)\n", vol_percent, reg_val);
++
++    // 4. Write to SB16 Mixer Ports
++    // Mixer registers:
++    // 0x30: Master Volume Left
++    // 0x31: Master Volume Right
++    // 0x32: Voice/DAC Volume Left
++    // 0x33: Voice/DAC Volume Right
++    
++    // Master Volume Left
++    outportb(sb_port + 4, 0x30);
++    outportb(sb_port + 5, reg_val);
++    
++    // Master Volume Right
++    outportb(sb_port + 4, 0x31);
++    outportb(sb_port + 5, reg_val);
++    
++    // Voice/DAC Volume Left
++    outportb(sb_port + 4, 0x32);
++    outportb(sb_port + 5, reg_val);
++    
++    // Voice/DAC Volume Right
++    outportb(sb_port + 4, 0x33);
++    outportb(sb_port + 5, reg_val);
++
++    printf("Hardware Mixer configuration successfully updated!\n\n");
++    return 0;
++}
+diff --git a/build_djgpp.sh b/build_djgpp.sh
+new file mode 100755
+index 0000000..c26fe12
+--- /dev/null
++++ b/build_djgpp.sh
+@@ -0,0 +1,41 @@
++#!/bin/sh
++# Cross-build MPlayer 1.0rc4 for DOS with DJGPP (i586-pc-msdosdjgpp, GCC 15).
++#
++# Usage: ./build_djgpp.sh [extra configure options]
++#   DJGPP_PREFIX can point to the DJGPP cross toolchain installation.
++
++DJGPP_PREFIX=${DJGPP_PREFIX:-/home/tho/dev/djgpp-install}
++export PATH="$DJGPP_PREFIX/bin:$PATH"
++
++# -std=gnu99: GCC 15 defaults to C23, where "int (*f)()" means "no arguments"
++# and K&R style code no longer compiles.
++# -fomit-frame-pointer: required on x86_32 when HAVE_EBP_AVAILABLE / HAVE_7REGS
++# is set for FFmpeg inline assembly.
++CFLAGS="-O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99 \
++ -Wno-incompatible-pointer-types -Wno-int-conversion \
++ -Wno-implicit-function-declaration -Wno-implicit-int" \
++./configure \
++  --enable-cross-compile \
++  --target=i586-pc-msdosdjgpp \
++  --cc=i586-pc-msdosdjgpp-gcc \
++  --as=i586-pc-msdosdjgpp-as \
++  --ar=i586-pc-msdosdjgpp-ar \
++  --ranlib=i586-pc-msdosdjgpp-ranlib \
++  --host-cc=gcc \
++  --enable-vesa \
++  --enable-mmx \
++  --enable-mmxext \
++  --enable-sse \
++  --disable-sse2 \
++  --enable-ssse3 \
++  --disable-win32dll \
++  --disable-qtx \
++  --disable-real \
++  --disable-xanim \
++  --disable-vidix \
++  --disable-pthreads \
++  "$@" || exit 1
++
++make -j"$(nproc)" || exit 1
++
++ls -l mplayer.exe mencoder.exe
+diff --git a/configure b/configure
+index 63c3e5e..670492d 100755
+--- a/configure
++++ b/configure
+@@ -150,6 +150,7 @@ hpux()      { issystem "HP-UX"; }
+ irix()      { issystem "IRIX"; }
+ linux()     { issystem "Linux"; }
+ mingw32()   { issystem "MINGW32"; }
++djgpp()     { issystem "DJGPP"; }
+ morphos()   { issystem "MorphOS"; }
+ netbsd()    { issystem "NetBSD"; }
+ openbsd()   { issystem "OpenBSD"; }
+@@ -442,6 +443,7 @@ Video output:
+ 
+ Audio output:
+   --disable-alsa         disable ALSA audio output [autodetect]
++  --disable-allegro      disable Allegro audio output [autodetect]
+   --disable-ossaudio     disable OSS audio output [autodetect]
+   --disable-arts         disable aRts audio output [autodetect]
+   --disable-esd          disable esd audio output [autodetect]
+@@ -697,6 +699,7 @@ _mlib=no #broken, thus disabled
+ _sgiaudio=auto
+ _sunaudio=auto
+ _alsa=auto
++_allegro=auto
+ _fastmemcpy=yes
+ hardcoded_tables=no
+ _unrar_exec=auto
+@@ -829,6 +832,9 @@ for ac_option do
+     _xvmclib=$(echo $ac_option | cut -d '=' -f 2)
+     ;;
+ 
++  --with-allegro-config=*)
++    _allegroconfig=$(echo $ac_option | cut -d '=' -f 2)
++    ;;
+   --with-sdl-config=*)
+     _sdlconfig=$(echo $ac_option | cut -d '=' -f 2)
+     ;;
+@@ -1128,6 +1134,8 @@ for ac_option do
+   --disable-sgiaudio)   _sgiaudio=no    ;;
+   --enable-alsa)        _alsa=yes       ;;
+   --disable-alsa)       _alsa=no        ;;
++  --enable-allegro)     _allegro=yes    ;;
++  --disable-allegro)    _allegro=no     ;;
+   --enable-tv)          _tv=yes         ;;
+   --disable-tv)         _tv=no          ;;
+   --enable-tv-bsdbt848)  _tv_bsdbt848=yes ;;
+@@ -1423,6 +1431,9 @@ if test -z "$_target" ; then
+   MINGW32*)
+     system_name=MINGW32
+     ;;
++  *-DOS|FreeDOS|OpenDOS)
++    system_name=DJGPP
++    ;;
+   OS/2*)
+     system_name=OS/2
+     ;;
+@@ -1482,6 +1493,12 @@ else # if test -z "$_target"
+     morphos) system_name=MorphOS ;;
+     amigaos) system_name=AmigaOS ;;
+     mingw32*) system_name=MINGW32 ;;
++    msdosdjgpp) system_name=DJGPP ;;
++    pc)
++      case "$(echo $_target | cut -d '-' -f 3 | tr A-Z a-z)" in
++        msdosdjgpp) system_name=DJGPP ;;
++      esac
++      ;;
+   esac
+   # We need to convert underscores so that values like k6-2 and pentium-mmx can be passed
+   host_arch=$(echo $_target | cut -d '-' -f 1)
+@@ -1556,6 +1573,11 @@ if os2 ; then
+   def_priority="#define CONFIG_PRIORITY 1"
+ fi
+ 
++if djgpp ; then
++  _exesuf=".exe"
++  def_dos_paths="#define HAVE_DOS_PATHS 1"
++fi
++
+ for tmpdir in "$TMPDIR" "$TEMPDIR" "/tmp" ; do
+   test "$tmpdir" && break
+ done
+@@ -2694,6 +2716,8 @@ if test -z "$YASMFLAGS" ; then
+     x86_64 && objformat="macho64" || objformat="macho"
+   elif win32 ; then
+     objformat="win32"
++  elif dos ; then
++    objformat="coff"
+   else
+     objformat="elf"
+   fi
+@@ -3467,7 +3491,8 @@ cat > $TMPC << EOF
+ int main(void) { (void) memalign(64, sizeof(char)); return 0; }
+ EOF
+ _memalign=no
+-cc_check && _memalign=yes
++# DJGPP's memalign() is unreliable, use the libavutil memalign hack instead
++djgpp || { cc_check && _memalign=yes ; }
+ if test "$_memalign" = yes ; then
+   def_memalign='#define HAVE_MEMALIGN 1'
+ else
+@@ -5192,11 +5217,16 @@ if test "$_vesa" = auto ; then
+ int main(void) { vbeVersion(); return 0; }
+ EOF
+   _vesa=no
+-  cc_check -lvbe -llrmi && _vesa=yes
++  if djgpp ; then
++    # DJGPP uses the DPMI based header-only implementation in libvo/vbe.h
++    _vesa=yes
++  else
++    cc_check -lvbe -llrmi && _vesa=yes
++  fi
+ fi
+ if test "$_vesa" = yes ; then
+   def_vesa='#define CONFIG_VESA 1'
+-  libs_mplayer="$libs_mplayer -lvbe -llrmi"
++  djgpp || libs_mplayer="$libs_mplayer -lvbe -llrmi"
+   vomodules="vesa $vomodules"
+ else
+   def_vesa='#undef CONFIG_VESA'
+@@ -5870,6 +5900,51 @@ fi
+ echores "$_alsa"
+ 
+ 
++echocheck "Allegro audio"
++if test "$_allegro" = auto ; then
++  cat > $TMPC << EOF
++#define ALLEGRO_HAVE_STDINT_H
++#include <allegro.h>
++int main(void) { allegro_init(); install_sound(DIGI_AUTODETECT, MIDI_NONE, NULL); return 0; }
++EOF
++  _allegro=no
++  if test -z "$_allegroconfig" ; then
++    cc_check $(allegro-config --cflags --libs 2>/dev/null) && _allegro=yes && _allegroconfig=allegro-config
++    if test "$_allegro" = no ; then
++      cc_check -lalleg && _allegro=yes
++    fi
++  else
++    cc_check $($_allegroconfig --cflags --libs) && _allegro=yes
++  fi
++fi
++if test "$_allegro" = yes ; then
++  def_allegro='#define CONFIG_ALLEGRO 1'
++  aomodules="allegro $aomodules"
++  if test -z "$_allegroconfig" ; then
++    libs_mplayer="$libs_mplayer -lalleg"
++  else
++    libs_mplayer="$libs_mplayer $($_allegroconfig --libs)"
++  fi
++else
++  def_allegro='#undef CONFIG_ALLEGRO'
++  noaomodules="allegro $noaomodules"
++fi
++echores "$_allegro"
++
++
++echocheck "Sound Blaster 16 (DOS)"
++if djgpp ; then
++  _sb16=yes
++  def_sb16='#define CONFIG_SB16 1'
++  aomodules="sb16 $aomodules"
++else
++  _sb16=no
++  def_sb16='#undef CONFIG_SB16'
++  noaomodules="sb16 $noaomodules"
++fi
++echores "$_sb16"
++
++
+ echocheck "Sun audio"
+ if test "$_sunaudio" = auto ; then
+   cat > $TMPC << EOF
+@@ -5993,6 +6068,8 @@ fi #if os2
+ # set default CD/DVD devices
+ if win32 || os2 ; then
+   default_cdrom_device="D:"
++elif djgpp ; then
++  default_cdrom_device="Z:"
+ elif darwin ; then
+   default_cdrom_device="/dev/disk1"
+ elif dragonfly ; then
+@@ -8637,6 +8714,8 @@ NAS = $_nas
+ NATIVE_RTSP = $_native_rtsp
+ NETWORK = $_network
+ OPENAL = $_openal
++ALLEGRO = $_allegro
++SB16 = $_sb16
+ OSS = $_ossaudio
+ PE_EXECUTABLE = $_pe_executable
+ PNG = $_png
+@@ -9037,6 +9116,8 @@ $def_jack
+ $def_kai
+ $def_nas
+ $def_openal
++$def_allegro
++$def_sb16
+ $def_openal_h
+ $def_ossaudio
+ $def_ossaudio_devdsp
+diff --git a/cpudetect.c b/cpudetect.c
+index 1edf4a0..90a9b98 100644
+--- a/cpudetect.c
++++ b/cpudetect.c
+@@ -45,6 +45,16 @@ CpuCaps gCpuCaps;
+ #include <os2.h>
+ #elif defined(__AMIGAOS4__)
+ #include <proto/exec.h>
++#elif defined(__DJGPP__)
++#include <signal.h>
++#include <setjmp.h>
++static jmp_buf djgpp_sse_jmpbuf;
++static void djgpp_sigill_handler_sse(int sig)
++{
++    (void)sig;
++    gCpuCaps.hasSSE = 0;
++    longjmp(djgpp_sse_jmpbuf, 1);
++}
+ #endif
+ 
+ /* Thanks to the FreeBSD project for some of this cpuid code, and
+@@ -416,6 +426,16 @@ static void check_os_katmai_support( void )
+     mp_msg(MSGT_CPUDETECT,MSGL_WARN, "Cannot test OS support for SSE, disabling to be safe.\n" );
+     gCpuCaps.hasSSE=0;
+ #endif /* _POSIX_SOURCE */
++#elif defined(__DJGPP__)
++    if (gCpuCaps.hasSSE) {
++        void (*old_sigill)(int) = signal(SIGILL, djgpp_sigill_handler_sse);
++        mp_msg(MSGT_CPUDETECT, MSGL_V, "Testing OS support for SSE... ");
++        if (setjmp(djgpp_sse_jmpbuf) == 0) {
++            __asm__ volatile ("xorps %%xmm0, %%xmm0" : : : "memory");
++        }
++        signal(SIGILL, old_sigill);
++        mp_msg(MSGT_CPUDETECT, MSGL_V, gCpuCaps.hasSSE ? "yes.\n" : "no!\n");
++    }
+ #else
+     /* Do nothing on other platforms for now.
+      */
+diff --git a/libaf/af.c b/libaf/af.c
+index 0601bd0..2a8f69a 100644
+--- a/libaf/af.c
++++ b/libaf/af.c
+@@ -606,7 +606,8 @@ int af_resize_local_buffer(af_instance_t* af, af_data_t* data)
+   if(af->data->audio)
+     free(af->data->audio);
+   // Create new buffer and check that it is OK
+-  af->data->audio = malloc(len);
++  // (extra 1024 bytes as safety margin against filters writing past the end)
++  af->data->audio = malloc(len + 1024);
+   if(!af->data->audio){
+     mp_msg(MSGT_AFILTER, MSGL_FATAL, "[libaf] Could not allocate memory \n");
+     return AF_ERROR;
+diff --git a/libaf/af_resample.c b/libaf/af_resample.c
+index 5dd0e70..d476377 100644
+--- a/libaf/af_resample.c
++++ b/libaf/af_resample.c
+@@ -28,6 +28,7 @@
+ #include "libavutil/mathematics.h"
+ #include "af.h"
+ #include "dsp.h"
++#include "osdep/djgpp_fpu.h"
+ 
+ /* Below definition selects the length of each poly phase component.
+    Valid definitions are L8 and L16, where the number denotes the
+@@ -325,6 +326,9 @@ static af_data_t* play(struct af_instance_s* af, af_data_t* data)
+   af_data_t*     l   = af->data; // Local data
+   af_resample_t* s   = af->setup;
+ 
++  // clear MMX state and pending FPU exceptions before resampling (DOS)
++  djgpp_fpu_clear();
++
+   if(AF_OK != RESIZE_LOCAL_BUFFER(af,data))
+     return NULL;
+ 
+@@ -380,7 +384,11 @@ static int af_open(af_instance_t* af){
+   af->setup=calloc(1,sizeof(af_resample_t));
+   if(af->data == NULL || af->setup == NULL)
+     return AF_ERROR;
++#ifdef __DJGPP__
++  ((af_resample_t*)af->setup)->setup = RSMP_LIN | FREQ_SLOPPY;
++#else
+   ((af_resample_t*)af->setup)->setup = RSMP_INT | FREQ_SLOPPY;
++#endif
+   return AF_OK;
+ }
+ 
+diff --git a/libao2/ao_allegro.c b/libao2/ao_allegro.c
+new file mode 100644
+index 0000000..d88f5ab
+--- /dev/null
++++ b/libao2/ao_allegro.c
+@@ -0,0 +1,307 @@
++#include "config.h"
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++
++#define ALLEGRO_HAVE_STDINT_H
++#include <allegro.h>
++#ifndef DIGI_SBPRO2
++#define DIGI_SBPRO2 DIGI_SBPRO
++#endif
++
++#include "libavutil/common.h"
++#include "mpbswap.h"
++#include "subopt-helper.h"
++#include "libaf/af_format.h"
++#include "audio_out.h"
++#include "audio_out_internal.h"
++#include "mp_msg.h"
++#include "help_mp.h"
++
++
++static ao_info_t info = 
++{
++	"Allegro audio output",
++	"allegro",
++	"Michael Kostylev <mik@niipt.ru>",
++	"experimental version, try `-autosync 30` to prevent a/v sync errors"
++};
++
++LIBAO_EXTERN(allegro)
++
++static AUDIOSTREAM *stream;
++static void *mem_chunk;
++static int bits;
++static unsigned long total_samples;
++static struct timeval play_start;
++
++// to set/get/query special features/parameters
++static int control(int cmd,void *arg)
++{
++	int format, volume;
++	ao_control_vol_t* ao_vol;
++
++	switch(cmd)
++	{
++	case AOCONTROL_QUERY_FORMAT:
++		format = (int)(intptr_t)arg;
++		switch(format)
++		{
++			case AF_FORMAT_S8:
++			case AF_FORMAT_U8:
++			case AF_FORMAT_S16_BE:
++	                case AF_FORMAT_U16_BE:
++	                case AF_FORMAT_S16_LE:
++			case AF_FORMAT_U16_LE:
++				return CONTROL_OK;
++			default:
++				return CONTROL_FALSE;
++		}
++	case AOCONTROL_GET_VOLUME:
++		ao_vol = (ao_control_vol_t*)arg;
++		volume = voice_get_volume(stream->voice);
++		ao_vol->left = ao_vol->right = volume / 2.55;
++		return CONTROL_OK;
++	case AOCONTROL_SET_VOLUME:
++		ao_vol = (ao_control_vol_t*)arg;
++		volume = ao_vol->left * 255 / 100;
++		voice_set_volume(stream->voice, volume);
++		return CONTROL_OK;
++	}
++	return CONTROL_UNKNOWN;
++}
++
++// open & setup audio device
++// return: 1=success 0=fail
++static int init(int rate,int channels,int format,int flags)
++{
++	unsigned int outburst = 16384;
++	int volume = 255, voices = 1, card_id = DIGI_AUTODETECT;
++	opt_t subopts[] = {
++	  {"buffer",       OPT_ARG_INT, &outburst, (opt_test_f)int_non_neg},
++	  {"volume",       OPT_ARG_INT, &volume, (opt_test_f)int_non_neg},
++	  {"voices",       OPT_ARG_INT, &voices, (opt_test_f)int_non_neg},
++	  {"card_id",      OPT_ARG_INT, &card_id, NULL},
++	  {NULL}
++	};
++
++	if (subopt_parse(ao_subdevice, subopts) != 0)
++	{
++		mp_msg(MSGT_VO, MSGL_FATAL,
++			"\n-ao allegro command line help:\n"
++			"Example: mplayer -ao allegro:buffer=32768\n"
++			"\nOptions:\n"
++			"  buffer=<4096..65535>\n"
++			"    Buffer size, must be not too small (16384 bytes by default).\n"
++			"  volume=<0..255>\n"
++			"    Initial volume level (255 by default).\n"
++			"  card_id=<id>\n"
++			"    Id can be one of the following:\n"
++			"    %d (SB1.0), %d (SB1.5), %d (SB2.0),\n"
++			"    %d (SBPro), %d (SBPro2), %d (SB16)\n"
++			"    %d (ESS Audiodrive), %d (Ensoniq Soundscape),\n"
++			"    %d (WSS)\n"
++			"\n", 
++			DIGI_SB10, DIGI_SB15, DIGI_SB20, DIGI_SBPRO, DIGI_SBPRO2,
++			DIGI_SB16, DIGI_AUDIODRIVE, DIGI_SOUNDSCAPE, DIGI_WINSOUNDSYS);
++		return 0;
++	}
++	
++	if (outburst < 4096) outburst = 4096;
++	mp_msg(MSGT_AO,MSGL_DBG2, "ao_allegro: buffer size=%u\n", outburst);
++
++	switch(format)
++	{
++		case AF_FORMAT_S16_BE:
++		case AF_FORMAT_U16_BE:
++		case AF_FORMAT_S16_LE:
++		case AF_FORMAT_U16_LE:
++			bits = 16;
++			ao_data.bps = channels * rate * 2;
++			break;
++		case AF_FORMAT_S8:
++		case AF_FORMAT_U8:
++			bits = 8;
++			ao_data.bps = channels * rate;
++			break;
++		default:
++		{
++			mp_msg(MSGT_AO,MSGL_ERR, "ao_allegro: unsupported format %s\n", af_fmt2str_short(format));
++			return 0;
++		}
++	}
++	if(channels > 2)
++	{
++		mp_msg(MSGT_AO,MSGL_ERR, "ao_allegro: unable to play %d channel sound\n", channels);
++		return 0;
++	}
++	if(allegro_init() != 0)
++	{
++		mp_msg(MSGT_AO,MSGL_ERR, "ao_allegro: error initialising library\n");
++		return 0;
++	}
++
++	reserve_voices(voices, 0);
++
++	if(install_sound(card_id, MIDI_NONE, NULL) != 0)
++	{
++		mp_msg(MSGT_AO,MSGL_ERR, "ao_allegro: error initialising sound system\n");
++		mp_msg(MSGT_AO,MSGL_ERR, "ao_allegro: %s\n", allegro_error);
++		return 0;
++	}
++
++	set_volume(255, -1);
++	mp_msg(MSGT_AO, MSGL_INFO, "ao_allegro: sound system initialized. Driver: %s (%s)\n", digi_driver->name, digi_driver->desc);
++
++	ao_data.samplerate = rate;
++	ao_data.channels = channels;
++	ao_data.format = format;
++	ao_data.outburst = outburst;
++	ao_data.buffersize = outburst;
++
++	mp_msg(MSGT_AO,MSGL_DBG2, "ao_allegro: stream - buffer=%d, bits=%d, stereo=%d, rate=%d\n",
++		ao_data.outburst / (ao_data.channels * bits / 8), bits, channels - 1, rate);
++
++	stream = play_audio_stream(ao_data.outburst / (ao_data.channels * bits / 8), bits, \
++		ao_data.channels - 1, ao_data.samplerate, volume, 127);
++
++	if (stream == NULL)
++	{
++		mp_msg(MSGT_AO,MSGL_ERR, "ao_allegro: error creating audio stream!\n");
++		return 0;
++	}
++	return 1;
++}
++
++// close audio device
++static void uninit(int immed)
++{
++	stop_audio_stream(stream);
++}
++
++// stop playing and empty buffers (for seeking/pause)
++static void reset(void)
++{
++//	inaccurate :(
++	int volume = voice_get_volume(stream->voice);
++	stop_audio_stream(stream);
++	stream = play_audio_stream(ao_data.outburst / (ao_data.channels * bits / 8), bits, \
++		ao_data.channels - 1, ao_data.samplerate, volume, 127);
++}
++
++// stop playing, keep buffers (for pause)
++static void audio_pause(void)
++{
++	voice_stop(stream->voice);
++}
++
++// resume playing, after audio_pause()
++static void audio_resume(void)
++{
++	voice_start(stream->voice);
++}
++
++// return: how many bytes can be played without blocking
++static int get_space(void)
++{
++	mem_chunk = get_audio_stream_buffer(stream);
++	if (mem_chunk != NULL)
++	{
++		return ao_data.outburst;
++	}
++	return 0;
++}
++
++// puts to destination (stream) buffer unsigned (le) data of 'len' bytes
++// 'len' should be even for 16-bit formats
++void mkunsigned (void *dest, void *src, int len)
++{
++	int i;
++
++	switch(ao_data.format)
++	{
++		case AF_FORMAT_S16_LE:
++			for (i = 0; i < len/2; i++)
++				((uint16_t *)dest)[i] = ((uint16_t *)src)[i] ^ 0x8000;
++			break;
++		case AF_FORMAT_S16_BE:
++			for (i = 0; i < len; i += 2)
++			{
++				((uint8_t *)dest)[i+1] = ((uint8_t *)src)[i] ^ 0x80;
++				((uint8_t *)dest)[i] = ((uint8_t *)src)[i+1];
++			}
++			break;
++		case AF_FORMAT_U16_BE:
++			swab(src, dest, len);
++			break;
++		case AF_FORMAT_S8:
++			for (i = 0; i < len; i++)
++				((uint8_t *)dest)[i] = ((uint8_t *)src)[i] ^ 0x80;
++			break;
++		default:
++			memcpy (dest, src, len);
++	}
++}
++
++// fills buffer of 'len' bytes with silence
++void mksilence (void *data, int len)
++{
++	int i;
++
++	if (bits == 8)
++		for (i = 0; i < len; i++)
++			((uint8_t *)data)[i] = 0x80;
++	else
++		for (i = 0; i < len/2; i++)
++			((uint16_t *)data)[i] = 0x8000;
++}
++
++// plays 'len' bytes of 'data'
++// it should round it down to outburst*n
++// return: number of bytes played
++static int play(void* data,int len,int flags)
++{
++	if (len <= 0)
++		return 0;
++	if (len > ao_data.outburst || !(flags & AOPLAY_FINAL_CHUNK))
++		len = ao_data.outburst;
++	if (mem_chunk != NULL) 
++	{
++		mkunsigned (mem_chunk, data, len);
++		if (flags & AOPLAY_FINAL_CHUNK)
++			mksilence((int8_t *)(mem_chunk) + len, ao_data.outburst - len);
++		free_audio_stream_buffer(stream);
++		if (!play_start.tv_sec)
++			gettimeofday(&play_start, NULL);
++		total_samples += len / (ao_data.channels * bits / 8);
++		return len;
++	}
++	return 0;
++}
++
++// return: delay in seconds between first and last sample in buffer
++static float get_delay(void)
++{
++	struct timeval now;
++	double buffered_samples_time;
++	double play_time;
++
++	if (!play_start.tv_sec)
++		return 0;
++	buffered_samples_time = (float)total_samples / ao_data.samplerate;
++	gettimeofday (&now, NULL);
++	play_time  =  now.tv_sec  - play_start.tv_sec;
++	play_time += (now.tv_usec - play_start.tv_usec) / 1000000.0;
++
++	if (play_time > buffered_samples_time)
++	{
++//		mp_msg(MSGT_AO,MSGL_WARN, "\nao_allegro: underflow\n");
++		play_start.tv_sec = 0;
++		total_samples = 0;
++		return 0;
++	}
++    
++	return buffered_samples_time - play_time;
++        
++}
+diff --git a/libao2/ao_sb16.c b/libao2/ao_sb16.c
+new file mode 100644
+index 0000000..86d6d22
+--- /dev/null
++++ b/libao2/ao_sb16.c
+@@ -0,0 +1,440 @@
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <stdint.h>
++#include <stdbool.h>
++#include <dos.h>
++#include <dpmi.h>
++#include <go32.h>
++#include <pc.h>
++#include <sys/nearptr.h>
++#include <sys/movedata.h>
++#include <unistd.h>
++
++#include "config.h"
++#include "audio_out.h"
++#include "audio_out_internal.h"
++#include "libaf/af_format.h"
++#include "mp_msg.h"
++
++extern int __dpmi_allocate_dos_memory(int paragraphs, int *selector);
++extern int __dpmi_free_dos_memory(int selector);
++
++static ao_info_t info =
++{
++	"Sound Blaster 16 driver",
++	"sb16",
++	"heavily inspired by joncampbell123 efforts",
++	""
++};
++
++LIBAO_EXTERN(sb16)
++
++static uint16_t sb_port = 0x220;
++static int sb_irq = 5;
++static int sb_dma8 = 1;
++static int sb_dma16 = 5;
++
++static int dma_selector = -1;
++static uint32_t dma_buffer_phys = 0;
++static int total_size = 0x8000u;
++static int block_size = 4096;
++static int write_pos = 0;
++static int last_play_pos = 0;
++static int buffered_bytes = 0;
++static int dma_silenced = 1;
++static uint8_t zero_buf[0x8000];
++
++static uint8_t orig_pic1_mask = 0xff;
++static uint8_t orig_pic2_mask = 0xff;
++static int pic_masked = 0;
++static int play_called = 0;
++
++/* masks hardware interrupts */
++static void mask_sb_irq(int irq)
++{
++	orig_pic1_mask = inportb(0x21);
++	orig_pic2_mask = inportb(0xa1);
++
++	/* Always mask IRQ 5 and 7 to prevent interrupt storms
++	   if the BLASTER variable is missing or incorrect. */
++	uint8_t new_pic1 = orig_pic1_mask | (1 << 5) | (1 << 7);
++	
++	if (irq < 8) {
++		new_pic1 |= (1 << irq);
++		outportb(0x21, new_pic1);
++	} else {
++		outportb(0x21, new_pic1);
++		outportb(0xa1, orig_pic2_mask | (1 << (irq - 8)));
++	}
++
++	pic_masked = 1;
++}
++
++/* restores original interrupts */
++static void unmask_sb_irq(int irq) {
++	if (!pic_masked) return;
++
++	outportb(0x21, orig_pic1_mask);
++	outportb(0xa1, orig_pic2_mask);
++	pic_masked = 0;
++}
++
++/* creates a busy loop delay */
++static inline void delay_ms(int ms) {
++	int lps = ms * 1000;
++
++	/* port 0x80 is used for small delays */
++	for (volatile int i = 0; i < lps; i++) {
++		inportb(0x80);
++	}
++}
++
++/* resets the digital signal processor */
++static int sb16_dsp_reset(uint16_t port) {
++	/* trigger reset port */
++	outportb(port + 0x6, 1);
++	delay_ms(10);
++	outportb(port + 0x6, 0);
++	delay_ms(10);
++
++	int timeout = 10000;
++	while (timeout--) {
++		/* wait for ready byte 0xAA */
++		if (inportb(port + 0xE) & 0x80) {
++			if (inportb(port + 0xA) == 0xAA) {
++				return 1;
++			}
++		}
++	}
++	return 0;
++}
++
++/* writes a byte to the dsp */
++static inline void sb16_dsp_write(uint16_t port, uint8_t val) {
++	/* dsp busy loop */
++	while (inportb(port + 0xC) & 0x80);
++	outportb(port + 0xC, val);
++}
++
++/* detects configuration from environment */
++static int sb16_detect(void) {
++	char *blaster = getenv("BLASTER");
++	if (!blaster) {
++		return 1;
++	}
++
++	/* parse BLASTER variable */
++	char *p = blaster;
++	while (*p) {
++		if (*p == 'A' || *p == 'a') sb_port = strtol(p + 1, NULL, 16);
++		else if (*p == 'I' || *p == 'i') sb_irq = strtol(p + 1, NULL, 10);
++		else if (*p == 'D' || *p == 'd') sb_dma8 = strtol(p + 1, NULL, 10);
++		else if (*p == 'H' || *p == 'h') sb_dma16 = strtol(p + 1, NULL, 10);
++
++		p++;
++		while (*p && *p != ' ') p++;
++		while (*p && *p == ' ') p++;
++	}
++	return 1;
++}
++
++/* allocates dos memory for dma */
++static int allocate_dma_buffer(int size) {
++	int paragraphs = (size*2+15)/16;
++	int segment = __dpmi_allocate_dos_memory(paragraphs, &dma_selector);
++
++	if (segment == -1) {
++		return 0;
++	}
++	uint32_t phys = (uint32_t)segment * 16;
++
++	uint32_t start1 = phys;
++	uint32_t end1 = phys + size - 1;
++
++	/* 16-bit DMA uses 128KB pages, so check 131072 boundaries! */
++	if ((start1 / 131072) == (end1 / 131072)) {
++		dma_buffer_phys = start1;
++	} else {
++		/* Align to next 128KB boundary to avoid crossing */
++		dma_buffer_phys = (start1 + 131071) & ~131071;
++	}
++	return 1;
++}
++
++/* frees dos memory */
++static void free_dma_buffer(void) {
++	if (dma_selector != -1) {
++		__dpmi_free_dos_memory(dma_selector);
++		dma_selector = -1;
++		dma_buffer_phys = 0;
++	}
++}
++
++/* Returns the current hardware DMA read offset (in bytes) within the
++ * ring buffer [0 .. total_size-1].
++ *
++ * Do _not_ read sb_port+0xE or sb_port+0xF here — those are interrupt
++ * ACK ports and must only be touched at uninit time. */
++static inline int dma_get_play_pos(void)
++{
++	uint16_t addr_a, addr_b;
++
++	do {
++		outportb(0xD8, 0);                   /* clear flip-flop */
++		addr_a  = inportb(0xC4);             /* word addr low */
++		addr_a |= (inportb(0xC4) << 8);     /* word addr high */
++
++		outportb(0xD8, 0);
++		addr_b  = inportb(0xC4);
++		addr_b |= (inportb(0xC4) << 8);
++	} while (abs((int)addr_a - (int)addr_b) > 32);
++
++	uint32_t phys_byte = (uint32_t)addr_b * 2;
++	int offset = (int)((phys_byte - dma_buffer_phys) % (uint32_t)total_size);
++	return offset;
++}
++
++/* sets up dma controller */
++static void dma_setup(uint32_t phys_addr, int size) {
++	uint32_t word_addr = phys_addr >> 1;
++	uint16_t word_count = size / 2;
++
++	/* program dma channel 5 */
++	outportb(0xD4, 5);
++	outportb(0xD6, 0x59);
++	outportb(0xD8, 0);
++	outportb(0x8B, phys_addr >> 16);
++	outportb(0xC4, word_addr & 0xFF);
++	outportb(0xC4, word_addr >> 8);
++	outportb(0xC6, (word_count - 1) & 0xFF);
++	outportb(0xC6, (word_count - 1) >> 8);
++	outportb(0xD4, 1);
++}
++
++/* control callback */
++static int control(int cmd, void *arg) {
++	if (cmd == AOCONTROL_QUERY_FORMAT) {
++		if ((int)(intptr_t)arg == AF_FORMAT_S16_LE) {
++			return CONTROL_TRUE;
++		}
++		return CONTROL_FALSE;
++	}
++	return CONTROL_NA;
++}
++
++/* initializes audio playback */
++static int init(int rate, int channels, int format, int flags) {
++	(void)flags;
++
++	if (format != AF_FORMAT_S16_LE) {
++		mp_msg(MSGT_AO, MSGL_V, "ao_sb16: Forcing format to S16_LE\n");
++		ao_data.format = AF_FORMAT_S16_LE;
++		format = AF_FORMAT_S16_LE;
++	}
++
++	if (rate > 44100) {
++		mp_msg(MSGT_AO, MSGL_V, "ao_sb16: Forcing rate to 44100 (max)\n");
++		ao_data.samplerate = 44100;
++		rate = 44100;
++	}
++
++	if (channels > 2) {
++		mp_msg(MSGT_AO, MSGL_V, "ao_sb16: Forcing channels to 2 (max)\n");
++		ao_data.channels = 2;
++		channels = 2;
++	}
++
++	sb16_detect();
++	mask_sb_irq(sb_irq);
++
++	if (!sb16_dsp_reset(sb_port)) {
++		mp_msg(MSGT_AO, MSGL_ERR, "ao_sb16: DSP reset failed on port 0x%X\n", sb_port);
++		unmask_sb_irq(sb_irq);
++		return 0;
++	}
++
++	if (!allocate_dma_buffer(total_size)) {
++		mp_msg(MSGT_AO, MSGL_ERR, "ao_sb16: Failed to allocate %d bytes of DOS memory for DMA!\n", total_size * 2);
++		unmask_sb_irq(sb_irq);
++		return 0;
++	}
++
++	/* clear buffer using dosmemput */
++	dosmemput(zero_buf, total_size, dma_buffer_phys);
++
++	dma_setup(dma_buffer_phys, total_size);
++
++	/* set sample rate */
++	sb16_dsp_write(sb_port, 0x41);
++	sb16_dsp_write(sb_port, rate >> 8);
++	sb16_dsp_write(sb_port, rate & 0xFF);
++
++	/* start 16 bit auto init dma */
++	sb16_dsp_write(sb_port, 0xB6);
++	if (channels == 2) {
++		sb16_dsp_write(sb_port, 0x30); /* Signed, Stereo */
++	} else {
++		sb16_dsp_write(sb_port, 0x10); /* Signed, Mono */
++	}
++
++	// Program SB16 DSP for 16-bit auto-init DMA 
++	uint16_t dsp_len = (total_size / 2) - 1;
++	sb16_dsp_write(sb_port, dsp_len & 0xFF);
++	sb16_dsp_write(sb_port, dsp_len >> 8);
++
++	ao_data.samplerate = rate;
++	ao_data.channels = channels;
++	ao_data.format = AF_FORMAT_S16_LE;
++	ao_data.bps = rate * channels * 2;
++	ao_data.buffersize = total_size;
++	ao_data.outburst = block_size;
++
++	write_pos = 0;
++	last_play_pos = 0;
++	buffered_bytes = 0;
++	dma_silenced = 1;
++	play_called = 0;
++
++	return 1;
++}
++
++/* silences a byte range [start, start+len) in the circular DMA buffer */
++static void silence_dma_range(int start, int len) {
++	if (!dma_buffer_phys || len <= 0) return;
++	if (len >= total_size) {
++		dosmemput(zero_buf, total_size, dma_buffer_phys);
++		return;
++	}
++	int first = total_size - start;
++	if (first > len) first = len;
++	dosmemput(zero_buf, first, dma_buffer_phys + start);
++	if (first < len) {
++		dosmemput(zero_buf, len - first, dma_buffer_phys);
++	}
++}
++
++/* updates DMA playback progress, silences unbuffered DMA space only when
++ * draining/underrunning so auto-init DMA never repeats stale audio on EOF,
++ * and tracks buffered_bytes without per-call dosmemput overhead */
++static void update_dma_state(void) {
++	if (!dma_buffer_phys) return;
++
++	int play_pos = dma_get_play_pos();
++	int played = play_pos - last_play_pos;
++	if (played < 0) played += total_size;
++
++	if (played > 0) {
++		last_play_pos = play_pos;
++		if (played >= buffered_bytes) {
++			buffered_bytes = 0;
++			write_pos = play_pos;
++			if (!dma_silenced) {
++				dosmemput(zero_buf, total_size, dma_buffer_phys);
++				dma_silenced = 1;
++			}
++		} else {
++			buffered_bytes -= played;
++			if (buffered_bytes < (total_size >> 1) && !dma_silenced) {
++				silence_dma_range(write_pos, total_size - buffered_bytes);
++				dma_silenced = 1;
++			}
++		}
++	}
++}
++
++/* stops audio and cleans up */
++static void uninit(int immed) {
++	(void)immed;
++
++	if (dma_buffer_phys) {
++		/* send halt command */
++		sb16_dsp_write(sb_port, 0xD5);
++		outportb(0xD4, 5);
++		inportb(sb_port + 0xF);
++		inportb(sb_port + 0xE);
++
++		sb16_dsp_reset(sb_port);
++		unmask_sb_irq(sb_irq);
++		free_dma_buffer();
++	}
++}
++
++/* resets write position to current hardware playback position and silences buffer */
++static void reset(void) {
++	if (dma_buffer_phys) {
++		dosmemput(zero_buf, total_size, dma_buffer_phys);
++		last_play_pos = write_pos = dma_get_play_pos();
++		buffered_bytes = 0;
++		dma_silenced = 1;
++	}
++}
++
++/* calculates available buffer space */
++static int get_space(void) {
++	if (!dma_buffer_phys) return 0;
++
++	update_dma_state();
++
++	int free_space = total_size - buffered_bytes;
++
++	if (free_space > 1024) {
++		/* Return space rounded down to block_size to avoid trickle feeding */
++		return ((free_space - 1024) / block_size) * block_size;
++	}
++
++	return 0;
++}
++
++/* pushes audio data to dma buffer */
++static int play(void *data, int len, int flags) {
++	(void)flags;
++
++	if (!play_called) play_called = 1;
++	if (!dma_buffer_phys) return 0;
++
++	int space = get_space();
++
++	if (len > space) len = space;
++	if (len <= 0) return 0;
++
++	int first_part = total_size - write_pos;
++	if (first_part > len) first_part = len;
++
++	/* write first part into ring buffer */
++	dosmemput(data, first_part, dma_buffer_phys + write_pos);
++
++	if (first_part < len) {
++		/* wrap around and write remainder */
++		dosmemput((uint8_t *)data + first_part, len - first_part, dma_buffer_phys);
++	}
++
++	write_pos = (write_pos + len) % total_size;
++	buffered_bytes += len;
++	dma_silenced = 0;
++	return len;
++}
++
++/* calculates audio lag */
++static float get_delay(void) {
++	if (!dma_buffer_phys) return 0.0f;
++
++	update_dma_state();
++
++	if (buffered_bytes <= 0) return 0.0f;
++	return (float)buffered_bytes / (float)ao_data.bps;
++}
++
++/* pauses playback */
++static void audio_pause(void) {
++	/* 0xD5 halts playback */
++	if (dma_buffer_phys) sb16_dsp_write(sb_port, 0xD5);
++}
++
++/* resumes playback */
++static void audio_resume(void) {
++	/* 0xD6 resumes playback */
++	if (dma_buffer_phys) sb16_dsp_write(sb_port, 0xD6);
++}
++
+diff --git a/libao2/audio_out.c b/libao2/audio_out.c
+index 4ac5489..e9cbfa6 100644
+--- a/libao2/audio_out.c
++++ b/libao2/audio_out.c
+@@ -55,10 +55,16 @@ extern const ao_functions_t audio_out_v4l2;
+ extern const ao_functions_t audio_out_mpegpes;
+ extern const ao_functions_t audio_out_pcm;
+ extern const ao_functions_t audio_out_pss;
++extern const ao_functions_t audio_out_allegro;
++extern const ao_functions_t audio_out_sb16;
+ 
+ const ao_functions_t* const audio_out_drivers[] =
+ {
+ // native:
++#ifdef CONFIG_SB16
++// SB16 is the primary driver under DOS
++        &audio_out_sb16,
++#endif
+ #ifdef CONFIG_DIRECTX
+         &audio_out_dsound,
+ #endif
+@@ -90,6 +96,9 @@ const ao_functions_t* const audio_out_drivers[] =
+         &audio_out_sun,
+ #endif
+ // wrappers:
++#ifdef CONFIG_ALLEGRO
++        &audio_out_allegro,
++#endif
+ #ifdef CONFIG_ARTS
+         &audio_out_arts,
+ #endif
+diff --git a/libavcodec/cabac.h b/libavcodec/cabac.h
+index 0af77e4..efc887f 100644
+--- a/libavcodec/cabac.h
++++ b/libavcodec/cabac.h
+@@ -270,7 +270,7 @@ static void refill(CABACContext *c){
+     c->bytestream+= CABAC_BITS/8;
+ }
+ 
+-#if ! ( ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE && !defined(BROKEN_RELOCATIONS) )
++#if ! ( ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE && !defined(BROKEN_RELOCATIONS) && !defined(__DJGPP__) )
+ static void refill2(CABACContext *c){
+     int i, x;
+ 
+@@ -537,7 +537,7 @@ static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const st
+     );
+     bit&=1;
+ #endif /* BRANCHLESS_CABAC_DECODER */
+-#else /* ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE && !defined(BROKEN_RELOCATIONS) */
++#else /* ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE && !defined(BROKEN_RELOCATIONS) && !defined(__DJGPP__) */
+     int s = *state;
+     int RangeLPS= ff_h264_lps_range[2*(c->range&0xC0) + s];
+     int bit, lps_mask av_unused;
+@@ -576,7 +576,7 @@ static av_always_inline int get_cabac_inline(CABACContext *c, uint8_t * const st
+     if(!(c->low & CABAC_MASK))
+         refill2(c);
+ #endif /* BRANCHLESS_CABAC_DECODER */
+-#endif /* ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE && !defined(BROKEN_RELOCATIONS) */
++#endif /* ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE && !defined(BROKEN_RELOCATIONS) && !defined(__DJGPP__) */
+     return bit;
+ }
+ 
+diff --git a/libavcodec/dsputil.c b/libavcodec/dsputil.c
+index 0701324..e9dae43 100644
+--- a/libavcodec/dsputil.c
++++ b/libavcodec/dsputil.c
+@@ -4517,7 +4517,17 @@ av_cold void dsputil_init(DSPContext* c, AVCodecContext *avctx)
+     memset(c->put_2tap_qpel_pixels_tab, 0, sizeof(c->put_2tap_qpel_pixels_tab));
+     memset(c->avg_2tap_qpel_pixels_tab, 0, sizeof(c->avg_2tap_qpel_pixels_tab));
+ 
++#ifdef __DJGPP__
++    /* reset FPU and mask all exceptions around the MMX init (DOS/DPMI) */
++#define DJGPP_FPU_RESET() do { unsigned short cw = 0x037F; \
++        __asm__ __volatile__("fninit\n\tfldcw %0\n\t" : : "m" (cw)); } while (0)
++    DJGPP_FPU_RESET();
++#endif
+     if (HAVE_MMX)        dsputil_init_mmx   (c, avctx);
++#ifdef __DJGPP__
++    DJGPP_FPU_RESET();
++#undef DJGPP_FPU_RESET
++#endif
+     if (ARCH_ARM)        dsputil_init_arm   (c, avctx);
+     if (CONFIG_MLIB)     dsputil_init_mlib  (c, avctx);
+     if (HAVE_VIS)        dsputil_init_vis   (c, avctx);
+diff --git a/libavcodec/h264.c b/libavcodec/h264.c
+index e4654f0..2bc807f 100644
+--- a/libavcodec/h264.c
++++ b/libavcodec/h264.c
+@@ -2109,7 +2109,11 @@ static int decode_slice_header(H264Context *h, H264Context *h0){
+     if(   s->avctx->skip_loop_filter >= AVDISCARD_ALL
+        ||(s->avctx->skip_loop_filter >= AVDISCARD_NONKEY && h->slice_type_nos != FF_I_TYPE)
+        ||(s->avctx->skip_loop_filter >= AVDISCARD_BIDIR  && h->slice_type_nos == FF_B_TYPE)
+-       ||(s->avctx->skip_loop_filter >= AVDISCARD_NONREF && h->nal_ref_idc == 0))
++       ||(s->avctx->skip_loop_filter >= AVDISCARD_NONREF && h->nal_ref_idc == 0)
++#ifdef __DJGPP__
++       || s->hurry_up
++#endif
++      )
+         h->deblocking_filter= 0;
+ 
+     if(h->deblocking_filter == 1 && h0->max_contexts > 1) {
+diff --git a/libavcodec/x86/dsputil_yasm.asm b/libavcodec/x86/dsputil_yasm.asm
+index e2478a4..58def45 100644
+--- a/libavcodec/x86/dsputil_yasm.asm
++++ b/libavcodec/x86/dsputil_yasm.asm
+@@ -28,7 +28,8 @@ pb_7: times 8 db 7
+ pb_zzzz3333zzzzbbbb: db -1,-1,-1,-1,3,3,3,3,-1,-1,-1,-1,11,11,11,11
+ pb_zz11zz55zz99zzdd: db -1,-1,1,1,-1,-1,5,5,-1,-1,9,9,-1,-1,13,13
+ 
+-section .text align=16
++SECTION .text
++ALIGN 16
+ 
+ %macro PSWAPD_SSE 2
+     pshufw %1, %2, 0x4e
+diff --git a/libavcodec/x86/fft_mmx.asm b/libavcodec/x86/fft_mmx.asm
+index 9cb0ae1..11848e4 100644
+--- a/libavcodec/x86/fft_mmx.asm
++++ b/libavcodec/x86/fft_mmx.asm
+@@ -51,7 +51,8 @@ cextern ff_cos_ %+ i
+     %1
+ %endmacro
+ 
+-section .text align=16
++SECTION .text
++ALIGN 16
+ 
+ %macro T2_3DN 4 ; z0, z1, mem0, mem1
+     mova     %1, %3
+diff --git a/libavcodec/x86/mathops.h b/libavcodec/x86/mathops.h
+index 5949dfe..1277c94 100644
+--- a/libavcodec/x86/mathops.h
++++ b/libavcodec/x86/mathops.h
+@@ -79,6 +79,8 @@ __asm__ volatile(\
+ #endif
+ 
+ // avoid +32 for shift optimization (gcc should do that ...)
++#ifndef __DJGPP__
++/* GCC 15 (DJGPP) emits negative immediates (e.g. "shrl $-5") for these, use the C versions */
+ #define NEG_SSR32 NEG_SSR32
+ static inline  int32_t NEG_SSR32( int32_t a, int8_t s){
+     __asm__ ("sarl %1, %0\n\t"
+@@ -97,4 +99,6 @@ static inline uint32_t NEG_USR32(uint32_t a, int8_t s){
+     return a;
+ }
+ 
++#endif /* __DJGPP__ */
++
+ #endif /* AVCODEC_X86_MATHOPS_H */
+diff --git a/libavcodec/x86/x86inc.asm b/libavcodec/x86/x86inc.asm
+index c29ef3e..d94ac44 100644
+--- a/libavcodec/x86/x86inc.asm
++++ b/libavcodec/x86/x86inc.asm
+@@ -42,6 +42,9 @@
+     %elifidn __OUTPUT_FORMAT__,macho
+         SECTION .text align=%1
+         fakegot:
++    %elifidn __OUTPUT_FORMAT__,coff
++        SECTION .text
++        ALIGN %1
+     %else
+         SECTION .rodata align=%1
+     %endif
+diff --git a/libmpcodecs/ad_ffmpeg.c b/libmpcodecs/ad_ffmpeg.c
+index 8dc7ab3..f40a9f8 100644
+--- a/libmpcodecs/ad_ffmpeg.c
++++ b/libmpcodecs/ad_ffmpeg.c
+@@ -21,6 +21,7 @@
+ #include <unistd.h>
+ 
+ #include "config.h"
++#include "osdep/djgpp_fpu.h"
+ #include "mp_msg.h"
+ #include "help_mp.h"
+ 
+@@ -101,13 +102,16 @@ static int init(sh_audio_t *sh_audio)
+     // for QDM2
+     if (sh_audio->codecdata_len && sh_audio->codecdata && !lavc_context->extradata)
+     {
+-        lavc_context->extradata = av_malloc(sh_audio->codecdata_len);
++        lavc_context->extradata = av_mallocz(sh_audio->codecdata_len + FF_INPUT_BUFFER_PADDING_SIZE);
+         lavc_context->extradata_size = sh_audio->codecdata_len;
+         memcpy(lavc_context->extradata, (char *)sh_audio->codecdata,
+                lavc_context->extradata_size);
+     }
+ 
+     /* open it */
++    // reset FPU and mask all exceptions before avcodec_open() to prevent
++    // DPMI hardware exception (IRQ 13) crashes during codec init under DOS
++    djgpp_fpu_reset();
+     if (avcodec_open(lavc_context, lavc_codec) < 0) {
+         mp_msg(MSGT_DECAUDIO,MSGL_ERR, MSGTR_CantOpenCodec);
+         return 0;
+@@ -127,6 +131,7 @@ static int init(sh_audio_t *sh_audio)
+    }
+ 
+    // Decode at least 1 byte:  (to get header filled)
++   djgpp_fpu_reset();
+    do {
+        x=decode_audio(sh_audio,sh_audio->a_buffer,1,sh_audio->a_buffer_size);
+    } while (x <= 0 && tries++ < 5);
+diff --git a/libmpcodecs/dec_audio.c b/libmpcodecs/dec_audio.c
+index d21759b..6b4f3b8 100644
+--- a/libmpcodecs/dec_audio.c
++++ b/libmpcodecs/dec_audio.c
+@@ -36,6 +36,7 @@
+ #include "libaf/af_format.h"
+ 
+ #include "libaf/af.h"
++#include "osdep/djgpp_fpu.h"
+ 
+ #ifdef CONFIG_DYNAMIC_PLUGINS
+ #include <dlfcn.h>
+@@ -70,6 +71,7 @@ void afm_help(void)
+ 
+ static int init_audio_codec(sh_audio_t *sh_audio)
+ {
++    djgpp_fpu_reset();
+     if ((af_cfg.force & AF_INIT_FORMAT_MASK) == AF_INIT_FLOAT) {
+ 	int fmt = AF_FORMAT_FLOAT_NE;
+ 	if (sh_audio->ad_driver->control(sh_audio, ADCTRL_QUERY_FORMAT,
+@@ -110,6 +112,8 @@ static int init_audio_codec(sh_audio_t *sh_audio)
+ 	return 0;
+     }
+ 
++    djgpp_fpu_reset();
++
+     sh_audio->initialized = 1;
+ 
+     if (!sh_audio->channels || !sh_audio->samplerate) {
+@@ -137,6 +141,7 @@ static int init_audio_codec(sh_audio_t *sh_audio)
+     sh_audio->a_out_buffer = NULL;
+     sh_audio->a_out_buffer_len = 0;
+ 
++    djgpp_fpu_reset();
+     return 1;
+ }
+ 
+@@ -435,7 +440,11 @@ int decode_audio(sh_audio_t *sh_audio, int minlen)
+     /* Filter output size will be about filter_multiplier times input size.
+      * If some filter buffers audio in big blocks this might only hold
+      * as average over time. */
+-    double filter_multiplier = af_calc_filter_multiplier(sh_audio->afilter);
++    double filter_multiplier;
++
++    /* clear MMX state and pending FPU exceptions at the start of every audio decode cycle */
++    djgpp_fpu_clear();
++    filter_multiplier = af_calc_filter_multiplier(sh_audio->afilter);
+ 
+     /* If the decoder set audio_out_minsize then it can do the equivalent of
+      * "while (output_len < target_len) output_len += audio_out_minsize;",
+diff --git a/libmpcodecs/vd_ffmpeg.c b/libmpcodecs/vd_ffmpeg.c
+index 38f1fbd..e7b6390 100644
+--- a/libmpcodecs/vd_ffmpeg.c
++++ b/libmpcodecs/vd_ffmpeg.c
+@@ -22,6 +22,7 @@
+ #include <time.h>
+ 
+ #include "config.h"
++#include "osdep/djgpp_fpu.h"
+ #include "mp_msg.h"
+ #include "help_mp.h"
+ #include "av_opts.h"
+@@ -93,10 +94,17 @@ static int lavc_param_debug=0;
+ static int lavc_param_vismv=0;
+ static int lavc_param_skip_top=0;
+ static int lavc_param_skip_bottom=0;
++#ifdef __DJGPP__
++static int lavc_param_fast=CODEC_FLAG2_FAST;
++static int lavc_param_lowres=0;
++static char *lavc_param_lowres_str=NULL;
++static char *lavc_param_skip_loop_filter_str = "nonref";
++#else
+ static int lavc_param_fast=0;
+ static int lavc_param_lowres=0;
+ static char *lavc_param_lowres_str=NULL;
+ static char *lavc_param_skip_loop_filter_str = NULL;
++#endif
+ static char *lavc_param_skip_idct_str = NULL;
+ static char *lavc_param_skip_frame_str = NULL;
+ static int lavc_param_threads=1;
+@@ -432,11 +440,14 @@ static int init(sh_video_t *sh){
+     if(lavc_param_threads > 1)
+         avcodec_thread_init(avctx, lavc_param_threads);
+     /* open it */
++    djgpp_fpu_reset();
+     if (avcodec_open(avctx, lavc_codec) < 0) {
++        djgpp_fpu_reset();
+         mp_msg(MSGT_DECVIDEO, MSGL_ERR, MSGTR_CantOpenCodec);
+         uninit(sh);
+         return 0;
+     }
++    djgpp_fpu_reset();
+     // this is necessary in case get_format was never called and init_vo is
+     // too late e.g. for H.264 VDPAU
+     set_format_params(avctx, avctx->pix_fmt);
+diff --git a/libmpcodecs/vf_scale.c b/libmpcodecs/vf_scale.c
+index 887bf3d..e89fe7f 100644
+--- a/libmpcodecs/vf_scale.c
++++ b/libmpcodecs/vf_scale.c
+@@ -578,7 +578,11 @@ static int vf_open(vf_instance_t *vf, char *args){
+ }
+ 
+ //global sws_flags from the command line
++#ifdef __DJGPP__
++int sws_flags=0;
++#else
+ int sws_flags=2;
++#endif
+ 
+ //global srcFilter
+ static SwsFilter *src_filter= NULL;
+diff --git a/libmpdemux/demux_lavf.c b/libmpdemux/demux_lavf.c
+index 3f4d4ba..d46abee 100644
+--- a/libmpdemux/demux_lavf.c
++++ b/libmpdemux/demux_lavf.c
+@@ -213,7 +213,9 @@ static const char * const preferred_list[] = {
+     "gxf",
+     "nut",
+     "nuv",
++#ifndef __DJGPP__
+     "mov,mp4,m4a,3gp,3g2,mj2",
++#endif
+     "mpc",
+     "mpc8",
+     "mxf",
+@@ -626,6 +628,11 @@ static int demux_lavf_fill_buffer(demuxer_t *demux, demux_stream_t *dsds){
+         pkt.destruct= NULL;
+     }else{
+         dp=new_demux_packet(pkt.size);
++        if (!dp->buffer && pkt.size > 0) {
++            free_demux_packet(dp);
++            av_free_packet(&pkt);
++            return 0;
++        }
+         memcpy(dp->buffer, pkt.data, pkt.size);
+         av_free_packet(&pkt);
+     }
+diff --git a/libmpdemux/demuxer.h b/libmpdemux/demuxer.h
+index 013ddd3..c8abab5 100644
+--- a/libmpdemux/demuxer.h
++++ b/libmpdemux/demuxer.h
+@@ -39,7 +39,11 @@
+ #endif
+ 
+ #define MAX_PACKS 4096
++#ifdef __DJGPP__
++#define MAX_PACK_BYTES 0x800000
++#else
+ #define MAX_PACK_BYTES 0x2000000
++#endif
+ 
+ #define DEMUXER_TYPE_UNKNOWN 0
+ #define DEMUXER_TYPE_MPEG_ES 1
+diff --git a/libvo/aclib.c b/libvo/aclib.c
+index 377dff9..cde74dc 100644
+--- a/libvo/aclib.c
++++ b/libvo/aclib.c
+@@ -56,7 +56,7 @@
+ #define COMPILE_3DNOW
+ #endif
+ 
+-#if HAVE_SSE2 || CONFIG_RUNTIME_CPUDETECT
++#if HAVE_SSE || HAVE_SSE2 || CONFIG_RUNTIME_CPUDETECT
+ #define COMPILE_SSE
+ #endif
+ 
+@@ -175,7 +175,12 @@ void * fast_memcpy(void * to, const void * from, size_t len)
+ #endif
+ 		memcpy(to, from, len); // prior to mmx we use the standart memcpy
+ #else
+-#if HAVE_SSE2
++#if defined(COMPILE_SSE) && defined(COMPILE_MMX2)
++		if(gCpuCaps.hasSSE)
++			fast_memcpy_SSE(to, from, len);
++		else
++			fast_memcpy_MMX2(to, from, len);
++#elif HAVE_SSE2
+ 		fast_memcpy_SSE(to, from, len);
+ #elif HAVE_MMX2
+ 		fast_memcpy_MMX2(to, from, len);
+@@ -209,7 +214,12 @@ void * mem2agpcpy(void * to, const void * from, size_t len)
+ #endif
+ 		memcpy(to, from, len); // prior to mmx we use the standart memcpy
+ #else
+-#if HAVE_SSE2
++#if defined(COMPILE_SSE) && defined(COMPILE_MMX2)
++		if(gCpuCaps.hasSSE)
++			mem2agpcpy_SSE(to, from, len);
++		else
++			mem2agpcpy_MMX2(to, from, len);
++#elif HAVE_SSE2
+ 		mem2agpcpy_SSE(to, from, len);
+ #elif HAVE_MMX2
+ 		mem2agpcpy_MMX2(to, from, len);
+diff --git a/libvo/gtf.h b/libvo/gtf.h
+index 837fc24..c464796 100644
+--- a/libvo/gtf.h
++++ b/libvo/gtf.h
+@@ -19,7 +19,11 @@
+ #ifndef MPLAYER_GTF_H
+ #define MPLAYER_GTF_H
+ 
++#ifdef __DJGPP__
++#include "vbe.h"
++#else
+ #include <vbe.h>
++#endif
+ 
+ #define GTF_VF 0
+ #define GTF_HF 1
+diff --git a/libvo/vbe.h b/libvo/vbe.h
+new file mode 100644
+index 0000000..d7c50d2
+--- /dev/null
++++ b/libvo/vbe.h
+@@ -0,0 +1,437 @@
++#ifndef VBE_H
++#define VBE_H
++
++#include <stdint.h>
++#include <stdbool.h>
++#include <stdlib.h>
++#include <string.h>
++#include <dpmi.h>
++#include <go32.h>
++#include <sys/farptr.h>
++#include <sys/nearptr.h>
++
++#define VBE_OK 0
++#define VBE_VM86_FAIL 1
++#define VBE_OUT_OF_DOS_MEM 2
++#define VBE_OUT_OF_MEM 3
++#define VBE_BROKEN_BIOS 4
++
++#define VBE_VESA_ERROR_MASK 0x10000
++#define VBE_VESA_ERRCODE_MASK 0x0FF00
++
++#define VBE_DAC_8BIT 0x01
++#define VBE_NONVGA_CRTC 0x02
++#define VBE_SNOWED_RAMDAC 0x04
++#define VBE_STEREOSCOPIC 0x08
++#define VBE_STEREO_EVC 0x10
++
++#define memText 0
++#define memCGA 1
++#define memHercules 2
++#define memPL 3
++#define memPK 4
++#define mem256 5
++#define memRGB 6
++#define memYUV 7
++
++#define MODE_ATTR_COLOR 0x08
++#define MODE_ATTR_GRAPHICS 0x10
++#define MODE_ATTR_LINEAR 0x80
++#define MODE_WIN_RELOCATABLE 0x01
++#define MODE_WIN_WRITEABLE 0x02
++
++#define VESA_MODE_USE_LINEAR 0x4000
++
++#define NEO_PAL 0
++#define NEO_NTSC 1
++
++struct VbeInfoBlock {
++    char VESASignature[4];
++    uint16_t VESAVersion;
++    char *OemStringPtr;
++    uint32_t Capabilities;
++    uint16_t *VideoModePtr;
++    uint16_t TotalMemory;
++    uint16_t OemSoftwareRev;
++    char *OemVendorNamePtr;
++    char *OemProductNamePtr;
++    char *OemProductRevPtr;
++    uint8_t Reserved[222];
++    uint8_t OemData[256];
++} __attribute__((packed));
++
++struct VesaModeInfoBlock {
++    uint16_t ModeAttributes;
++    uint8_t WinAAttributes;
++    uint8_t WinBAttributes;
++    uint16_t WinGranularity;
++    uint16_t WinSize;
++    uint16_t WinASegment;
++    uint16_t WinBSegment;
++    uint32_t WinFuncPtr;
++    uint16_t BytesPerScanLine;
++    uint16_t XResolution;
++    uint16_t YResolution;
++    uint8_t XCharSize;
++    uint8_t YCharSize;
++    uint8_t NumberOfPlanes;
++    uint8_t BitsPerPixel;
++    uint8_t NumberOfBanks;
++    uint8_t MemoryModel;
++    uint8_t BankSize;
++    uint8_t NumberOfImagePages;
++    uint8_t Reserved1;
++    uint8_t RedMaskSize;
++    uint8_t RedFieldPosition;
++    uint8_t GreenMaskSize;
++    uint8_t GreenFieldPosition;
++    uint8_t BlueMaskSize;
++    uint8_t BlueFieldPosition;
++    uint8_t RsvdMaskSize;
++    uint8_t RsvdFieldPosition;
++    uint8_t DirectColorModeInfo;
++    uint32_t PhysBasePtr;
++    uint32_t Reserved2;
++    uint16_t Reserved3;
++    uint8_t Reserved4[206];
++} __attribute__((packed));
++
++#define VESA_CRTC_DOUBLESCAN 0x01
++#define VESA_CRTC_INTERLACED 0x02
++#define VESA_CRTC_HSYNC_NEG  0x04
++#define VESA_CRTC_VSYNC_NEG  0x08
++
++struct VesaCRTCInfoBlock {
++    uint16_t hTotal;     /* Horizontal total in pixels */
++    uint16_t hSyncStart; /* Horizontal sync start in pixels */
++    uint16_t hSyncEnd;   /* Horizontal sync end in pixels */
++    uint16_t vTotal;     /* Vertical total in lines */
++    uint16_t vSyncStart; /* Vertical sync start in lines */
++    uint16_t vSyncEnd;   /* Vertical sync end in lines */
++    uint8_t  Flags;      /* Flags (Interlaced, Double Scan etc) */
++    uint32_t PixelClock; /* Pixel clock in units of Hz */
++    uint16_t RefreshRate;/* Refresh rate in units of 0.01 Hz*/
++    uint8_t  Reserved[40];/* remainder of CRTCInfoBlock*/
++} __attribute__((packed));
++
++#ifdef __DJGPP__
++
++static inline void convert_real_to_flat(void **ptr) {
++    uint32_t val = (uint32_t)(*ptr);
++    if (val) {
++        uint32_t seg = val >> 16;
++        uint32_t off = val & 0xffff;
++        *ptr = (void *)(__djgpp_conventional_base + (seg << 4) + off);
++    }
++}
++
++static inline int vbeInit(void) {
++    return VBE_OK;
++}
++
++static inline int vbeGetControllerInfo(struct VbeInfoBlock *vib) {
++    static char static_OemString[256];
++    static uint16_t static_VideoModes[512];
++    static char static_OemVendorName[256];
++    static char static_OemProductName[256];
++    static char static_OemProductRev[256];
++
++    if (!vib) return 1;
++    dosmemput(vib, sizeof(struct VbeInfoBlock), _go32_info_block.linear_address_of_transfer_buffer);
++    
++    __dpmi_regs regs;
++    memset(&regs, 0, sizeof(regs));
++    regs.x.ax = 0x4F00;
++    regs.x.es = _go32_info_block.linear_address_of_transfer_buffer >> 4;
++    regs.x.di = 0;
++    __dpmi_simulate_real_mode_interrupt(0x10, &regs);
++    
++    if (regs.x.ax != 0x004F) {
++        return VBE_VESA_ERROR_MASK | regs.x.ax;
++    }
++    
++    dosmemget(_go32_info_block.linear_address_of_transfer_buffer, sizeof(struct VbeInfoBlock), vib);
++    
++    convert_real_to_flat((void **)&vib->OemStringPtr);
++    convert_real_to_flat((void **)&vib->VideoModePtr);
++    convert_real_to_flat((void **)&vib->OemVendorNamePtr);
++    convert_real_to_flat((void **)&vib->OemProductNamePtr);
++    convert_real_to_flat((void **)&vib->OemProductRevPtr);
++
++    if (vib->OemStringPtr) {
++        strncpy(static_OemString, vib->OemStringPtr, 255);
++        static_OemString[255] = '\0';
++        vib->OemStringPtr = static_OemString;
++    }
++    if (vib->VideoModePtr) {
++        int count = 0;
++        while (vib->VideoModePtr[count] != 0xffff && count < 511) {
++            static_VideoModes[count] = vib->VideoModePtr[count];
++            count++;
++        }
++        static_VideoModes[count] = 0xffff;
++        vib->VideoModePtr = static_VideoModes;
++    }
++    if (vib->OemVendorNamePtr) {
++        strncpy(static_OemVendorName, vib->OemVendorNamePtr, 255);
++        static_OemVendorName[255] = '\0';
++        vib->OemVendorNamePtr = static_OemVendorName;
++    }
++    if (vib->OemProductNamePtr) {
++        strncpy(static_OemProductName, vib->OemProductNamePtr, 255);
++        static_OemProductName[255] = '\0';
++        vib->OemProductNamePtr = static_OemProductName;
++    }
++    if (vib->OemProductRevPtr) {
++        strncpy(static_OemProductRev, vib->OemProductRevPtr, 255);
++        static_OemProductRev[255] = '\0';
++        vib->OemProductRevPtr = static_OemProductRev;
++    }
++    
++    return VBE_OK;
++}
++
++static inline int vbeGetModeInfo(int mode, struct VesaModeInfoBlock *vmib) {
++    if (!vmib) return 1;
++    
++    __dpmi_regs regs;
++    memset(&regs, 0, sizeof(regs));
++    regs.x.ax = 0x4F01;
++    regs.x.cx = mode;
++    regs.x.es = _go32_info_block.linear_address_of_transfer_buffer >> 4;
++    regs.x.di = 0;
++    __dpmi_simulate_real_mode_interrupt(0x10, &regs);
++    
++    if (regs.x.ax != 0x004F) {
++        return VBE_VESA_ERROR_MASK | regs.x.ax;
++    }
++    
++    dosmemget(_go32_info_block.linear_address_of_transfer_buffer, sizeof(struct VesaModeInfoBlock), vmib);
++    
++    return VBE_OK;
++}
++
++static inline int vbeSetMode(int mode, struct VesaCRTCInfoBlock *crtc) {
++    __dpmi_regs regs;
++    memset(&regs, 0, sizeof(regs));
++    regs.x.ax = 0x4F02;
++    regs.x.bx = mode;
++    
++    if (crtc) {
++        regs.x.bx |= 0x8000;
++        dosmemput(crtc, sizeof(struct VesaCRTCInfoBlock), _go32_info_block.linear_address_of_transfer_buffer);
++        regs.x.es = _go32_info_block.linear_address_of_transfer_buffer >> 4;
++        regs.x.di = 0;
++    }
++    
++    __dpmi_simulate_real_mode_interrupt(0x10, &regs);
++    if (regs.x.ax != 0x004F) {
++        return VBE_VESA_ERROR_MASK | regs.x.ax;
++    }
++    return VBE_OK;
++}
++
++static inline int vbeGetMode(int *mode) {
++    __dpmi_regs regs;
++    memset(&regs, 0, sizeof(regs));
++    regs.x.ax = 0x4F03;
++    __dpmi_simulate_real_mode_interrupt(0x10, &regs);
++    if (regs.x.ax != 0x004F) {
++        return VBE_VESA_ERROR_MASK | regs.x.ax;
++    }
++    if (mode) *mode = regs.x.bx;
++    return VBE_OK;
++}
++
++static inline int vbeSetWindow(int window, int page) {
++    __dpmi_regs regs;
++    memset(&regs, 0, sizeof(regs));
++    regs.x.ax = 0x4F05;
++    regs.h.bh = 0;
++    regs.h.bl = window;
++    regs.x.dx = page;
++    __dpmi_simulate_real_mode_interrupt(0x10, &regs);
++    if (regs.x.ax != 0x004F) {
++        return VBE_VESA_ERROR_MASK | regs.x.ax;
++    }
++    return VBE_OK;
++}
++
++static inline int vbeSetDisplayStart(int offset, int vsync) {
++    // Under DJGPP, these are defined in vo_vesa.c
++    extern struct VesaModeInfoBlock video_mode_info;
++    extern uint32_t dstBpp;
++    int pixel_size = (dstBpp + 7) / 8;
++    int bpl = video_mode_info.BytesPerScanLine;
++    int line = bpl ? (offset / bpl) : 0;
++    int pixel = (bpl && pixel_size) ? ((offset % bpl) / pixel_size) : 0;
++    
++    __dpmi_regs regs;
++    memset(&regs, 0, sizeof(regs));
++    regs.x.ax = 0x4F07;
++    regs.h.bh = vsync ? 0x80 : 0x00;
++    regs.h.bl = 0;
++    regs.x.cx = pixel;
++    regs.x.dx = line;
++    __dpmi_simulate_real_mode_interrupt(0x10, &regs);
++    if (regs.x.ax != 0x004F) {
++        return VBE_VESA_ERROR_MASK | regs.x.ax;
++    }
++    return VBE_OK;
++}
++
++static inline void vbeEnableWriteCombining(unsigned long phys_addr, unsigned long size) {
++    unsigned short cs_reg = 0;
++    __asm__ volatile ("mov %%cs, %0" : "=r"(cs_reg));
++    /* MTRR MSRs (rdmsr/wrmsr) require CPL 0 (e.g. CWSDPR0 / Ring-0 DPMI). */
++    if ((cs_reg & 3) != 0 || phys_addr < 0x100000UL || size == 0)
++        return;
++
++    uint32_t eax, ebx, ecx, edx;
++    __asm__ volatile (
++        "cpuid"
++        : "=a"(eax), "=b"(ebx), "=c"(ecx), "=d"(edx)
++        : "0"(1)
++    );
++    if (!(edx & (1U << 12))) /* MTRR bit */
++        return;
++
++    /* Read IA32_MTRRCAP (MSR 0xFE): bit 10 = WC support, bits 7..0 = vcnt */
++    __asm__ volatile ("rdmsr" : "=a"(eax), "=d"(edx) : "c"(0xFE));
++    if (!(eax & (1U << 10)))
++        return;
++    int vcnt = eax & 0xFF;
++
++    /* Round size up to power of two (minimum 4 MB for typical VESA LFB) */
++    unsigned long wc_size = 0x400000UL;
++    while (wc_size < size && wc_size < 0x10000000UL)
++        wc_size <<= 1;
++    unsigned long base = phys_addr & ~(wc_size - 1);
++
++    int free_reg = -1;
++    for (int i = 0; i < vcnt; i++) {
++        uint32_t lo, hi, mlo, mhi;
++        __asm__ volatile ("rdmsr" : "=a"(lo), "=d"(hi) : "c"(0x200 + 2 * i));
++        __asm__ volatile ("rdmsr" : "=a"(mlo), "=d"(mhi) : "c"(0x201 + 2 * i));
++        if (mlo & 0x800) {
++            if ((lo & 0xFFFFF000U) == (base & 0xFFFFF000U))
++                return; /* already configured */
++        } else if (free_reg < 0) {
++            free_reg = i;
++        }
++    }
++    if (free_reg >= 0) {
++        uint32_t base_lo = (base & 0xFFFFF000U) | 0x01U; /* 0x01 = Write-Combining */
++        uint32_t mask_lo = (~(wc_size - 1) & 0xFFFFF000U) | 0x800U;
++        uint32_t mask_hi = 0x0FU; /* 36-bit physical address mask */
++        __asm__ volatile ("wrmsr" : : "a"(base_lo), "d"(0), "c"(0x200 + 2 * free_reg));
++        __asm__ volatile ("wrmsr" : : "a"(mask_lo), "d"(mask_hi), "c"(0x201 + 2 * free_reg));
++    }
++}
++
++static inline void *vbeMapVideoBuffer(unsigned long phys_addr, unsigned long size) {
++    __dpmi_meminfo mem;
++    mem.address = phys_addr;
++    mem.size = size;
++    if (__dpmi_physical_address_mapping(&mem) == -1) {
++        return NULL;
++    }
++    vbeEnableWriteCombining(phys_addr, size);
++    return (void *)(mem.address + __djgpp_conventional_base);
++}
++
++static inline void vbeUnmapVideoBuffer(unsigned long ptr, unsigned long size) {
++    __dpmi_meminfo mem;
++    mem.address = ptr - __djgpp_conventional_base;
++    mem.size = size;
++    __dpmi_free_physical_address_mapping(&mem);
++}
++
++static inline int get_state_size(void) {
++    __dpmi_regs regs;
++    memset(&regs, 0, sizeof(regs));
++    regs.x.ax = 0x4F04;
++    regs.h.dl = 0;
++    regs.x.cx = 0xF;
++    __dpmi_simulate_real_mode_interrupt(0x10, &regs);
++    if (regs.x.ax != 0x004F) return 0;
++    return regs.x.bx * 64;
++}
++
++static inline int vbeSaveState(void **state) {
++    int size = get_state_size();
++    if (size == 0) return 1;
++    uint8_t *buf = malloc(size + 4);
++    if (!buf) return VBE_OUT_OF_MEM;
++    *(uint32_t *)buf = size;
++    
++    if (size > _go32_info_block.size_of_transfer_buffer) {
++        free(buf);
++        return VBE_OUT_OF_DOS_MEM;
++    }
++    
++    __dpmi_regs regs;
++    memset(&regs, 0, sizeof(regs));
++    regs.x.ax = 0x4F04;
++    regs.h.dl = 1;
++    regs.x.cx = 0xF;
++    regs.x.es = _go32_info_block.linear_address_of_transfer_buffer >> 4;
++    regs.x.bx = 0;
++    __dpmi_simulate_real_mode_interrupt(0x10, &regs);
++    if (regs.x.ax != 0x004F) {
++        free(buf);
++        return VBE_VESA_ERROR_MASK | regs.x.ax;
++    }
++    
++    dosmemget(_go32_info_block.linear_address_of_transfer_buffer, size, buf + 4);
++    *state = buf;
++    return VBE_OK;
++}
++
++static inline int vbeRestoreState(void *state) {
++    if (!state) return VBE_OK;
++    uint8_t *buf = (uint8_t *)state;
++    uint32_t size = *(uint32_t *)buf;
++    
++    if (size > _go32_info_block.size_of_transfer_buffer) {
++        return VBE_OUT_OF_DOS_MEM;
++    }
++    
++    dosmemput(buf + 4, size, _go32_info_block.linear_address_of_transfer_buffer);
++    
++    __dpmi_regs regs;
++    memset(&regs, 0, sizeof(regs));
++    regs.x.ax = 0x4F04;
++    regs.h.dl = 2;
++    regs.x.cx = 0xF;
++    regs.x.es = _go32_info_block.linear_address_of_transfer_buffer >> 4;
++    regs.x.bx = 0;
++    __dpmi_simulate_real_mode_interrupt(0x10, &regs);
++    
++    if (regs.x.ax != 0x004F) {
++        return VBE_VESA_ERROR_MASK | regs.x.ax;
++    }
++    return VBE_OK;
++}
++
++static inline int vbeGetPixelClock(unsigned *mode, unsigned *pixclk) {
++    return VBE_OK;
++}
++
++static inline int vbeSetTV(int mode, int tvnorm) {
++    return VBE_OK;
++}
++
++static inline void vbeWriteString(int x, int y, int attr, const char *str) {
++}
++
++static inline void *PhysToVirtSO(uint16_t seg, uint16_t off) {
++    return (void *)(__djgpp_conventional_base + (seg << 4) + off);
++}
++
++static inline void vbeDestroy(void) {
++}
++
++#endif // __DJGPP__
++
++#endif // VBE_H
+diff --git a/libvo/vesa_lvo.c b/libvo/vesa_lvo.c
+index a7b1120..d068513 100644
+--- a/libvo/vesa_lvo.c
++++ b/libvo/vesa_lvo.c
+@@ -66,6 +66,7 @@ int vlvo_preinit(const char *drvname)
+ {
+   mp_msg(MSGT_VO,MSGL_WARN, MSGTR_LIBVO_VESA_ThisBranchIsNoLongerSupported);
+   return -1;
++#if 0
+   if( mp_msg_test(MSGT_VO,MSGL_DBG2) ) {
+     mp_msg(MSGT_VO,MSGL_DBG2, "vesa_lvo: vlvo_preinit(%s) was called\n",drvname);}
+ 	lvo_handler = open(drvname,O_RDWR);
+@@ -81,6 +82,7 @@ int vlvo_preinit(const char *drvname)
+ 	video_out_vesa.draw_osd=vlvo_draw_osd;
+   video_out_vesa.control=vlvo_control;
+ 	return 0;
++#endif
+ }
+ 
+ int      vlvo_init(unsigned src_width,unsigned src_height,
+@@ -90,6 +92,7 @@ int      vlvo_init(unsigned src_width,unsigned src_height,
+   size_t i,awidth;
+   mp_msg(MSGT_VO,MSGL_WARN, MSGTR_LIBVO_VESA_ThisBranchIsNoLongerSupported);
+   return -1;
++#if 0
+   if( mp_msg_test(MSGT_VO,MSGL_DBG2) ) {
+     mp_msg(MSGT_VO,MSGL_DBG2, "vesa_lvo: vlvo_init() was called\n");}
+ 	image_width = src_width;
+@@ -155,15 +158,20 @@ int      vlvo_init(unsigned src_width,unsigned src_height,
+ 	/*clear the buffer*/
+ 	memset(frames[0],0x80,mga_vid_config.frame_size*mga_vid_config.num_frames);
+ 	return 0;
++#endif
+ }
+ 
+ void vlvo_term( void )
+ {
++  mp_msg(MSGT_VO,MSGL_WARN, MSGTR_LIBVO_VESA_ThisBranchIsNoLongerSupported);
++  return;
++#if 0
+   if( mp_msg_test(MSGT_VO,MSGL_DBG2) ) {
+     mp_msg(MSGT_VO,MSGL_DBG2, "vesa_lvo: vlvo_term() was called\n");}
+ 	ioctl( lvo_handler,MGA_VID_OFF,0 );
+ 	munmap(frames[0],mga_vid_config.frame_size*mga_vid_config.num_frames);
+ 	if(lvo_handler != -1) close(lvo_handler);
++#endif
+ }
+ 
+ uint32_t vlvo_draw_slice_420(uint8_t *image[], int stride[], int w,int h,int x,int y)
+diff --git a/libvo/video_out.c b/libvo/video_out.c
+index 0318867..30814b7 100644
+--- a/libvo/video_out.c
++++ b/libvo/video_out.c
+@@ -217,6 +217,9 @@ const vo_functions_t* const video_out_drivers[] =
+ #ifdef CONFIG_SVGALIB
+         &video_out_svga,
+ #endif
++#ifdef CONFIG_VESA
++        &video_out_vesa,
++#endif
+ #ifdef CONFIG_MATRIXVIEW
+         &video_out_matrixview,
+ #endif
+@@ -245,9 +248,6 @@ const vo_functions_t* const video_out_drivers[] =
+ #ifdef CONFIG_BL
+         &video_out_bl,
+ #endif
+-#ifdef CONFIG_VESA
+-        &video_out_vesa,
+-#endif
+ #ifdef CONFIG_DIRECTFB
+         &video_out_directfb,
+ #endif
+@@ -354,11 +354,15 @@ int config_video_out(const vo_functions_t *vo, uint32_t width, uint32_t height,
+   aspect_save_prescale(d_width,d_height);
+ 
+   if (vo->control(VOCTRL_UPDATE_SCREENINFO, NULL) == VO_TRUE) {
+-    aspect(&d_width,&d_height,A_NOZOOM);
+-    vo_dx = (int)(vo_screenwidth - d_width) / 2;
+-    vo_dy = (int)(vo_screenheight - d_height) / 2;
+-    geometry(&vo_dx, &vo_dy, &d_width, &d_height,
++    int tmp_d_width  = d_width;
++    int tmp_d_height = d_height;
++    aspect(&tmp_d_width,&tmp_d_height,A_NOZOOM);
++    vo_dx = (int)(vo_screenwidth - tmp_d_width) / 2;
++    vo_dy = (int)(vo_screenheight - tmp_d_height) / 2;
++    geometry(&vo_dx, &vo_dy, &tmp_d_width, &tmp_d_height,
+              vo_screenwidth, vo_screenheight);
++    d_width  = tmp_d_width;
++    d_height = tmp_d_height;
+     geometry_xy_changed |= xinerama_screen >= 0;
+     vo_dx += xinerama_x;
+     vo_dy += xinerama_y;
+diff --git a/libvo/vo_vesa.c b/libvo/vo_vesa.c
+index b737615..c79cbf0 100644
+--- a/libvo/vo_vesa.c
++++ b/libvo/vo_vesa.c
+@@ -43,7 +43,17 @@
+ #include <sys/stat.h>
+ #include <fcntl.h>
+ 
++#ifdef __DJGPP__
++#include "vbe.h"
++#include <crt0.h>
++#include <sys/nearptr.h>
++/* Under DOS always render into a system memory shadow buffer and copy it to
++   the linear frame buffer on flip_page() (more robust on real BIOSes). */
++#define VESA_SHADOW_BUFFER 1
++#else
+ #include <vbe.h>
++#define VESA_SHADOW_BUFFER 0
++#endif
+ 
+ #include "video_out.h"
+ #include "video_out_internal.h"
+@@ -99,7 +109,13 @@ struct win_frame
+ static void (*cpy_blk_fnc)(unsigned long,uint8_t *,unsigned long) = NULL;
+ 
+ static uint32_t srcW=0,srcH=0,srcBpp,srcFourcc; /* source image description */
++#ifdef __DJGPP__
++/* referenced by vbeSetDisplayStart() in libvo/vbe.h */
++uint32_t dstBpp;
++static uint32_t dstW, dstH,dstFourcc; /* destinition image description */
++#else
+ static uint32_t dstBpp,dstW, dstH,dstFourcc; /* destinition image description */
++#endif
+ 
+ static struct SwsContext * sws = NULL;
+ 
+@@ -108,8 +124,13 @@ static unsigned init_mode=0; /* mode before run of mplayer */
+ static void *init_state = NULL; /* state before run of mplayer */
+ static struct win_frame win; /* real-mode window to video memory */
+ static uint8_t *dga_buffer = NULL; /* for yuv2rgb and sw_scaling */
++static void *dga_buffer_raw = NULL; /* unaligned allocation of dga_buffer */
+ static unsigned video_mode; /* selected video mode for playback */
++#ifdef __DJGPP__
++struct VesaModeInfoBlock video_mode_info;
++#else
+ static struct VesaModeInfoBlock video_mode_info;
++#endif
+ static int flip_trigger = 0;
+ static void (*draw_alpha_fnc)(int x0,int y0, int w,int h, unsigned char* src, unsigned char *srca, int stride);
+ 
+@@ -133,6 +154,8 @@ static int neomagic_tvout = 0;
+ static int neomagic_tvnorm = NEO_PAL;
+ 
+ #define HAS_DGA()  (win.idx == -1)
++/* true if we draw directly into the linear frame buffer */
++#define USE_DGA_DIRECT() (HAS_DGA() && !VESA_SHADOW_BUFFER)
+ #define MOVIE_MODE (MODE_ATTR_COLOR | MODE_ATTR_GRAPHICS)
+ #define FRAME_MODE (MODE_WIN_RELOCATABLE | MODE_WIN_WRITEABLE)
+ 
+@@ -167,12 +190,19 @@ static void vesa_term( void )
+ #ifdef CONFIG_VIDIX
+   else if(vidix_opened) { vidix_term();  vidix_opened = 0; }
+ #endif
++#ifdef __DJGPP__
++  /* VESA state restore is notoriously broken on many real BIOSes and causes
++     hangs. Restoring the video mode is enough to get back to text mode. */
++  init_state=NULL;
++#else
+   if(init_state) if((err=vbeRestoreState(init_state)) != VBE_OK) PRINT_VBE_ERR("vbeRestoreState",err);
+   init_state=NULL;
++#endif
+   if(init_mode) if((err=vbeSetMode(init_mode,NULL)) != VBE_OK) PRINT_VBE_ERR("vbeSetMode",err);
+   init_mode=0;
+   if(HAS_DGA()) vbeUnmapVideoBuffer((unsigned long)win.ptr,win.high);
+-  if(dga_buffer && !HAS_DGA()) free(dga_buffer);
++  if(dga_buffer_raw) { free(dga_buffer_raw); dga_buffer_raw = NULL; dga_buffer = NULL; }
++  else if(dga_buffer && !HAS_DGA()) free(dga_buffer);
+   vbeDestroy();
+   if(sws) sws_freeContext(sws);
+   sws=NULL;
+@@ -282,7 +312,7 @@ static void vbeCopyData(uint8_t *image)
+ /* is called for yuv only */
+ static int draw_slice(uint8_t *image[], int stride[], int w,int h,int x,int y)
+ {
+-    int dstride=HAS_DGA()?video_mode_info.XResolution:dstW;
++    int dstride=USE_DGA_DIRECT()?video_mode_info.XResolution:dstW;
+     uint8_t *dst[MP_MAX_PLANES]={dga_buffer};
+     int dstStride[MP_MAX_PLANES]={0};
+     if( mp_msg_test(MSGT_VO,MSGL_DBG3) )
+@@ -290,7 +320,7 @@ static int draw_slice(uint8_t *image[], int stride[], int w,int h,int x,int y)
+     dstStride[0]=dstride*((dstBpp+7)/8);
+     dstStride[1]=
+     dstStride[2]=dstStride[0]>>1;
+-    if(HAS_DGA()) dst[0] += y_offset*SCREEN_LINE_SIZE(PIXEL_SIZE())+x_offset*PIXEL_SIZE();
++    if(USE_DGA_DIRECT()) dst[0] += y_offset*SCREEN_LINE_SIZE(PIXEL_SIZE())+x_offset*PIXEL_SIZE();
+     sws_scale(sws,image,stride,y,h,dst,dstStride);
+     flip_trigger = 1;
+     return 0;
+@@ -301,9 +331,9 @@ static int draw_slice(uint8_t *image[], int stride[], int w,int h,int x,int y)
+ 
+ static void draw_alpha_32(int x0,int y0, int w,int h, unsigned char* src, unsigned char *srca, int stride)
+ {
+-   int dstride=HAS_DGA()?video_mode_info.XResolution:dstW;
++   int dstride=USE_DGA_DIRECT()?video_mode_info.XResolution:dstW;
+ #ifndef OSD_OUTSIDE_MOVIE
+-   if(HAS_DGA())
++   if(USE_DGA_DIRECT())
+    {
+ 	x0 += x_offset;
+ 	y0 += y_offset;
+@@ -314,9 +344,9 @@ static void draw_alpha_32(int x0,int y0, int w,int h, unsigned char* src, unsign
+ 
+ static void draw_alpha_24(int x0,int y0, int w,int h, unsigned char* src, unsigned char *srca, int stride)
+ {
+-   int dstride=HAS_DGA()?video_mode_info.XResolution:dstW;
++   int dstride=USE_DGA_DIRECT()?video_mode_info.XResolution:dstW;
+ #ifndef OSD_OUTSIDE_MOVIE
+-   if(HAS_DGA())
++   if(USE_DGA_DIRECT())
+    {
+ 	x0 += x_offset;
+ 	y0 += y_offset;
+@@ -327,9 +357,9 @@ static void draw_alpha_24(int x0,int y0, int w,int h, unsigned char* src, unsign
+ 
+ static void draw_alpha_16(int x0,int y0, int w,int h, unsigned char* src, unsigned char *srca, int stride)
+ {
+-   int dstride=HAS_DGA()?video_mode_info.XResolution:dstW;
++   int dstride=USE_DGA_DIRECT()?video_mode_info.XResolution:dstW;
+ #ifndef OSD_OUTSIDE_MOVIE
+-   if(HAS_DGA())
++   if(USE_DGA_DIRECT())
+    {
+ 	x0 += x_offset;
+ 	y0 += y_offset;
+@@ -340,9 +370,9 @@ static void draw_alpha_16(int x0,int y0, int w,int h, unsigned char* src, unsign
+ 
+ static void draw_alpha_15(int x0,int y0, int w,int h, unsigned char* src, unsigned char *srca, int stride)
+ {
+-   int dstride=HAS_DGA()?video_mode_info.XResolution:dstW;
++   int dstride=USE_DGA_DIRECT()?video_mode_info.XResolution:dstW;
+ #ifndef OSD_OUTSIDE_MOVIE
+-   if(HAS_DGA())
++   if(USE_DGA_DIRECT())
+    {
+ 	x0 += x_offset;
+ 	y0 += y_offset;
+@@ -370,8 +400,8 @@ static void draw_osd(void)
+ 	mp_msg(MSGT_VO,MSGL_DBG3, "vo_vesa: draw_osd was called\n");
+  {
+ #ifdef OSD_OUTSIDE_MOVIE
+-   w = HAS_DGA()?video_mode_info.XResolution:dstW;
+-   h = HAS_DGA()?video_mode_info.YResolution:dstH;
++   w = USE_DGA_DIRECT()?video_mode_info.XResolution:dstW;
++   h = USE_DGA_DIRECT()?video_mode_info.YResolution:dstH;
+ #else
+    w = dstW;
+    h = dstH;
+@@ -386,7 +416,7 @@ static void flip_page(void)
+ 	mp_msg(MSGT_VO,MSGL_DBG3, "vo_vesa: flip_page was called\n");
+   if(flip_trigger)
+   {
+-    if(!HAS_DGA()) vbeCopyData(dga_buffer);
++    if(!USE_DGA_DIRECT()) vbeCopyData(dga_buffer);
+     flip_trigger = 0;
+   }
+   if(vo_doublebuffering && multi_size > 1)
+@@ -400,7 +430,8 @@ static void flip_page(void)
+       abort();
+     }
+     multi_idx = multi_idx ? 0 : 1;
+-    win.ptr = dga_buffer = video_base + multi_buff[multi_idx];
++    win.ptr = video_base + multi_buff[multi_idx];
++    if(USE_DGA_DIRECT()) dga_buffer = win.ptr;
+   }
+ /*
+   else
+@@ -421,7 +452,7 @@ static int draw_frame(uint8_t *src[])
+         mp_msg(MSGT_VO,MSGL_DBG3, "vo_vesa: draw_frame was called\n");
+     if(sws)
+     {
+-	int dstride=HAS_DGA()?video_mode_info.XResolution:dstW;
++	int dstride=USE_DGA_DIRECT()?video_mode_info.XResolution:dstW;
+ 	int srcStride[1];
+ 	uint8_t *dst[MP_MAX_PLANES]={dga_buffer};
+ 	int dstStride[MP_MAX_PLANES]={0};
+@@ -435,7 +466,7 @@ static int draw_frame(uint8_t *src[])
+ 	    srcStride[0] = srcW*3;
+ 	else
+ 	    srcStride[0] = srcW*2;
+-	if(HAS_DGA()) dst[0] += y_offset*SCREEN_LINE_SIZE(PIXEL_SIZE())+x_offset*PIXEL_SIZE();
++	if(USE_DGA_DIRECT()) dst[0] += y_offset*SCREEN_LINE_SIZE(PIXEL_SIZE())+x_offset*PIXEL_SIZE();
+ 	sws_scale(sws,src,srcStride,0,srcH,dst,dstStride);
+ 	flip_trigger=1;
+     }
+@@ -513,6 +544,15 @@ static void clear_screen( void )
+     int y_res = video_mode_info.YResolution;
+     int x, y;
+ 
++#if VESA_SHADOW_BUFFER
++    if(HAS_DGA()) {
++        unsigned i;
++        for(i = 0; i < multi_size; i++)
++            memset(video_base + multi_buff[i], 0, x_res * y_res * ((dstBpp+7)/8));
++        return;
++    }
++#endif
++
+     for (y = 0; y < y_res; ++y)
+ 	for (x = 0; x < x_res; ++x)
+ 	    vbeSetPixel(x, y, 0, 0, 0);
+@@ -811,7 +851,7 @@ config(uint32_t width, uint32_t height, uint32_t d_width, uint32_t d_height, uin
+ 		        aspect_save_orig(width,height);
+ 			aspect_save_prescale(d_width,d_height);
+ 			aspect_save_screenres(video_mode_info.XResolution,video_mode_info.YResolution);
+-			aspect(&dstW,&dstH,A_ZOOM);
++			aspect((int *)&dstW,(int *)&dstH,A_ZOOM);
+ 		      }
+ 		      else
+ 		      if(fs_mode)
+@@ -905,31 +945,45 @@ config(uint32_t width, uint32_t height, uint32_t d_width, uint32_t d_height, uin
+ 			,x_offset,y_offset);
+ 		if(HAS_DGA())
+ 		{
++#if !VESA_SHADOW_BUFFER
+ 		  dga_buffer = win.ptr; /* Trickly ;) */
++#endif
+ 		  cpy_blk_fnc = vbeCopyBlockFast;
+ 		}
+ 		else
+-		{
+ 		  cpy_blk_fnc = vbeCopyBlock;
++		if(!USE_DGA_DIRECT())
++		{
+ 		  if(!lvo_name
+ #ifdef CONFIG_VIDIX
+ 		   && !vidix_name
+ #endif
+ 		  )
+ 		  {
++#if VESA_SHADOW_BUFFER
++		    dga_buffer_raw = malloc(dstW*dstH*((dstBpp+7)/8) + 64);
++		    if(!dga_buffer_raw)
++#else
+ 		    if(!(dga_buffer = memalign(64,video_mode_info.XResolution*video_mode_info.YResolution*dstBpp)))
++#endif
+ 		    {
+  		      mp_msg(MSGT_VO,MSGL_ERR, MSGTR_LIBVO_VESA_CantAllocateTemporaryBuffer);
+ 		      return -1;
+ 		    }
++#if VESA_SHADOW_BUFFER
++		    dga_buffer = (uint8_t *)(((unsigned long)dga_buffer_raw + 63) & ~63UL);
++#endif
+ 		    if( mp_msg_test(MSGT_VO,MSGL_V) ) {
+ 			mp_msg(MSGT_VO,MSGL_V, "vo_vesa: dga emulator was allocated = %p\n",dga_buffer); }
+ 		  }
+ 		}
++#ifndef __DJGPP__
++		/* not done under DOS: VBE state save/restore hangs on many real BIOSes */
+ 		if((err=vbeSaveState(&init_state)) != VBE_OK)
+ 		{
+ 			PRINT_VBE_ERR("vbeSaveState",err);
+ 		}
++#endif
+ 
+ 		/* TODO:
+ 		         user might pass refresh value,
+@@ -1034,7 +1088,8 @@ config(uint32_t width, uint32_t height, uint32_t d_width, uint32_t d_height, uin
+             }
+ 	    for(i=0;i<multi_size;i++)
+ 	    {
+-		win.ptr = dga_buffer = video_base + multi_buff[i];
++		win.ptr = video_base + multi_buff[i];
++		if(USE_DGA_DIRECT()) dga_buffer = win.ptr;
+                 clear_screen();	/* Clear screen for stupid BIOSes */
+ 		if( mp_msg_test(MSGT_VO,MSGL_DBG2) ) paintBkGnd();
+ 	    }
+@@ -1074,7 +1129,9 @@ static void check_events(void)
+ static int preinit(const char *arg)
+ {
+   int pre_init_err = 0;
++#ifndef __DJGPP__
+   int fd;
++#endif
+   if( mp_msg_test(MSGT_VO,MSGL_DBG2) )
+         mp_msg(MSGT_VO,MSGL_DBG2, "vo_vesa: preinit(%s) was called\n",arg);
+   if( mp_msg_test(MSGT_VO,MSGL_DBG3) )
+@@ -1089,6 +1146,11 @@ static int preinit(const char *arg)
+ #ifdef CONFIG_VIDIX
+   else if(vidix_name) pre_init_err = vidix_preinit(vidix_name,&video_out_vesa);
+ #endif
++#ifdef __DJGPP__
++  // direct video memory access needs near pointers (enabled in mplayer.c)
++  if (!(_crt0_startup_flags & _CRT0_FLAG_NEARPTR))
++    return -1;
++#else
+   // check if we can open /dev/mem (it will be opened later in config(), but if we
+   // detect now that we can't we can exit cleanly)
+   fd = open("/dev/mem", O_RDWR);
+@@ -1096,6 +1158,7 @@ static int preinit(const char *arg)
+   	return -1;
+   else
+   	close(fd);
++#endif
+   if( mp_msg_test(MSGT_VO,MSGL_DBG3) )
+         mp_msg(MSGT_VO,MSGL_DBG3, "vo_subdevice: initialization returns: %i\n",pre_init_err);
+   return pre_init_err;
+diff --git a/mencoder.c b/mencoder.c
+index 227e876..aea20ea 100644
+--- a/mencoder.c
++++ b/mencoder.c
+@@ -54,6 +54,10 @@
+ #if defined(__MINGW32__) || defined(__CYGWIN__)
+ #include <windows.h>
+ #endif
++#ifdef __DJGPP__
++/* 2MB stack size for decoder (e.g. FAAD2) stability under DOS */
++unsigned int _stklen = 2097152;
++#endif
+ 
+ #include "input/input.h"
+ #include "libaf/af_format.h"
+diff --git a/mplayer.c b/mplayer.c
+index 5d8d186..b67af3b 100644
+--- a/mplayer.c
++++ b/mplayer.c
+@@ -22,6 +22,14 @@
+ #include "config.h"
+ 
+ #include <errno.h>
++
++#ifdef __DJGPP__
++#include <sys/nearptr.h>
++#include <crt0.h>
++/* 2MB stack size for decoder (e.g. FAAD2) stability under DOS */
++unsigned int _stklen = 2097152;
++#include "osdep/djgpp_fpu.h"
++#endif
+ #include <fcntl.h>
+ #include <limits.h>
+ #include <signal.h>
+@@ -1252,6 +1260,9 @@ static void sadd_hhmmssf(char *buf, unsigned *pos, int len, float time) {
+  */
+ static void print_status(float a_pos, float a_v, float corr)
+ {
++#ifdef __DJGPP__
++  return;
++#endif
+   sh_video_t * const sh_video = mpctx->sh_video;
+   int width;
+   char *line;
+@@ -1331,9 +1342,14 @@ static void print_status(float a_pos, float a_v, float corr)
+     line[pos] = 0;
+     mp_msg(MSGT_STATUSLINE, MSGL_STATUS, "%s%s\r", line, erase_to_end_of_line);
+   } else {
++#ifdef __DJGPP__
++    line[pos] = 0;
++    mp_msg(MSGT_STATUSLINE, MSGL_STATUS, "%-*s\r", width-2, line);
++#else
+     memset(&line[pos], ' ', width - pos);
+     line[width] = 0;
+     mp_msg(MSGT_STATUSLINE, MSGL_STATUS, "%s\r", line);
++#endif
+   }
+   free(line);
+ }
+@@ -2089,6 +2105,10 @@ static void adjust_sync_and_print_status(int between_frames, float timing_error)
+ 		max_pts_correction = default_max_pts_correction;
+ 	    else
+ 		max_pts_correction = mpctx->sh_video->frametime*0.10; // +-10% of time
++#ifdef __DJGPP__
++	    if (AV_delay > 0.10 && x > max_pts_correction)
++		x = (AV_delay * 0.25f < mpctx->sh_video->frametime) ? AV_delay * 0.25f : mpctx->sh_video->frametime;
++#endif
+ 	    if (!between_frames) {
+ 		mpctx->delay+=x;
+ 		c_total+=x;
+@@ -2212,6 +2232,10 @@ static int sleep_until_update(float *time_frame, float *aq_sleep_time)
+ 	}
+ 
+ 	*time_frame = delay - mpctx->delay / playback_speed;
++#ifdef __DJGPP__
++	if (mpctx->sh_video && (playing_audio_pts(mpctx->sh_audio, mpctx->d_audio, mpctx->audio_out) - audio_delay - mpctx->sh_video->pts) > 0.05)
++	    *time_frame = 0;
++#endif
+ 
+ 	// delay = amount of audio buffered in soundcard/driver
+ 	if (delay > 0.25) delay=0.25; else
+@@ -2665,6 +2689,15 @@ int i;
+ 
+ int gui_no_filename=0;
+ 
++#ifdef __DJGPP__
++  /* direct access to video memory (vo_vesa) needs near pointers */
++  _crt0_startup_flags |= _CRT0_FLAG_NEARPTR;
++  if (!__djgpp_nearptr_enable())
++    return -1;
++  /* mask all FPU exceptions to prevent DPMI hardware exception crashes */
++  djgpp_fpu_reset();
++#endif
++
+   InitTimer();
+   srand(GetTimerMS());
+ 
+@@ -3013,7 +3046,7 @@ initialized_flags|=INITIALIZED_INPUT;
+ current_module = NULL;
+ 
+   /// Catch signals
+-#ifndef __MINGW32__
++#if !defined(__MINGW32__) && !defined(__DJGPP__)
+   signal(SIGCHLD,child_sighandler);
+ #endif
+ 
+@@ -3031,7 +3064,9 @@ current_module = NULL;
+   signal(SIGPIPE,exit_sighandler); // Some window managers cause this
+ #ifdef CONFIG_SIGHANDLER
+   // fatal errors:
++#ifdef SIGBUS
+   signal(SIGBUS,exit_sighandler);  // bus error
++#endif
+   signal(SIGSEGV,exit_sighandler); // segfault
+   signal(SIGILL,exit_sighandler);  // illegal instruction
+   signal(SIGFPE,exit_sighandler);  // floating point exc.
+diff --git a/osdep/djgpp_fpu.h b/osdep/djgpp_fpu.h
+new file mode 100644
+index 0000000..b490c9f
+--- /dev/null
++++ b/osdep/djgpp_fpu.h
+@@ -0,0 +1,54 @@
++/*
++ * FPU helper for the DJGPP (DOS) port.
++ *
++ * This file is part of MPlayer.
++ *
++ * MPlayer is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * MPlayer is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with MPlayer; if not, write to the Free Software Foundation, Inc.,
++ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++ */
++
++#ifndef MPLAYER_DJGPP_FPU_H
++#define MPLAYER_DJGPP_FPU_H
++
++#ifdef __DJGPP__
++/**
++ * Reinitialize the x87 FPU and mask all FPU exceptions (control word 0x037F).
++ * Under DPMI an unmasked FPU exception (e.g. left over by MMX code without
++ * emms or by a denormal/overflow in a codec) raises IRQ 13 / SIGFPE and
++ * kills the player, so this is called at critical points.
++ */
++static inline void djgpp_fpu_reset(void)
++{
++    unsigned short cw = 0x037F;
++    __asm__ __volatile__(
++        "fninit\n\t"
++        "fldcw %0\n\t"
++        :
++        : "m" (cw)
++    );
++}
++
++static inline void djgpp_fpu_clear(void)
++{
++    __asm__ __volatile__(
++        "emms\n\t"
++        "fnclex\n\t"
++    );
++}
++#else
++#define djgpp_fpu_reset() do {} while (0)
++#define djgpp_fpu_clear() do {} while (0)
++#endif
++
++#endif /* MPLAYER_DJGPP_FPU_H */
+diff --git a/osdep/getch2.c b/osdep/getch2.c
+index 1c76412..5f63cf3 100644
+--- a/osdep/getch2.c
++++ b/osdep/getch2.c
+@@ -24,7 +24,7 @@
+ #include "config.h"
+ 
+ //#define HAVE_TERMCAP
+-#if !defined(__OS2__) && !defined(__MORPHOS__)
++#if !defined(__OS2__) && !defined(__MORPHOS__) && !defined(__DJGPP__)
+ #define CONFIG_IOCTL
+ #endif
+ 
+@@ -55,6 +55,9 @@
+ #endif
+ 
+ #include <unistd.h>
++#ifdef __DJGPP__
++#include <conio.h>
++#endif
+ 
+ #include "mp_fifo.h"
+ #include "keycodes.h"
+@@ -272,6 +275,9 @@ void getch2(void)
+ static int getch2_status=0;
+ 
+ void getch2_enable(void){
++#ifdef __DJGPP__
++    _setcursortype(_NOCURSOR);
++#endif
+ #ifdef HAVE_TERMIOS
+ struct termios tio_new;
+     tcgetattr(0,&tio_orig);
+@@ -286,6 +292,9 @@ struct termios tio_new;
+ 
+ void getch2_disable(void){
+     if(!getch2_status) return; // already disabled / never enabled
++#ifdef __DJGPP__
++    _setcursortype(_NORMALCURSOR);
++#endif
+ #ifdef HAVE_TERMIOS
+     tcsetattr(0,TCSANOW,&tio_orig);
+ #endif
+diff --git a/osdep/shmem.c b/osdep/shmem.c
+index e942f46..8d91155 100644
+--- a/osdep/shmem.c
++++ b/osdep/shmem.c
+@@ -62,6 +62,14 @@ void* p;
+ static int devzero = -1;
+ while(1){
+   switch(shmem_type){
++#ifdef __DJGPP__
++  case 0:
++  case 1:  // ========= no mmap() under DOS, use malloc() ==========
++    p=malloc(size);
++    if(p==NULL) break;
++    mp_dbg(MSGT_OSDEP, MSGL_DBG2, "shmem: %d bytes allocated using malloc (%p)\n",size,p);
++    return p;
++#else
+   case 0:  // ========= MAP_ANON|MAP_SHARED ==========
+ #ifdef MAP_ANON
+     p=mmap(0,size,PROT_READ|PROT_WRITE,MAP_ANON|MAP_SHARED,-1,0);
+@@ -79,6 +87,7 @@ while(1){
+     if(p==MAP_FAILED) break; // failed
+     mp_dbg(MSGT_OSDEP, MSGL_DBG2, "shmem: %d bytes allocated using mmap /dev/zero (%p)\n",size,p);
+     return p;
++#endif
+   case 2: { // ========= shmget() ==========
+ #ifdef HAVE_SHM
+     struct shmid_ds shmemds;
+@@ -114,10 +123,14 @@ void shmem_free(void* p,int size){
+   switch(shmem_type){
+     case 0:
+     case 1:
++#ifdef __DJGPP__
++	    free(p);
++#else
+ 	    if(munmap(p,size)) {
+ 		mp_msg(MSGT_OSDEP, MSGL_ERR, "munmap failed on %p %d bytes: %s\n",
+ 		    p,size,strerror(errno));
+ 	    }
++#endif
+       break;
+     case 2:
+ #ifdef HAVE_SHM
+diff --git a/stream/network.h b/stream/network.h
+index 1a49549..84230b8 100644
+--- a/stream/network.h
++++ b/stream/network.h
+@@ -28,7 +28,7 @@
+ #include <sys/types.h>
+ 
+ #include "config.h"
+-#if !HAVE_WINSOCK2_H
++#if !HAVE_WINSOCK2_H && defined(CONFIG_NETWORK)
+ #include <netdb.h>
+ #include <netinet/in.h>
+ #include <sys/socket.h>

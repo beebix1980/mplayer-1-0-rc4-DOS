@@ -1,3 +1,15 @@
+History: about a year ago, I decided to give a DOS port of MPlayer 1.5 a shot and wasted a good amount of effort in trying to get this going. In short, the sources left DOS support far behind, too far. For example, the video output layer had lost its old DPMI VESA plumbing, modern FFmpeg expects POSIX threading everywhere, and fighting the build system plus constant DPMI protection faults for every single subsystem quickly turned into a rabbit hole. Currently it supports audio only and I am fine with that.
+Stepping back to the 1.0rc codebase made it possible to bring back proper hardware video and Sound Blaster 16 support. rc2 was then created in a ..slightly hackish way of life as a PoC and to finally have something usable.
+ Meanwhile another half of a year has passed while getting stuff into Shape and porting the changes to rc4, the last real DOS friendly revision. Along the way, quite a few performance bottlenecks under DOS were tracked down. The VESA linear framebuffer driver now sets up Write Combining via CPU MTRR registers when running in Ring 0 and pushes frames through 128 bit SSE streaming stores (movntps) after probing XMM support via a SIGILL trap. On the decoder side, x86 CABAC assembly and YASM SIMD routines (MMXEXT, SSE, SSSE3) are fully active with properly aligned COFF sections, H.264 skips deblocking on non reference frames by default, and scaling defaults to the fast bilinear MMX2 path. Furthermore, killing the per frame DOS/BIOS status line teletype interrupts, switching 48 kHz to 44.1 kHz audio resampling from a heavy floating point filterbank to fast linear interpolation, and replacing slow fninit calls with lightweight emms/fnclex state clears freed up a massive amount of CPU time for smooth playback alongside the lockless 16 bit auto init DMA Sound Blaster 16 driver. 
+The code now serves on a 2010 Lenovo which acts as some sort of dos retro media center, brinig back my goodol uni hackathon days.
+I hope it might be useful for others; go on hack the world, make it better.
+
+Oct 2026, Noel 
+
+PS: currently the code requires MMX and SSE up to v3; if you build for older platforms, use --disable-sse --disable-sse2 --disable-ssse3 (and add --disable-mmxext for pre Pentium III / Athlon CPUs, or --disable-mmx and -march=i586 in CFLAGS for classic non MMX Pentiums) when running configure or pass those flags directly to ./build_djgpp.sh
+
+---------
+
 Welcome to MPlayer, The Movie Player. MPlayer can play most standard video
 formats out of the box and almost all others with the help of external codecs.
 MPlayer currently works best from the command line, but visual feedback for

@@ -1,0 +1,3515 @@
+configuration: --enable-cross-compile --target=i586-pc-msdosdjgpp --cc=i586-pc-msdosdjgpp-gcc --as=i586-pc-msdosdjgpp-as --ar=i586-pc-msdosdjgpp-ar --ranlib=i586-pc-msdosdjgpp-ranlib --host-cc=gcc --enable-vesa --enable-mmx --enable-mmxext --enable-sse --disable-sse2 --enable-ssse3 --disable-win32dll --disable-qtx --disable-real --disable-xanim --disable-vidix --disable-pthreads
+
+============ Checking for i586-pc-msdosdjgpp-gcc version ============
+Result is: 15 
+##########################################
+
+============ Checking for host cc ============
+Result is: gcc 
+##########################################
+
+============ Checking for cross compilation ============
+Result is: yes 
+##########################################
+
+============ Checking for CPU vendor ============
+Result is: GenuineIntel (6:142:12) 
+##########################################
+
+============ Checking for CPU type ============
+Result is:  Intel(R) Core(TM) i5-8365U CPU @ 1.60GHz 
+##########################################
+
+============ Checking for kernel support of cmov ============
+
+#include <stdlib.h>
+#include <signal.h>
+void catch(void) { exit(1); }
+int main(void) {
+  signal(SIGILL, catch);
+  __asm__ volatile ("cmovb %%eax,%%ebx":::"memory"); return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for mtrr support ============
+Result is: yes 
+##########################################
+
+============ Checking for GCC & CPU optimization abilities ============
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -march=native
+
+
+Result is: i586 
+##########################################
+
+============ Checking for byte order ============
+
+short ascii_name[] = { (('M'<<8)|'P'),(('l'<<8)|'a'),(('y'<<8)|'e'),(('r'<<8)|'B'),
+                       (('i'<<8)|'g'),(('E'<<8)|'n'),(('d'<<8)|'i'),(('a'<<8)|'n'),0};
+int main(void) { return (int)ascii_name; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: little-endian 
+##########################################
+
+============ Checking for extern symbol prefix ============
+
+int ff_extern;
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -c
+
+
+Result is: _ 
+##########################################
+
+============ Checking for assembler support of -pipe option ============
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -pipe -I.
+
+
+Result is: yes 
+##########################################
+
+============ Checking for compiler support of named assembler arguments ============
+Result is: yes 
+##########################################
+
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -std=gnu99
+
+
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -Wdeclaration-after-statement
+
+
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -Wno-pointer-sign
+
+
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -Wdisabled-optimization
+
+
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -Wundef
+
+
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -Wmissing-prototypes
+
+
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -Wstrict-prototypes
+
+
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -mno-omit-leaf-frame-pointer
+
+
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -MD -MP
+
+
+============ Checking for assembler (i586-pc-msdosdjgpp-as ) ============
+Result is: ok 
+##########################################
+
+============ Checking for .align is a power of two ============
+
+int main(void) { __asm__ (".align 3"); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for 10 assembler operands ============
+
+int main(void) {
+    int x=0;
+    __asm__ volatile(
+        ""
+        :"+&rm"(x), "+&rm"(x), "+&rm"(x), "+&rm"(x), "+&rm"(x), "+&rm"(x)
+    );
+    return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for ebx availability ============
+
+int main(void) {
+    int x;
+    __asm__ volatile(
+        "xor %0, %0"
+        :"=b"(x)
+        // just adding ebx to clobber list seems unreliable with some
+        // compilers, e.g. Haiku's gcc 2.95
+    );
+    // and the above check does not work for OSX 64 bit...
+    __asm__ volatile("":::"%ebx");
+    return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for PIC ============
+
+int main(void) {
+#if !(defined(__PIC__) || defined(__pic__) || defined(PIC))
+#error PIC not enabled
+#endif
+    return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c: In function 'main':
+/tmp/mplayer-configure--77828/tmp.c:3:2: error: #error PIC not enabled
+    3 | #error PIC not enabled
+      |  ^~~~~
+
+
+Result is: no 
+##########################################
+
+============ Checking for yasm ============
+
+pabsw xmm0, xmm0
+
+yasm -f coff -DPREFIX -o /tmp/mplayer-configure--77828/tmp.exe /tmp/mplayer-configure--77828/tmp.S 
+
+
+Result is: yasm 
+##########################################
+
+============ Checking for bswap ============
+Result is: yes 
+##########################################
+
+============ Checking for -lposix ============
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lposix
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: cannot find -lposix: No such file or directory
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: have you installed the static version of the posix library ?
+collect2: error: ld returned 1 exit status
+
+
+Result is: no 
+##########################################
+
+============ Checking for -lm ============
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for langinfo ============
+
+#include <langinfo.h>
+int main(void) { nl_langinfo(CODESET); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: langinfo.h: No such file or directory
+    1 | #include <langinfo.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for language ============
+Result is: messages: en - man pages: en - documentation: en 
+##########################################
+
+============ Checking for enable sighandler ============
+Result is: yes 
+##########################################
+
+============ Checking for runtime cpudetection ============
+Result is: no 
+##########################################
+
+============ Checking for restrict keyword ============
+
+void foo(char * restrict p); int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: restrict 
+##########################################
+
+============ Checking for __builtin_expect ============
+
+int foo(int a) {
+    a = __builtin_expect(a, 10);
+    return a == 10 ? 0 : 1;
+}
+int main(void) { return foo(10) && foo(0); }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:5: warning: no previous prototype for 'foo' [-Wmissing-prototypes]
+    1 | int foo(int a) {
+      |     ^~~
+
+
+Result is: yes 
+##########################################
+
+============ Checking for kstat ============
+
+#include <kstat.h>
+int main(void) { (void) kstat_open(); (void) kstat_close(0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lkstat
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: kstat.h: No such file or directory
+    1 | #include <kstat.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for posix4 ============
+
+#include <time.h>
+int main(void) { (void) nanosleep(0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lposix4
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: cannot find -lposix4: No such file or directory
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: have you installed the static version of the posix4 library ?
+collect2: error: ld returned 1 exit status
+
+
+Result is: no 
+##########################################
+
+============ Checking for exp2 ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = exp2; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for exp2f ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = exp2f; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+/tmp/mplayer-configure--77828/tmp.c: In function 'main':
+/tmp/mplayer-configure--77828/tmp.c:2:44: error: 'exp2f' undeclared (first use in this function); did you mean 'exp2'?
+    2 | int main(void) { long (*foo)(float); foo = exp2f; (void)(*foo)(0.0); return 0; }
+      |                                            ^~~~~
+      |                                            exp2
+/tmp/mplayer-configure--77828/tmp.c:2:44: note: each undeclared identifier is reported only once for each function it appears in
+
+
+Result is: no 
+##########################################
+
+============ Checking for llrint ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = llrint; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for llrintf ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = llrintf; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for log2 ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = log2; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for log2f ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = log2f; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for lrint ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = lrint; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for lrintf ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = lrintf; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for round ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = round; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for roundf ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = roundf; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for truncf ============
+
+#include <math.h>
+int main(void) { long (*foo)(float); foo = truncf; (void)(*foo)(0.0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -D_ISOC99_SOURCE -lm
+
+
+Result is: yes 
+##########################################
+
+============ Checking for mkstemp ============
+
+#include <stdlib.h>
+int main(void) { char a;  mkstemp(&a); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for nanosleep ============
+
+#include <time.h>
+int main(void) { (void) nanosleep(0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccns6Aj2.o:tmp.c:(.text.startup+0x16): undefined reference to `nanosleep'
+collect2: error: ld returned 1 exit status
+
+
+Result is: no 
+##########################################
+
+============ Checking for socklib ============
+
+#include <netdb.h>
+#include <sys/socket.h>
+int main(void) { (void) gethostbyname(0); (void) socket(AF_INET, SOCK_STREAM, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: netdb.h: No such file or directory
+    1 | #include <netdb.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+#include <netdb.h>
+#include <sys/socket.h>
+int main(void) { (void) gethostbyname(0); (void) socket(AF_INET, SOCK_STREAM, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lsocket -lbind
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: netdb.h: No such file or directory
+    1 | #include <netdb.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+#include <netdb.h>
+#include <sys/socket.h>
+int main(void) { (void) gethostbyname(0); (void) socket(AF_INET, SOCK_STREAM, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lsocket -ldnet
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: netdb.h: No such file or directory
+    1 | #include <netdb.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+#include <netdb.h>
+#include <sys/socket.h>
+int main(void) { (void) gethostbyname(0); (void) socket(AF_INET, SOCK_STREAM, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lsocket -lnsl
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: netdb.h: No such file or directory
+    1 | #include <netdb.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+#include <netdb.h>
+#include <sys/socket.h>
+int main(void) { (void) gethostbyname(0); (void) socket(AF_INET, SOCK_STREAM, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lnsl
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: netdb.h: No such file or directory
+    1 | #include <netdb.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+#include <netdb.h>
+#include <sys/socket.h>
+int main(void) { (void) gethostbyname(0); (void) socket(AF_INET, SOCK_STREAM, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lsocket
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: netdb.h: No such file or directory
+    1 | #include <netdb.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+#include <winsock2.h>
+int main(void) { (void) gethostbyname(0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lws2_32
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: winsock2.h: No such file or directory
+    1 | #include <winsock2.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for netdb.h, struct addrinfo ============
+
+#if HAVE_WINSOCK2_H
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#endif
+int main(void) { struct addrinfo ai; return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DHAVE_WINSOCK2_H=0
+/tmp/mplayer-configure--77828/tmp.c:7:10: fatal error: netdb.h: No such file or directory
+    7 | #include <netdb.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for netdb.h, getaddrinfo() ============
+
+#if HAVE_WINSOCK2_H
+#include <winsock2.h>
+#else
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#endif
+int main(void) { (void) getaddrinfo(0, 0, 0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DHAVE_WINSOCK2_H=0
+/tmp/mplayer-configure--77828/tmp.c:6:10: fatal error: netdb.h: No such file or directory
+    6 | #include <netdb.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for sockaddr_storage ============
+
+#if HAVE_WINSOCK2_H
+#include <winsock2.h>
+#else
+#include <sys/socket.h>
+#endif
+int main(void) { struct sockaddr_storage sas; return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DHAVE_WINSOCK2_H=0
+/tmp/mplayer-configure--77828/tmp.c: In function 'main':
+/tmp/mplayer-configure--77828/tmp.c:6:42: error: storage size of 'sas' isn't known
+    6 | int main(void) { struct sockaddr_storage sas; return 0; }
+      |                                          ^~~
+
+
+Result is: no 
+##########################################
+
+============ Checking for struct ipv6_mreq ============
+
+#include <netinet/in.h>
+int main(void) { struct ipv6_mreq mreq6; return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c: In function 'main':
+/tmp/mplayer-configure--77828/tmp.c:2:35: error: storage size of 'mreq6' isn't known
+    2 | int main(void) { struct ipv6_mreq mreq6; return 0; }
+      |                                   ^~~~~
+
+
+
+#include <ws2tcpip.h>
+int main(void) { struct ipv6_mreq mreq6; return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: ws2tcpip.h: No such file or directory
+    1 | #include <ws2tcpip.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for struct sockaddr_in6 ============
+
+#include <netinet/in.h>
+int main(void) { struct sockaddr_in6 addr; return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c: In function 'main':
+/tmp/mplayer-configure--77828/tmp.c:2:38: error: storage size of 'addr' isn't known
+    2 | int main(void) { struct sockaddr_in6 addr; return 0; }
+      |                                      ^~~~
+
+
+
+#include <ws2tcpip.h>
+int main(void) { struct sockaddr_in6 addr; return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: ws2tcpip.h: No such file or directory
+    1 | #include <ws2tcpip.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for struct sockaddr sa_len ============
+
+#if HAVE_WINSOCK2_H
+#include <winsock2.h>
+#else
+#include <sys/types.h>
+#include <sys/socket.h>
+#endif
+int main(void) { const void *p = &((struct sockaddr *)0)->sa_len; return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DHAVE_WINSOCK2_H=0
+/tmp/mplayer-configure--77828/tmp.c: In function 'main':
+/tmp/mplayer-configure--77828/tmp.c:7:57: error: 'struct sockaddr' has no member named 'sa_len'
+    7 | int main(void) { const void *p = &((struct sockaddr *)0)->sa_len; return 0; }
+      |                                                         ^~
+
+
+Result is: no 
+##########################################
+
+============ Checking for arpa/inet.h ============
+
+#include <arpa/inet.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: arpa/inet.h: No such file or directory
+    1 | #include <arpa/inet.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for inet_pton() ============
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+int main(void) { (void) inet_pton(0, 0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:3:10: fatal error: arpa/inet.h: No such file or directory
+    3 | #include <arpa/inet.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+int main(void) { (void) inet_pton(0, 0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lresolv
+/tmp/mplayer-configure--77828/tmp.c:3:10: fatal error: arpa/inet.h: No such file or directory
+    3 | #include <arpa/inet.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for inet_aton() ============
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+int main(void) { (void) inet_aton(0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:3:10: fatal error: arpa/inet.h: No such file or directory
+    3 | #include <arpa/inet.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+int main(void) { (void) inet_aton(0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lresolv
+/tmp/mplayer-configure--77828/tmp.c:3:10: fatal error: arpa/inet.h: No such file or directory
+    3 | #include <arpa/inet.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for socklen_t ============
+
+#include <sys/socket.h>
+int main(void) { socklen_t v = 0; return v; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for closesocket() ============
+
+#include <winsock2.h>
+int main(void) { closesocket(~0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: winsock2.h: No such file or directory
+    1 | #include <winsock2.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for network ============
+Result is: no 
+##########################################
+
+============ Checking for inet6 ============
+
+#include <sys/types.h>
+#if !defined(_WIN32) || defined(__CYGWIN__)
+#include <sys/socket.h>
+#include <netinet/in.h>
+#else
+#include <ws2tcpip.h>
+#endif
+int main(void) { struct sockaddr_in6 six; socket(AF_INET6, SOCK_STREAM, AF_INET6); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c: In function 'main':
+/tmp/mplayer-configure--77828/tmp.c:8:38: error: storage size of 'six' isn't known
+    8 | int main(void) { struct sockaddr_in6 six; socket(AF_INET6, SOCK_STREAM, AF_INET6); return 0; }
+      |                                      ^~~
+/tmp/mplayer-configure--77828/tmp.c:8:50: error: 'AF_INET6' undeclared (first use in this function)
+    8 | int main(void) { struct sockaddr_in6 six; socket(AF_INET6, SOCK_STREAM, AF_INET6); return 0; }
+      |                                                  ^~~~~~~~
+/tmp/mplayer-configure--77828/tmp.c:8:50: note: each undeclared identifier is reported only once for each function it appears in
+/tmp/mplayer-configure--77828/tmp.c:8:60: error: 'SOCK_STREAM' undeclared (first use in this function)
+    8 | int main(void) { struct sockaddr_in6 six; socket(AF_INET6, SOCK_STREAM, AF_INET6); return 0; }
+      |                                                            ^~~~~~~~~~~
+
+
+Result is: no 
+##########################################
+
+============ Checking for gethostbyname2 ============
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+int main(void) { gethostbyname2("", AF_INET); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:3:10: fatal error: netdb.h: No such file or directory
+    3 | #include <netdb.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for inttypes.h (required) ============
+
+#include <inttypes.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for int_fastXY_t in inttypes.h ============
+
+#include <inttypes.h>
+int main(void) {
+volatile int_fast16_t v= 0;
+return v; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for malloc.h ============
+
+#include <malloc.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for memalign() ============
+Result is: no 
+##########################################
+
+============ Checking for posix_memalign() ============
+
+#define _XOPEN_SOURCE 600
+#include <stdlib.h>
+int main(void) { posix_memalign(NULL, 0, 0); }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c: In function 'main':
+/tmp/mplayer-configure--77828/tmp.c:3:39: warning: 'posix_memalign' argument 2 type is 'int' where 'long unsigned int' is expected in a call to built-in function declared without prototype [-Wbuiltin-declaration-mismatch]
+    3 | int main(void) { posix_memalign(NULL, 0, 0); }
+      |                                       ^
+<built-in>: note: built-in 'posix_memalign' declared here
+/tmp/mplayer-configure--77828/tmp.c:3:42: warning: 'posix_memalign' argument 3 type is 'int' where 'long unsigned int' is expected in a call to built-in function declared without prototype [-Wbuiltin-declaration-mismatch]
+    3 | int main(void) { posix_memalign(NULL, 0, 0); }
+      |                                          ^
+<built-in>: note: built-in 'posix_memalign' declared here
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMzI3iZ.o:tmp.c:(.text.startup+0x18): undefined reference to `posix_memalign'
+collect2: error: ld returned 1 exit status
+
+
+Result is: no 
+##########################################
+
+============ Checking for alloca.h ============
+
+#include <alloca.h>
+int main(void) { (void) alloca(0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: alloca.h: No such file or directory
+    1 | #include <alloca.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+
+
+
+#include <alloca.h>
+int main(void) { (void) alloca(0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: alloca.h: No such file or directory
+    1 | #include <alloca.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for fastmemcpy ============
+Result is: yes 
+##########################################
+
+============ Checking for hard-coded tables ============
+Result is: no 
+##########################################
+
+============ Checking for mman.h ============
+
+#include <sys/types.h>
+#include <sys/mman.h>
+int main(void) { (void) mmap(0, 0, 0, 0, 0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccJMkaj4.o:tmp.c:(.text.startup+0x1e): undefined reference to `mmap'
+collect2: error: ld returned 1 exit status
+
+
+Result is: no 
+##########################################
+
+
+#include <sys/types.h>
+#include <sys/mman.h>
+int main(void) { void *p = MAP_FAILED; return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c: In function 'main':
+/tmp/mplayer-configure--77828/tmp.c:3:28: error: 'MAP_FAILED' undeclared (first use in this function)
+    3 | int main(void) { void *p = MAP_FAILED; return 0; }
+      |                            ^~~~~~~~~~
+/tmp/mplayer-configure--77828/tmp.c:3:28: note: each undeclared identifier is reported only once for each function it appears in
+
+
+============ Checking for dynamic loader ============
+
+#include <stddef.h>
+#include <dlfcn.h>
+int main(void) { dlopen("", 0); dlclose(NULL); dlsym(NULL, ""); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for dynamic a/v plugins support ============
+Result is: no 
+##########################################
+
+============ Checking for pthread ============
+Result is: no (v4l, v4l2, ao_nas, win32 loader disabled)
+##########################################
+
+============ Checking for w32threads ============
+Result is: no 
+##########################################
+
+============ Checking for rpath ============
+Result is: no 
+##########################################
+
+============ Checking for iconv ============
+
+#include <stdio.h>
+#include <unistd.h>
+#include <iconv.h>
+#define INBUFSIZE 1024
+#define OUTBUFSIZE 4096
+
+char inbuffer[INBUFSIZE];
+char outbuffer[OUTBUFSIZE];
+
+int main(void) {
+  size_t numread;
+  iconv_t icdsc;
+  char *tocode="UTF-8";
+  char *fromcode="cp1250";
+  if ((icdsc = iconv_open(tocode, fromcode)) != (iconv_t)(-1)) {
+    while ((numread = read(0, inbuffer, INBUFSIZE))) {
+      char *iptr=inbuffer;
+      char *optr=outbuffer;
+      size_t inleft=numread;
+      size_t outleft=OUTBUFSIZE;
+      if (iconv(icdsc, (const char **)&iptr, &inleft, &optr, &outleft)
+          != (size_t)(-1)) {
+        write(1, outbuffer, OUTBUFSIZE - outleft);
+      }
+    }
+    if (iconv_close(icdsc) == -1)
+      ;
+  }
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lm
+/tmp/mplayer-configure--77828/tmp.c:3:10: fatal error: iconv.h: No such file or directory
+    3 | #include <iconv.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+#include <stdio.h>
+#include <unistd.h>
+#include <iconv.h>
+#define INBUFSIZE 1024
+#define OUTBUFSIZE 4096
+
+char inbuffer[INBUFSIZE];
+char outbuffer[OUTBUFSIZE];
+
+int main(void) {
+  size_t numread;
+  iconv_t icdsc;
+  char *tocode="UTF-8";
+  char *fromcode="cp1250";
+  if ((icdsc = iconv_open(tocode, fromcode)) != (iconv_t)(-1)) {
+    while ((numread = read(0, inbuffer, INBUFSIZE))) {
+      char *iptr=inbuffer;
+      char *optr=outbuffer;
+      size_t inleft=numread;
+      size_t outleft=OUTBUFSIZE;
+      if (iconv(icdsc, (const char **)&iptr, &inleft, &optr, &outleft)
+          != (size_t)(-1)) {
+        write(1, outbuffer, OUTBUFSIZE - outleft);
+      }
+    }
+    if (iconv_close(icdsc) == -1)
+      ;
+  }
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lm -liconv
+/tmp/mplayer-configure--77828/tmp.c:3:10: fatal error: iconv.h: No such file or directory
+    3 | #include <iconv.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+#include <stdio.h>
+#include <unistd.h>
+#include <iconv.h>
+#define INBUFSIZE 1024
+#define OUTBUFSIZE 4096
+
+char inbuffer[INBUFSIZE];
+char outbuffer[OUTBUFSIZE];
+
+int main(void) {
+  size_t numread;
+  iconv_t icdsc;
+  char *tocode="UTF-8";
+  char *fromcode="cp1250";
+  if ((icdsc = iconv_open(tocode, fromcode)) != (iconv_t)(-1)) {
+    while ((numread = read(0, inbuffer, INBUFSIZE))) {
+      char *iptr=inbuffer;
+      char *optr=outbuffer;
+      size_t inleft=numread;
+      size_t outleft=OUTBUFSIZE;
+      if (iconv(icdsc, (const char **)&iptr, &inleft, &optr, &outleft)
+          != (size_t)(-1)) {
+        write(1, outbuffer, OUTBUFSIZE - outleft);
+      }
+    }
+    if (iconv_close(icdsc) == -1)
+      ;
+  }
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lm -liconv
+/tmp/mplayer-configure--77828/tmp.c:3:10: fatal error: iconv.h: No such file or directory
+    3 | #include <iconv.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for soundcard.h ============
+
+#include <sys/soundcard.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: sys/soundcard.h: No such file or directory
+    1 | #include <sys/soundcard.h>
+      |          ^~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <soundcard.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: soundcard.h: No such file or directory
+    1 | #include <soundcard.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for sys/dvdio.h ============
+
+#include <sys/dvdio.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: sys/dvdio.h: No such file or directory
+    1 | #include <sys/dvdio.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for sys/cdio.h ============
+
+#include <sys/cdio.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: sys/cdio.h: No such file or directory
+    1 | #include <sys/cdio.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for linux/cdrom.h ============
+
+#include <linux/cdrom.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: linux/cdrom.h: No such file or directory
+    1 | #include <linux/cdrom.h>
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for dvd.h ============
+
+#include <dvd.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: dvd.h: No such file or directory
+    1 | #include <dvd.h>
+      |          ^~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for termcap ============
+
+#include <stddef.h>
+#include <term.h>
+int main(void) { tgetent(NULL, NULL); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lncurses
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: term.h: No such file or directory
+    2 | #include <term.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+
+#include <stddef.h>
+#include <term.h>
+int main(void) { tgetent(NULL, NULL); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -ltinfo
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: term.h: No such file or directory
+    2 | #include <term.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+
+#include <stddef.h>
+#include <term.h>
+int main(void) { tgetent(NULL, NULL); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -ltermcap
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: term.h: No such file or directory
+    2 | #include <term.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for termios ============
+
+#include <termios.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes (using termios.h)
+##########################################
+
+============ Checking for shm ============
+
+#include <sys/types.h>
+#include <sys/shm.h>
+int main(void) { shmget(0, 0, 0); shmat(0, 0, 0); shmctl(0, 0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: sys/shm.h: No such file or directory
+    2 | #include <sys/shm.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for strsep() ============
+
+#include <string.h>
+int main(void) { char *s = "Hello, world!"; (void) strsep(&s, ","); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for vsscanf() ============
+
+#define _ISOC99_SOURCE
+#include <stdarg.h>
+#include <stdio.h>
+int main(void) { va_list ap; vsscanf("foo", "bar", ap); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for swab() ============
+
+#define _XOPEN_SOURCE 600
+#include <unistd.h>
+int main(void) { swab(0, 0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for POSIX select() ============
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <string.h>
+#include <sys/time.h>
+#include <unistd.h>
+int main(void) {int nfds = 1; fd_set readfds; struct timeval timeout; select(nfds,&readfds,NULL,NULL,&timeout); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for audio select() ============
+Result is: yes 
+##########################################
+
+============ Checking for gettimeofday() ============
+
+#include <sys/time.h>
+int main(void) {struct timeval tv; struct timezone tz; gettimeofday(&tv, &tz); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for glob() ============
+
+#include <stdio.h>
+#include <glob.h>
+int main(void) { glob_t gg; glob("filename",0,NULL,&gg); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for setenv() ============
+
+#include <stdlib.h>
+int main(void) { setenv("","",0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for setmode() ============
+
+#include <io.h>
+int main(void) { setmode(0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+
+
+Result is: yes 
+##########################################
+
+============ Checking for sys/sysinfo.h ============
+
+#include <sys/sysinfo.h>
+int main(void) {
+  struct sysinfo s_info;
+  sysinfo(&s_info);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: sys/sysinfo.h: No such file or directory
+    1 | #include <sys/sysinfo.h>
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for pkg-config ============
+Result is: yes 
+##########################################
+
+============ Checking for Samba support (libsmbclient) ============
+
+#include <libsmbclient.h>
+int main(void) { smbc_opendir("smb://"); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lsmbclient
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: libsmbclient.h: No such file or directory
+    1 | #include <libsmbclient.h>
+      |          ^~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <libsmbclient.h>
+int main(void) { smbc_opendir("smb://"); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lsmbclient
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: libsmbclient.h: No such file or directory
+    1 | #include <libsmbclient.h>
+      |          ^~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <libsmbclient.h>
+int main(void) { smbc_opendir("smb://"); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lsmbclient -lnsl
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: libsmbclient.h: No such file or directory
+    1 | #include <libsmbclient.h>
+      |          ^~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <libsmbclient.h>
+int main(void) { smbc_opendir("smb://"); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lsmbclient -lssl -lnsl
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: libsmbclient.h: No such file or directory
+    1 | #include <libsmbclient.h>
+      |          ^~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for tdfxfb ============
+Result is: no 
+##########################################
+
+============ Checking for s3fb ============
+Result is: no 
+##########################################
+
+============ Checking for wii ============
+Result is: no 
+##########################################
+
+============ Checking for tdfxvid ============
+Result is: no 
+##########################################
+
+============ Checking for xvr100 ============
+
+#include <unistd.h>
+#include <sys/fbio.h>
+#include <sys/visual_io.h>
+int main(void) {
+struct vis_identifier ident;
+struct fbgattr attr;
+ioctl(0, VIS_GETIDENTIFIER, &ident);
+ioctl(0, FBIOGATTR, &attr);
+return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: sys/fbio.h: No such file or directory
+    2 | #include <sys/fbio.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for tga ============
+Result is: yes 
+##########################################
+
+============ Checking for md5sum support ============
+Result is: yes 
+##########################################
+
+============ Checking for yuv4mpeg support ============
+Result is: yes 
+##########################################
+
+============ Checking for bl ============
+Result is: no 
+##########################################
+
+============ Checking for DirectFB ============
+
+#include <directfb.h>
+int main(void) { DirectFBInit(0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -ldirectfb
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: directfb.h: No such file or directory
+    1 | #include <directfb.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <directfb.h>
+int main(void) { DirectFBInit(0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/local/include/directfb -ldirectfb
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: directfb.h: No such file or directory
+    1 | #include <directfb.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <directfb.h>
+int main(void) { DirectFBInit(0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/include/directfb -ldirectfb
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: directfb.h: No such file or directory
+    1 | #include <directfb.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <directfb.h>
+int main(void) { DirectFBInit(0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/local/include -ldirectfb
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: directfb.h: No such file or directory
+    1 | #include <directfb.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for X11 headers presence ============
+Result is: yes 
+##########################################
+
+============ Checking for X11 ============
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -L/usr/X11R7/lib -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -L/usr/local/lib -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -L/usr/X11R6/lib -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -L/usr/lib/X11R6 -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -L/usr/X11/lib -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -L/usr/lib32 -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -L/usr/openwin/lib -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -L/usr/local/lib64 -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -L/usr/X11R6/lib64 -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+int main(void) { (void) XCreateWindow(0,0,0,0,0,0,0,0,0,0,0,0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -L/usr/lib -lXext -lX11
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no (check if the dev(el) packages are installed)
+##########################################
+
+============ Checking for Xss screensaver extensions ============
+
+#include <X11/Xlib.h>
+#include <X11/extensions/scrnsaver.h>
+int main(void) { XScreenSaverSuspend(NULL, True); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lXss
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: X11/Xlib.h: No such file or directory
+    1 | #include <X11/Xlib.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for DPMS ============
+Result is: no 
+##########################################
+
+============ Checking for Xv ============
+Result is: no 
+##########################################
+
+============ Checking for XvMC ============
+Result is: no 
+##########################################
+
+============ Checking for VDPAU ============
+Result is: no 
+##########################################
+
+============ Checking for Xinerama ============
+Result is: no 
+##########################################
+
+============ Checking for Xxf86vm ============
+Result is: no 
+##########################################
+
+============ Checking for XF86keysym ============
+Result is: no 
+##########################################
+
+============ Checking for DGA ============
+Result is: no 
+##########################################
+
+============ Checking for 3dfx ============
+Result is: no 
+##########################################
+
+============ Checking for VIDIX ============
+Result is: no 
+##########################################
+
+============ Checking for GGI ============
+
+#include <ggi/ggi.h>
+int main(void) { ggiInit(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lggi
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: ggi/ggi.h: No such file or directory
+    1 | #include <ggi/ggi.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for GGI extension: libggiwmh ============
+
+#include <ggi/ggi.h>
+#include <ggi/wmh.h>
+int main(void) { ggiInit(); ggiWmhInit(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lggi -lggiwmh
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: ggi/ggi.h: No such file or directory
+    1 | #include <ggi/ggi.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for AA ============
+
+#include <aalib.h>
+extern struct aa_hardware_params aa_defparams;
+extern struct aa_renderparams aa_defrenderparams;
+int main(void) {
+aa_context *c;
+aa_renderparams *p;
+(void) aa_init(0, 0, 0);
+c = aa_autoinit(&aa_defparams);
+p = aa_getrenderparams();
+aa_autoinitkbd(c,0);
+return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -laa
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: aalib.h: No such file or directory
+    1 | #include <aalib.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for CACA ============
+./configure: 4850: caca-config: not found
+Result is: no 
+##########################################
+
+============ Checking for SVGAlib ============
+
+#include <vga.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lvga -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: vga.h: No such file or directory
+    1 | #include <vga.h>
+      |          ^~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for FBDev ============
+Result is: no 
+##########################################
+
+============ Checking for DVB ============
+
+#include <poll.h>
+#include <sys/ioctl.h>
+#include <stdio.h>
+#include <time.h>
+#include <unistd.h>
+#include <linux/dvb/dmx.h>
+#include <linux/dvb/frontend.h>
+#include <linux/dvb/video.h>
+#include <linux/dvb/audio.h>
+int main(void) {return 0;}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: poll.h: No such file or directory
+    1 | #include <poll.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+
+#include <poll.h>
+#include <sys/ioctl.h>
+#include <stdio.h>
+#include <time.h>
+#include <unistd.h>
+#include <linux/dvb/dmx.h>
+#include <linux/dvb/frontend.h>
+#include <linux/dvb/video.h>
+#include <linux/dvb/audio.h>
+int main(void) {return 0;}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/src/DVB/include
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: poll.h: No such file or directory
+    1 | #include <poll.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for PNG support ============
+
+#include <png.h>
+#include <string.h>
+int main(void) {
+  printf("png.h : %s\n", PNG_LIBPNG_VER_STRING);
+  printf("libpng: %s\n", png_libpng_ver);
+  return strcmp(PNG_LIBPNG_VER_STRING, png_libpng_ver);
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lpng -lz -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: png.h: No such file or directory
+    1 | #include <png.h>
+      |          ^~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for MNG support ============
+
+#include <libmng.h>
+int main(void) {
+  const char * p_ver = mng_version_text();
+  return !p_ver || p_ver[0] == 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lmng -lz -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: libmng.h: No such file or directory
+    1 | #include <libmng.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for JPEG support ============
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <setjmp.h>
+#include <string.h>
+#include <jpeglib.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -ljpeg -lm
+/tmp/mplayer-configure--77828/tmp.c:5:10: fatal error: jpeglib.h: No such file or directory
+    5 | #include <jpeglib.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for OpenJPEG (JPEG2000) support ============
+
+#define  OPJ_STATIC
+#include <openjpeg.h>
+int main(void) { opj_dparameters_t dec_params; opj_set_default_decoder_parameters(&dec_params); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lopenjpeg -lm
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: openjpeg.h: No such file or directory
+    2 | #include <openjpeg.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for PNM support ============
+Result is: yes 
+##########################################
+
+============ Checking for GIF support ============
+
+#include <gif_lib.h>
+int main(void) { QuantizeBuffer(0, 0, 0, 0, 0, 0, 0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lungif
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: gif_lib.h: No such file or directory
+    1 | #include <gif_lib.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <gif_lib.h>
+int main(void) { QuantizeBuffer(0, 0, 0, 0, 0, 0, 0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lgif
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: gif_lib.h: No such file or directory
+    1 | #include <gif_lib.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for VESA support ============
+Result is: yes 
+##########################################
+
+============ Checking for SDL ============
+./configure: 5247: sdl-config: not found
+./configure: 5249: sdl11-config: not found
+
+#ifdef CONFIG_SDL_SDL_H
+#include <SDL/SDL.h>
+#else
+#include <SDL.h>
+#endif
+#ifndef __APPLE__
+// we allow SDL hacking our main() only on OSX
+#undef main
+#endif
+int main(int argc, char *argv[]) {
+  SDL_Init(SDL_INIT_VIDEO|SDL_INIT_NOPARACHUTE);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DCONFIG_SDL_SDL_H -lSDL
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: SDL/SDL.h: No such file or directory
+    2 | #include <SDL/SDL.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+
+#ifdef CONFIG_SDL_SDL_H
+#include <SDL/SDL.h>
+#else
+#include <SDL.h>
+#endif
+#ifndef __APPLE__
+// we allow SDL hacking our main() only on OSX
+#undef main
+#endif
+int main(int argc, char *argv[]) {
+  SDL_Init(SDL_INIT_VIDEO|SDL_INIT_NOPARACHUTE);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DCONFIG_SDL_SDL_H -lSDL -lpthread
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: SDL/SDL.h: No such file or directory
+    2 | #include <SDL/SDL.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+
+#ifdef CONFIG_SDL_SDL_H
+#include <SDL/SDL.h>
+#else
+#include <SDL.h>
+#endif
+#ifndef __APPLE__
+// we allow SDL hacking our main() only on OSX
+#undef main
+#endif
+int main(int argc, char *argv[]) {
+  SDL_Init(SDL_INIT_VIDEO|SDL_INIT_NOPARACHUTE);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DCONFIG_SDL_SDL_H -lSDL -lwinmm -lgdi32
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: SDL/SDL.h: No such file or directory
+    2 | #include <SDL/SDL.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+
+#ifdef CONFIG_SDL_SDL_H
+#include <SDL/SDL.h>
+#else
+#include <SDL.h>
+#endif
+#ifndef __APPLE__
+// we allow SDL hacking our main() only on OSX
+#undef main
+#endif
+int main(int argc, char *argv[]) {
+  SDL_Init(SDL_INIT_VIDEO|SDL_INIT_NOPARACHUTE);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DCONFIG_SDL_SDL_H -lSDL -lwinmm -lgdi32 -ldxguid
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: SDL/SDL.h: No such file or directory
+    2 | #include <SDL/SDL.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for OpenGL ============
+Result is: no 
+##########################################
+
+============ Checking for MatrixView ============
+Result is: no 
+##########################################
+
+============ Checking for DXR2 ============
+
+#include <dxr2ioctl.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: dxr2ioctl.h: No such file or directory
+    1 | #include <dxr2ioctl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <dxr2ioctl.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/local/include/dxr2
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: dxr2ioctl.h: No such file or directory
+    1 | #include <dxr2ioctl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <dxr2ioctl.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/include/dxr2
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: dxr2ioctl.h: No such file or directory
+    1 | #include <dxr2ioctl.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for DXR3/H+ ============
+
+#include <linux/em8300.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: linux/em8300.h: No such file or directory
+    1 | #include <linux/em8300.h>
+      |          ^~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for IVTV TV-Out (pre linux-2.6.24) ============
+
+#include <stdlib.h>
+#include <inttypes.h>
+#include <linux/types.h>
+#include <linux/videodev2.h>
+#include <linux/ivtv.h>
+#include <sys/ioctl.h>
+int main(void) {
+struct ivtv_cfg_stop_decode sd;
+struct ivtv_cfg_start_decode sd1;
+ioctl(0, IVTV_IOC_START_DECODE, &sd1);
+ioctl(0, IVTV_IOC_STOP_DECODE, &sd);
+return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:3:10: fatal error: linux/types.h: No such file or directory
+    3 | #include <linux/types.h>
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for V4L2 MPEG Decoder ============
+
+#include <stdlib.h>
+#include <inttypes.h>
+#include <linux/types.h>
+#include <linux/videodev2.h>
+#include <linux/version.h>
+int main(void) {
+#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,22)
+#error kernel headers too old, need 2.6.22
+#endif
+  struct v4l2_ext_controls ctrls;
+  ctrls.ctrl_class = V4L2_CTRL_CLASS_MPEG;
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:3:10: fatal error: linux/types.h: No such file or directory
+    3 | #include <linux/types.h>
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for OSS Audio ============
+
+#include <sys/ioctl.h>
+#include <soundcard.h>
+int main(void) { int arg = SNDCTL_DSP_SETFRAGMENT; return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: soundcard.h: No such file or directory
+    2 | #include <soundcard.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for aRts ============
+./configure: 5656: artsc-config: not found
+Result is: no 
+##########################################
+
+============ Checking for EsounD ============
+./configure: 5676: esd-config: not found
+Result is: no 
+##########################################
+
+============ Checking for NAS ============
+Result is: no 
+##########################################
+
+============ Checking for pulse ============
+Result is: no 
+##########################################
+
+============ Checking for JACK ============
+
+#include <jack/jack.h>
+int main(void) { jack_client_open("test", JackUseExactName, NULL); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -ljack
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: jack/jack.h: No such file or directory
+    1 | #include <jack/jack.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <jack/jack.h>
+int main(void) { jack_client_open("test", JackUseExactName, NULL); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: jack/jack.h: No such file or directory
+    1 | #include <jack/jack.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for OpenAL ============
+
+#ifdef OPENAL_AL_H
+#include <OpenAL/al.h>
+#else
+#include <AL/al.h>
+#endif
+int main(void) {
+  alSourceQueueBuffers(0, 0, 0);
+//  alGetSourcei(0, AL_SAMPLE_OFFSET, 0);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lopenal
+/tmp/mplayer-configure--77828/tmp.c:4:10: fatal error: AL/al.h: No such file or directory
+    4 | #include <AL/al.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+#ifdef OPENAL_AL_H
+#include <OpenAL/al.h>
+#else
+#include <AL/al.h>
+#endif
+int main(void) {
+  alSourceQueueBuffers(0, 0, 0);
+//  alGetSourcei(0, AL_SAMPLE_OFFSET, 0);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DOPENAL_AL_H=1 -lopenal
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: OpenAL/al.h: No such file or directory
+    2 | #include <OpenAL/al.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#ifdef OPENAL_AL_H
+#include <OpenAL/al.h>
+#else
+#include <AL/al.h>
+#endif
+int main(void) {
+  alSourceQueueBuffers(0, 0, 0);
+//  alGetSourcei(0, AL_SAMPLE_OFFSET, 0);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lopenal32
+/tmp/mplayer-configure--77828/tmp.c:4:10: fatal error: AL/al.h: No such file or directory
+    4 | #include <AL/al.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+
+#ifdef OPENAL_AL_H
+#include <OpenAL/al.h>
+#else
+#include <AL/al.h>
+#endif
+int main(void) {
+  alSourceQueueBuffers(0, 0, 0);
+//  alGetSourcei(0, AL_SAMPLE_OFFSET, 0);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DOPENAL_AL_H=1 -lopenal32
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: OpenAL/al.h: No such file or directory
+    2 | #include <OpenAL/al.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#ifdef OPENAL_AL_H
+#include <OpenAL/al.h>
+#else
+#include <AL/al.h>
+#endif
+int main(void) {
+  alSourceQueueBuffers(0, 0, 0);
+//  alGetSourcei(0, AL_SAMPLE_OFFSET, 0);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -framework OpenAL
+i586-pc-msdosdjgpp-gcc: error: unrecognized command-line option '-framework'
+
+
+
+#ifdef OPENAL_AL_H
+#include <OpenAL/al.h>
+#else
+#include <AL/al.h>
+#endif
+int main(void) {
+  alSourceQueueBuffers(0, 0, 0);
+//  alGetSourcei(0, AL_SAMPLE_OFFSET, 0);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -DOPENAL_AL_H=1 -framework OpenAL
+i586-pc-msdosdjgpp-gcc: error: unrecognized command-line option '-framework'
+
+
+Result is: no 
+##########################################
+
+============ Checking for ALSA audio ============
+Result is: no (alloca missing)
+##########################################
+
+============ Checking for Allegro audio ============
+
+#define ALLEGRO_HAVE_STDINT_H
+#include <allegro.h>
+int main(void) { allegro_init(); install_sound(DIGI_AUTODETECT, MIDI_NONE, NULL); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe 
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x15): undefined reference to `_install_allegro_version_check'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x21): undefined reference to `system_driver'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x41): undefined reference to `system_driver'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x61): undefined reference to `system_driver'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0xc1): undefined reference to `gfx_driver'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1b6): undefined reference to `screen'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x272): undefined reference to `screen'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x2a2): undefined reference to `screen'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x396): undefined reference to `_rgb_g_shift_15'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x3a5): undefined reference to `_rgb_b_shift_15'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x3b0): undefined reference to `_rgb_r_shift_15'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x3d6): undefined reference to `_rgb_g_shift_16'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x3e5): undefined reference to `_rgb_b_shift_16'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x3f0): undefined reference to `_rgb_r_shift_16'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x412): undefined reference to `_rgb_g_shift_24'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x422): undefined reference to `_rgb_b_shift_24'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x42a): undefined reference to `_rgb_r_shift_24'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x442): undefined reference to `_rgb_g_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x452): undefined reference to `_rgb_b_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x45a): undefined reference to `_rgb_r_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x472): undefined reference to `_rgb_b_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x482): undefined reference to `_rgb_a_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x48a): undefined reference to `_rgb_g_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x498): undefined reference to `_rgb_r_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x4b8): undefined reference to `_current_palette'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x4bf): undefined reference to `_rgb_scale_6'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x4d8): undefined reference to `_current_palette'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x4df): undefined reference to `_rgb_scale_6'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x4f8): undefined reference to `_current_palette'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x4ff): undefined reference to `_rgb_scale_6'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x512): undefined reference to `_rgb_r_shift_15'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x522): undefined reference to `_rgb_scale_5'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x532): undefined reference to `_rgb_g_shift_15'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x542): undefined reference to `_rgb_scale_5'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x552): undefined reference to `_rgb_b_shift_15'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x562): undefined reference to `_rgb_scale_5'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x572): undefined reference to `_rgb_r_shift_16'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x582): undefined reference to `_rgb_scale_5'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x592): undefined reference to `_rgb_g_shift_16'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x5a2): undefined reference to `_rgb_scale_6'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x5b2): undefined reference to `_rgb_b_shift_16'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x5c2): undefined reference to `_rgb_scale_5'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x5d2): undefined reference to `_rgb_r_shift_24'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x5e2): undefined reference to `_rgb_g_shift_24'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x5f2): undefined reference to `_rgb_b_shift_24'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x602): undefined reference to `_rgb_r_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x612): undefined reference to `_rgb_g_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x622): undefined reference to `_rgb_b_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x632): undefined reference to `_rgb_a_shift_32'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0xe7b): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0xeab): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0xee7): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0xf35): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0xf63): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0xfa3): more undefined references to `allegro_errno' follow
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x10a4): undefined reference to `_cos_tbl'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x10c4): undefined reference to `_cos_tbl'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x10e2): undefined reference to `_tan_tbl'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x110d): undefined reference to `_acos_tbl'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1119): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1152): undefined reference to `_acos_tbl'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1161): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1193): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x11c6): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x11fe): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x123f): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1276): more undefined references to `allegro_errno' follow
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1474): undefined reference to `_persp_xscale'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x14a0): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x14cf): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x14f3): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1512): undefined reference to `_persp_xoffset'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1524): undefined reference to `_persp_yscale'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1545): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1573): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1597): undefined reference to `allegro_errno'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x15b6): undefined reference to `_persp_yoffset'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x15e0): undefined reference to `_persp_xscale_f'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x15e8): undefined reference to `_persp_xoffset_f'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x15f4): undefined reference to `_persp_yscale_f'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1600): undefined reference to `_persp_yoffset_f'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1629): undefined reference to `file_select_ex'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1645): undefined reference to `_textmode'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1662): undefined reference to `textout_ex'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1675): undefined reference to `_textmode'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1692): undefined reference to `textout_centre_ex'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x16a5): undefined reference to `_textmode'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x16c2): undefined reference to `textout_right_ex'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x16d5): undefined reference to `_textmode'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x16fa): undefined reference to `textout_justify_ex'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x171c): undefined reference to `_textmode'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1749): undefined reference to `_textmode'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1762): undefined reference to `gui_textout_ex'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1791): undefined reference to `system_driver'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x17db): undefined reference to `_current_palette'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text+0x1781): undefined reference to `set_close_button_callback'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text.startup+0x23): undefined reference to `_install_allegro_version_check'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: /tmp/ccMewfuO.o:tmp.c:(.text.startup+0x31): undefined reference to `install_sound'
+collect2: error: ld returned 1 exit status
+
+
+
+#define ALLEGRO_HAVE_STDINT_H
+#include <allegro.h>
+int main(void) { allegro_init(); install_sound(DIGI_AUTODETECT, MIDI_NONE, NULL); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.      -o /tmp/mplayer-configure--77828/tmp.exe -lalleg
+
+
+Result is: yes 
+##########################################
+
+============ Checking for Sound Blaster 16 (DOS) ============
+Result is: yes 
+##########################################
+
+============ Checking for Sun audio ============
+
+#include <sys/types.h>
+#include <sys/audioio.h>
+int main(void) { audio_info_t info; AUDIO_INITINFO(&info); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: sys/audioio.h: No such file or directory
+    2 | #include <sys/audioio.h>
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for VCD support ============
+Result is: no (not supported on this OS)
+##########################################
+
+============ Checking for Blu-ray support ============
+
+#include <stdlib.h>
+#include <libbluray/bluray.h>
+int main(void) {
+  BLURAY_TITLE_INFO *i = bd_get_title_info(NULL, 0);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lbluray
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: libbluray/bluray.h: No such file or directory
+    2 | #include <libbluray/bluray.h>
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for dvdread ============
+Result is: no 
+##########################################
+
+============ Checking for internal libdvdcss ============
+Result is: no 
+##########################################
+
+============ Checking for cdparanoia ============
+
+#include <cdda_interface.h>
+#include <cdda_paranoia.h>
+// This need a better test. How ?
+int main(void) { void *test = cdda_verbose_set; return test == (void *)1; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lcdda_interface -lcdda_paranoia -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: cdda_interface.h: No such file or directory
+    1 | #include <cdda_interface.h>
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <cdda_interface.h>
+#include <cdda_paranoia.h>
+// This need a better test. How ?
+int main(void) { void *test = cdda_verbose_set; return test == (void *)1; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/include/cdda -lcdda_interface -lcdda_paranoia -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: cdda_interface.h: No such file or directory
+    1 | #include <cdda_interface.h>
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <cdda_interface.h>
+#include <cdda_paranoia.h>
+// This need a better test. How ?
+int main(void) { void *test = cdda_verbose_set; return test == (void *)1; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/local/include/cdda -lcdda_interface -lcdda_paranoia -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: cdda_interface.h: No such file or directory
+    1 | #include <cdda_interface.h>
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for libcdio ============
+
+#include <stdio.h>
+#include <cdio/version.h>
+#include <cdio/cdda.h>
+#include <cdio/paranoia.h>
+int main(void) {
+    void *test = cdda_verbose_set;
+    printf("%s\n", CDIO_VERSION);
+    return test == (void *)1;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lcdio_cdda -lcdio -lcdio_paranoia -lm
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: cdio/version.h: No such file or directory
+    2 | #include <cdio/version.h>
+      |          ^~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <stdio.h>
+#include <cdio/version.h>
+#include <cdio/cdda.h>
+#include <cdio/paranoia.h>
+int main(void) {
+    void *test = cdda_verbose_set;
+    printf("%s\n", CDIO_VERSION);
+    return test == (void *)1;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lcdio_cdda -lcdio -lcdio_paranoia -lwinmm -lm
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: cdio/version.h: No such file or directory
+    2 | #include <cdio/version.h>
+      |          ^~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for bitmap font support ============
+Result is: yes 
+##########################################
+
+============ Checking for freetype >= 2.0.9 ============
+Result is: no (iconv support needed)
+##########################################
+
+============ Checking for fontconfig ============
+Result is: no (FreeType support needed)
+##########################################
+
+============ Checking for SSA/ASS support ============
+Result is: no (FreeType support needed)
+##########################################
+
+============ Checking for fribidi with charsets ============
+
+#include <stdlib.h>
+/* workaround for fribidi 0.10.4 and below */
+#define FRIBIDI_CHARSET_UTF8 FRIBIDI_CHAR_SET_UTF8
+#include <fribidi/fribidi.h>
+int main(void) {
+    if (fribidi_parse_charset("UTF-8") != FRIBIDI_CHAR_SET_UTF8)
+       exit(1);
+    return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lfribidi
+/tmp/mplayer-configure--77828/tmp.c:4:10: fatal error: fribidi/fribidi.h: No such file or directory
+    4 | #include <fribidi/fribidi.h>
+      |          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <stdlib.h>
+/* workaround for fribidi 0.10.4 and below */
+#define FRIBIDI_CHARSET_UTF8 FRIBIDI_CHAR_SET_UTF8
+#include <fribidi/fribidi.h>
+int main(void) {
+    if (fribidi_parse_charset("UTF-8") != FRIBIDI_CHAR_SET_UTF8)
+       exit(1);
+    return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:4:10: fatal error: fribidi/fribidi.h: No such file or directory
+    4 | #include <fribidi/fribidi.h>
+      |          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for ENCA ============
+
+#include <sys/types.h>
+#include <enca.h>
+int main(void) {
+    const char **langs;
+    size_t langcnt;
+    langs = enca_get_languages(&langcnt);
+    return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lenca -lm
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: enca.h: No such file or directory
+    2 | #include <enca.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for zlib ============
+
+#include <zlib.h>
+int main(void) { (void) inflate(0, Z_NO_FLUSH); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lz
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: zlib.h: No such file or directory
+    1 | #include <zlib.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for bzlib ============
+
+#include <bzlib.h>
+int main(void) { BZ2_bzlibVersion(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lbz2
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: bzlib.h: No such file or directory
+    1 | #include <bzlib.h>
+      |          ^~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for RTC ============
+
+#include <sys/ioctl.h>
+#ifdef __linux__
+#include <linux/rtc.h>
+#else
+#include <rtc.h>
+#define RTC_PIE_ON RTCIO_PIE_ON
+#endif
+int main(void) { return RTC_PIE_ON; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:5:10: fatal error: rtc.h: No such file or directory
+    5 | #include <rtc.h>
+      |          ^~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for liblzo2 support ============
+
+#include <lzo/lzo1x.h>
+int main(void) { lzo_init(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -llzo2
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: lzo/lzo1x.h: No such file or directory
+    1 | #include <lzo/lzo1x.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for mad support ============
+
+#include <mad.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lmad
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: mad.h: No such file or directory
+    1 | #include <mad.h>
+      |          ^~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for Twolame ============
+
+#include <twolame.h>
+int main(void) { twolame_init(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -ltwolame -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: twolame.h: No such file or directory
+    1 | #include <twolame.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for Toolame ============
+
+#include <toolame.h>
+int main(void) { toolame_init(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -ltoolame -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: toolame.h: No such file or directory
+    1 | #include <toolame.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for OggVorbis support ============
+Result is: yes (internal Tremor)
+##########################################
+
+============ Checking for libspeex (version >= 1.1 required) ============
+
+#include <speex/speex.h>
+int main(void) { SpeexBits bits; void *dec; speex_decode_int(dec, &bits, dec); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lspeex -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: speex/speex.h: No such file or directory
+    1 | #include <speex/speex.h>
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for libgsm ============
+
+#include <gsm/gsm.h>
+int main(void) { gsm_create(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lgsm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: gsm/gsm.h: No such file or directory
+    1 | #include <gsm/gsm.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for OggTheora support ============
+
+#include <theora/theora.h>
+#include <string.h>
+int main(void) {
+  /* Theora is in flux, make sure that all interface routines and datatypes
+   * exist and work the way we expect it, so we don't break MPlayer. */
+  ogg_packet op;
+  theora_comment tc;
+  theora_info inf;
+  theora_state st;
+  yuv_buffer yuv;
+  int r;
+  double t;
+
+  theora_info_init(&inf);
+  theora_comment_init(&tc);
+
+  return 0;
+
+  /* we don't want to execute this kind of nonsense; just for making sure
+   * that compilation works... */
+  memset(&op, 0, sizeof(op));
+  r = theora_decode_header(&inf, &tc, &op);
+  r = theora_decode_init(&st, &inf);
+  t = theora_granule_time(&st, op.granulepos);
+  r = theora_decode_packetin(&st, &op);
+  r = theora_decode_YUVout(&st, &yuv);
+  theora_clear(&st);
+
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: theora/theora.h: No such file or directory
+    1 | #include <theora/theora.h>
+      |          ^~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+
+#include <theora/theora.h>
+#include <string.h>
+int main(void) {
+  /* Theora is in flux, make sure that all interface routines and datatypes
+   * exist and work the way we expect it, so we don't break MPlayer. */
+  ogg_packet op;
+  theora_comment tc;
+  theora_info inf;
+  theora_state st;
+  yuv_buffer yuv;
+  int r;
+  double t;
+
+  theora_info_init(&inf);
+  theora_comment_init(&tc);
+
+  return 0;
+
+  /* we don't want to execute this kind of nonsense; just for making sure
+   * that compilation works... */
+  memset(&op, 0, sizeof(op));
+  r = theora_decode_header(&inf, &tc, &op);
+  r = theora_decode_init(&st, &inf);
+  t = theora_granule_time(&st, op.granulepos);
+  r = theora_decode_packetin(&st, &op);
+  r = theora_decode_YUVout(&st, &yuv);
+  theora_clear(&st);
+
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe tremor/bitwise.c
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: theora/theora.h: No such file or directory
+    1 | #include <theora/theora.h>
+      |          ^~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for mp3lib support ============
+Result is: yes 
+##########################################
+
+============ Checking for mpg123 support ============
+
+#include <mpg123.h>
+int main(void){ mpg123_init(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lmpg123
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: mpg123.h: No such file or directory
+    1 | #include <mpg123.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for liba52 support ============
+
+#include <inttypes.h>
+#include <a52dec/a52.h>
+int main(void) { a52_state_t *testHand; testHand=a52_init(0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -la52
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: a52dec/a52.h: No such file or directory
+    2 | #include <a52dec/a52.h>
+      |          ^~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for libmpeg2 support ============
+Result is: yes (internal)
+##########################################
+
+============ Checking for libdca support ============
+
+#include <inttypes.h>
+#include <dts.h>
+int main(void) { dts_init(0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -ldca -lm
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: dts.h: No such file or directory
+    2 | #include <dts.h>
+      |          ^~~~~~~
+compilation terminated.
+
+
+
+#include <inttypes.h>
+#include <dts.h>
+int main(void) { dts_init(0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -ldts -lm
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: dts.h: No such file or directory
+    2 | #include <dts.h>
+      |          ^~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for libmpcdec (musepack, version >= 1.2.1 required) ============
+
+#include <stddef.h>
+#include <mpcdec/mpcdec.h>
+int main(void) {
+  mpc_streaminfo info;
+  mpc_decoder decoder;
+  mpc_decoder_set_streaminfo(&decoder, &info);
+  mpc_decoder_decode_frame(&decoder, NULL, 0, NULL);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lmpcdec -lm
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: mpcdec/mpcdec.h: No such file or directory
+    2 | #include <mpcdec/mpcdec.h>
+      |          ^~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for FAAC support ============
+
+#include <inttypes.h>
+#include <faac.h>
+int main(void) { unsigned long x, y; faacEncOpen(48000, 2, &x, &y); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lfaac -lm
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: faac.h: No such file or directory
+    2 | #include <faac.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+
+#include <inttypes.h>
+#include <faac.h>
+int main(void) { unsigned long x, y; faacEncOpen(48000, 2, &x, &y); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lfaac -lmp4v2 -lstdc++ -lm
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: faac.h: No such file or directory
+    2 | #include <faac.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+Result is: no (in libavcodec: no)
+##########################################
+
+============ Checking for FAAD2 support ============
+Result is: yes (internal floating-point)
+##########################################
+
+============ Checking for LADSPA plugin support ============
+
+#include <ladspa.h>
+int main(void) {
+const LADSPA_Descriptor *ld = NULL;
+return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe 
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: ladspa.h: No such file or directory
+    1 | #include <ladspa.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for libbs2b audio filter support ============
+
+#include <bs2b.h>
+#if BS2B_VERSION_MAJOR < 3
+#error Please use libbs2b >= 3.0.0, older versions are not supported.
+#endif
+int main(void) {
+    t_bs2bdp filter;
+    filter=bs2b_open();
+    bs2b_close(filter);
+    return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lm -lbs2b
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: bs2b.h: No such file or directory
+    1 | #include <bs2b.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+
+#include <bs2b.h>
+#if BS2B_VERSION_MAJOR < 3
+#error Please use libbs2b >= 3.0.0, older versions are not supported.
+#endif
+int main(void) {
+    t_bs2bdp filter;
+    filter=bs2b_open();
+    bs2b_close(filter);
+    return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/include/bs2b -lm -lbs2b
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: bs2b.h: No such file or directory
+    1 | #include <bs2b.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+
+#include <bs2b.h>
+#if BS2B_VERSION_MAJOR < 3
+#error Please use libbs2b >= 3.0.0, older versions are not supported.
+#endif
+int main(void) {
+    t_bs2bdp filter;
+    filter=bs2b_open();
+    bs2b_close(filter);
+    return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/local/include -lm -lbs2b
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: bs2b.h: No such file or directory
+    1 | #include <bs2b.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+
+#include <bs2b.h>
+#if BS2B_VERSION_MAJOR < 3
+#error Please use libbs2b >= 3.0.0, older versions are not supported.
+#endif
+int main(void) {
+    t_bs2bdp filter;
+    filter=bs2b_open();
+    bs2b_close(filter);
+    return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -I/usr/local/include/bs2b -lm -lbs2b
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: bs2b.h: No such file or directory
+    1 | #include <bs2b.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for Win32 codecs ============
+Result is: no 
+##########################################
+
+============ Checking for XAnim codecs ============
+Result is: no 
+##########################################
+
+============ Checking for RealPlayer codecs ============
+Result is: no 
+##########################################
+
+============ Checking for QuickTime codecs ============
+Result is: no 
+##########################################
+
+============ Checking for Nemesi Streaming Media libraries ============
+Result is: no 
+##########################################
+
+============ Checking for LIVE555 Streaming Media libraries ============
+Result is: no 
+##########################################
+
+============ Checking for RTMPDump Streaming Media library ============
+Result is: no 
+##########################################
+
+============ Checking for FFmpeg libavutil ============
+Result is: yes (static)
+##########################################
+
+============ Checking for FFmpeg libavcodec ============
+Result is: yes (static)
+##########################################
+
+============ Checking for FFmpeg libavformat ============
+Result is: yes (static)
+##########################################
+
+============ Checking for FFmpeg libpostproc ============
+Result is: yes (static)
+##########################################
+
+============ Checking for FFmpeg libswscale ============
+Result is: yes (static)
+##########################################
+
+============ Checking for /dev/mga_vid ============
+Result is: no 
+##########################################
+
+============ Checking for xmga ============
+Result is: no 
+##########################################
+
+============ Checking for libopencore_amr narrowband ============
+
+#include <opencore-amrnb/interf_dec.h>
+int main(void) { Decoder_Interface_init(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lopencore-amrnb
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: opencore-amrnb/interf_dec.h: No such file or directory
+    1 | #include <opencore-amrnb/interf_dec.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for libopencore_amr wideband ============
+
+#include <opencore-amrwb/dec_if.h>
+int main(void) { D_IF_init(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lopencore-amrwb
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: opencore-amrwb/dec_if.h: No such file or directory
+    1 | #include <opencore-amrwb/dec_if.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for libdv-0.9.5+ ============
+
+#include <libdv/dv.h>
+int main(void) { dv_encoder_t* enc=dv_encoder_new(1,1,1); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -ldv -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: libdv/dv.h: No such file or directory
+    1 | #include <libdv/dv.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for Xvid ============
+
+#include <xvid.h>
+int main(void) { xvid_global(0, 0, 0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lxvidcore -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: xvid.h: No such file or directory
+    1 | #include <xvid.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+
+#include <xvid.h>
+int main(void) { xvid_global(0, 0, 0, 0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lxvidcore -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: xvid.h: No such file or directory
+    1 | #include <xvid.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for Xvid two pass plugin ============
+Result is: no 
+##########################################
+
+============ Checking for x264 ============
+
+#include <inttypes.h>
+#include <x264.h>
+#if X264_BUILD < 98
+#error We do not support old versions of x264. Get the latest from git.
+#endif
+int main(void) { x264_encoder_open((void*)0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lx264
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: x264.h: No such file or directory
+    2 | #include <x264.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+
+#include <inttypes.h>
+#include <x264.h>
+#if X264_BUILD < 98
+#error We do not support old versions of x264. Get the latest from git.
+#endif
+int main(void) { x264_encoder_open((void*)0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lx264 -lm
+/tmp/mplayer-configure--77828/tmp.c:2:10: fatal error: x264.h: No such file or directory
+    2 | #include <x264.h>
+      |          ^~~~~~~~
+compilation terminated.
+
+
+Result is: no (in libavcodec: no)
+##########################################
+
+============ Checking for libdirac ============
+Result is: no 
+##########################################
+
+============ Checking for libschroedinger ============
+Result is: no 
+##########################################
+
+============ Checking for libvpx ============
+
+#include <vpx/vpx_encoder.h>
+#include <vpx/vpx_decoder.h>
+#include <vpx/vp8dx.h>
+#include <vpx/vp8cx.h>
+struct vpx_codec_ctx decoder;
+int main(void) {
+  vpx_codec_dec_init(NULL, &vpx_codec_vp8_dx_algo, NULL, 0);
+  vpx_codec_enc_init(NULL, &vpx_codec_vp8_dx_algo, NULL, 0);
+  return 0;
+}
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lvpx
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: vpx/vpx_encoder.h: No such file or directory
+    1 | #include <vpx/vpx_encoder.h>
+      |          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for libnut ============
+
+#include <libnut.h>
+nut_context_tt * nut;
+int main(void) { (void)nut_error(0); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lnut
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: libnut.h: No such file or directory
+    1 | #include <libnut.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for zr ============
+Result is: no 
+##########################################
+
+============ Checking for libmp3lame ============
+
+#include <lame/lame.h>
+int main(void) { lame_version_t lv; (void) lame_init();
+    get_lame_version_numerical(&lv);
+    return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lmp3lame -lm
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: lame/lame.h: No such file or directory
+    1 | #include <lame/lame.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no (in libavcodec: no)
+##########################################
+
+============ Checking for mencoder ============
+Result is: yes 
+##########################################
+
+============ Checking for UnRAR executable ============
+Result is: yes 
+##########################################
+
+============ Checking for TV interface ============
+Result is: yes 
+##########################################
+
+============ Checking for DirectShow TV interface ============
+Result is: no 
+##########################################
+
+============ Checking for Video 4 Linux TV interface ============
+Result is: no 
+##########################################
+
+============ Checking for Video 4 Linux 2 TV interface ============
+Result is: no 
+##########################################
+
+============ Checking for Radio interface ============
+Result is: no 
+##########################################
+
+============ Checking for Capture for Radio interface ============
+Result is: no 
+##########################################
+
+============ Checking for Video 4 Linux 2 Radio interface ============
+Result is: no 
+##########################################
+
+============ Checking for Video 4 Linux Radio interface ============
+Result is: no 
+##########################################
+
+============ Checking for Video 4 Linux 2 MPEG PVR interface ============
+Result is: no 
+##########################################
+
+============ Checking for ftp ============
+Result is: no 
+##########################################
+
+============ Checking for vstream client ============
+
+#include <vstream-client.h>
+void vstream_error(const char *format, ... ) {}
+int main(void) { vstream_start(); return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -lvstream-client
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: vstream-client.h: No such file or directory
+    1 | #include <vstream-client.h>
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for OSD menu ============
+Result is: no 
+##########################################
+
+============ Checking for Subtitles sorting ============
+Result is: yes 
+##########################################
+
+============ Checking for XMMS inputplugin support ============
+Result is: no 
+##########################################
+
+============ Checking for GUI ============
+============ Checking for automatic gdb attach ============
+Result is: no 
+##########################################
+
+============ Checking for compiler support for noexecstack ============
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -Wl,-z,noexecstack
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: unrecognized option '-z'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: use the --help option for usage information
+collect2: error: ld returned 1 exit status
+
+
+Result is: no 
+##########################################
+
+============ Checking for linker support for --nxcompat --no-seh --dynamicbase ============
+
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.     -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -Wl,--nxcompat -Wl,--no-seh -Wl,--dynamicbase
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: unrecognized option '--nxcompat'
+/home/tho/dev/djgpp-install/i586-pc-msdosdjgpp/bin/ld: use the --help option for usage information
+collect2: error: ld returned 1 exit status
+
+
+Result is: no 
+##########################################
+
+============ Checking for joystick ============
+Result is: no 
+##########################################
+
+============ Checking for lirc ============
+
+#include <lirc/lirc_client.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.        -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -llirc_client
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: lirc/lirc_client.h: No such file or directory
+    1 | #include <lirc/lirc_client.h>
+      |          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for lircc ============
+
+#include <lirc/lircc.h>
+int main(void) { return 0; }
+
+i586-pc-msdosdjgpp-gcc /tmp/mplayer-configure--77828/tmp.c -Wstrict-prototypes -Wmissing-prototypes -Wundef -Wdisabled-optimization -Wno-pointer-sign -Wdeclaration-after-statement -std=gnu99 -O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -std=gnu99  -Wno-incompatible-pointer-types -Wno-int-conversion  -Wno-implicit-function-declaration -Wno-implicit-int -I.        -lalleg  -o /tmp/mplayer-configure--77828/tmp.exe -llircc
+/tmp/mplayer-configure--77828/tmp.c:1:10: fatal error: lirc/lircc.h: No such file or directory
+    1 | #include <lirc/lircc.h>
+      |          ^~~~~~~~~~~~~~
+compilation terminated.
+
+
+Result is: no 
+##########################################
+
+============ Checking for DVD support (libdvdnav) ============
+./configure: 8508: dvdnav-config: not found
+Result is: no 
+##########################################
+
