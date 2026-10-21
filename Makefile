@@ -19,7 +19,7 @@
 # with MPlayer; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-include config.mak
+-include config.mak
 
 ###### variable declarations #######
 
@@ -980,10 +980,12 @@ uninstall:
 	rm -f $(foreach lang,$(MAN_LANGS),$(foreach man,mplayer.1 mencoder.1,$(MANDIR)/$(lang)/man1/$(man)))
 
 clean:
-	-rm -f $(call ADD_ALL_DIRS,/*.o /*.a /*.ho /*~)
+	-rm -f $(call ADD_ALL_DIRS,/*.o /*.d /*.a /*.ho /*~)
 	-rm -f $(call ADD_ALL_EXESUFS,mplayer mencoder)
+	-for part in $(FFMPEGPARTS); do $(MAKE) -C $$part clean; done
 
 distclean: clean testsclean toolsclean driversclean dhahelperclean dhahelperwinclean
+	-for part in $(FFMPEGPARTS); do $(MAKE) -C $$part distclean; done
 	-rm -rf DOCS/tech/doxygen
 	-rm -f $(call ADD_ALL_DIRS,/*.d)
 	-rm -f config.log config.mak config.h codecs.conf.h help_mp.h \
@@ -1152,7 +1154,7 @@ dhahelperwinclean:
 
 
 # Do not include dependencies when they are about to be removed anyway.
-ifneq ($(MAKECMDGOALS),distclean)
+ifeq ($(filter clean distclean,$(MAKECMDGOALS)),)
 -include $(DEPS)
 endif
 
