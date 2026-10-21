@@ -1,0 +1,60 @@
+# Custom Makefile for Watt-32 DJGPP Cross Compilation (Pure C Mode)
+
+CC         = i586-pc-msdosdjgpp-gcc
+AS         = i586-pc-msdosdjgpp-as
+AR         = i586-pc-msdosdjgpp-ar
+CFLAGS     = -O2 -g -fcommon -I. -I../inc -W -Wall -Wno-strict-aliasing -DWATT32_BUILD
+
+OBJDIR     = build/djgpp
+LIBDIR     = ../lib
+TARGET_LIB = $(LIBDIR)/libwatt.a
+
+SOURCES = bsdname.c btree.c chksum.c country.c crc.c dynip.c echo.c fortify.c \
+          getopt.c gettod.c highc.c idna.c ip4_frag.c ip4_in.c ip4_out.c ip6_in.c \
+          ip6_out.c language.c lookup.c loopback.c misc.c netback.c oldstuff.c \
+          packet32.c pc_cbrk.c pcarp.c pcbootp.c pcbuf.c pcconfig.c pcdbug.c \
+          pcdhcp.c pcdns.c pcicmp.c pcicmp6.c pcigmp.c pcintr.c pcping.c pcpkt.c \
+          pcpkt32.c pcqueue.c pcrarp.c pcrecv.c pcsed.c pcstat.c pctcp.c ports.c \
+          powerpak.c ppp.c pppoe.c profile.c punycode.c qmsg.c rs232.c run.c \
+          settod.c sock_dbu.c sock_in.c sock_ini.c sock_io.c sock_prn.c sock_scn.c \
+          sock_sel.c split.c strings.c swsvpkt.c tcp_fsm.c tcp_md5.c tftp.c \
+          timer.c udp_rev.c version.c wdpmi.c win_dll.c winadinf.c winmisc.c \
+          winpkt.c x32vm.c accept.c bind.c bsddbug.c close.c connect.c fcntl.c \
+          fsext.c get_ai.c get_ip.c get_ni.c get_xbyr.c geteth.c gethost.c \
+          gethost6.c getname.c getnet.c getprot.c getput.c getserv.c ioctl.c \
+          linkaddr.c listen.c netaddr.c neterr.c nettime.c nsapaddr.c poll.c \
+          presaddr.c printk.c receive.c select.c shutdown.c signal.c socket.c \
+          sockopt.c stream.c syslog.c syslog2.c transmit.c res_comp.c res_data.c \
+          res_debu.c res_init.c res_loc.c res_mkqu.c res_quer.c res_send.c \
+          zadler32.c zcompres.c zcrc32.c zgzio.c zuncompr.c zdeflate.c ztrees.c \
+          zutil.c zinflate.c zinfback.c zinftree.c zinffast.c
+
+OBJECTS = $(OBJDIR)/chksum0.o $(OBJDIR)/cpumodel.o \
+          $(patsubst %.c,$(OBJDIR)/%.o,$(SOURCES))
+
+all: $(TARGET_LIB)
+
+$(OBJDIR)/cflags.h:
+	@mkdir -p $(OBJDIR)
+	@mkdir -p $(LIBDIR)
+	@cp -f /home/tho/dev/djgpp-mingw/patches/syserr.c $(OBJDIR)/syserr.c
+	@echo 'const char *w32_cflags = "$(CFLAGS)";' > $(OBJDIR)/cflags.h
+	@echo 'const char *w32_cc     = "$(CC)";' >> $(OBJDIR)/cflags.h
+
+$(OBJECTS): | $(OBJDIR)/cflags.h
+
+$(TARGET_LIB): $(OBJECTS)
+	$(AR) rcs $@ $(OBJECTS)
+
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR)/%.o: %.S
+	$(CC) -E $(CFLAGS) $< > $(OBJDIR)/$*.iS
+	$(AS) $(OBJDIR)/$*.iS -o $@
+
+clean:
+	rm -rf $(OBJDIR)
+	rm -f $(TARGET_LIB)
+
+.PHONY: all prepare clean

@@ -34,6 +34,8 @@ CFLAGS="-O3 -ffast-math -march=i686 -mtune=generic -pipe -fomit-frame-pointer -s
   --disable-xanim \
   --disable-vidix \
   --disable-pthreads \
+  --extra-cflags="-I$(pwd)/watt32/inc" \
+  --extra-ldflags="-L$(pwd)/watt32/lib -lwatt" \
   "$@" || exit 1
 
 make -j"$(nproc)" || exit 1
